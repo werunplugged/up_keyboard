@@ -41,6 +41,7 @@ fun PreferencesScreen(
         Log.v("irrelevant", "stupid way to trigger recomposition on preference change")
     val items = listOf(
         R.string.settings_category_input,
+        Settings.PREF_KEYBOARD_LAYOUT_MODE,
         Settings.PREF_SHOW_HINTS,
         if (prefs.getBoolean(Settings.PREF_SHOW_HINTS, Defaults.PREF_SHOW_HINTS))
             Settings.PREF_POPUP_KEYS_LABELS_ORDER else null,
@@ -82,6 +83,23 @@ fun PreferencesScreen(
 }
 
 fun createPreferencesSettings(context: Context) = listOf(
+    Setting(context, Settings.PREF_KEYBOARD_LAYOUT_MODE, R.string.prefs_keyboard_layout_mode, R.string.prefs_keyboard_layout_mode_summary) { setting ->
+        val items = listOf(
+            stringResource(R.string.layout_mode_android) to "android",
+            stringResource(R.string.layout_mode_ios) to "ios"
+        )
+        ListPreference(
+            setting,
+            items,
+            Defaults.PREF_KEYBOARD_LAYOUT_MODE
+        ) {
+            // Force Settings reload to ensure SettingsValues are updated with new layout mode
+            Settings.getInstance().loadSettings(context)
+            // Clear keyboard cache to ensure layouts are reloaded with new mode
+            helium314.keyboard.keyboard.KeyboardLayoutSet.onKeyboardThemeChanged()
+            KeyboardSwitcher.getInstance().reloadKeyboard()
+        }
+    },
     Setting(context, Settings.PREF_SHOW_HINTS, R.string.show_hints, R.string.show_hints_summary) {
         SwitchPreference(it, Defaults.PREF_SHOW_HINTS) { KeyboardSwitcher.getInstance().reloadKeyboard() }
     },

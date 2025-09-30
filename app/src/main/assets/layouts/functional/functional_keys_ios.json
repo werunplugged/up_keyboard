@@ -1,0 +1,22 @@
+[
+  [
+    { "label": "shift", "width": 0.15 },
+    { "type": "placeholder" },
+    { "label": "delete", "width": 0.15 }
+  ],
+  [
+    { "label": "symbol_alpha", "width": 0.13 },
+    { "label": "emoji", "width": 0.11 },
+    { "label": "space" },
+    { "$": "keyboard_state_selector", 
+      "languageKeyEnabled": { 
+        "$": "keyboard_state_selector", 
+        "alphabet": { "label": "language_switch", "width": 0.11 }
+      }
+    },
+    { "$": "keyboard_state_selector",
+      "languageKeyEnabled": { "label": "action", "width": 0.13 },
+      "default": { "label": "action", "width": 0.24 }
+    }
+  ]
+]

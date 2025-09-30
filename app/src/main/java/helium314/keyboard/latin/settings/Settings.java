@@ -29,6 +29,7 @@ import helium314.keyboard.latin.InputAttributes;
 import helium314.keyboard.latin.R;
 import helium314.keyboard.latin.utils.DeviceProtectedUtils;
 import helium314.keyboard.latin.utils.KtxKt;
+import helium314.keyboard.latin.utils.LayoutModeHelper;
 import helium314.keyboard.latin.utils.LayoutType;
 import helium314.keyboard.latin.utils.Log;
 import helium314.keyboard.latin.utils.ResourceUtils;
@@ -51,6 +52,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     // theme-related stuff
     public static final String PREF_THEME_STYLE = "theme_style";
     public static final String PREF_ICON_STYLE = "icon_style";
+    public static final String PREF_KEYBOARD_LAYOUT_MODE = "keyboard_layout_mode";
     public static final String PREF_THEME_COLORS = "theme_colors";
     public static final String PREF_THEME_COLORS_NIGHT = "theme_colors_night";
     public static final String PREF_THEME_KEY_BORDERS = "theme_key_borders";
@@ -144,6 +146,11 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public static final String PREF_SPACE_TO_CHANGE_LANG = "prefs_long_press_keyboard_to_change_lang";
     public static final String PREF_LANGUAGE_SWIPE_DISTANCE = "language_swipe_distance";
+
+    // Voice input preferences
+    public static final String PREF_ENABLE_VOICE_INPUT = "enable_voice_input";
+    public static final String PREF_USE_BUILTIN_VOICE_RECOGNITION = "use_builtin_voice_recognition";
+    public static final String PREF_VOICE_PERMISSION_STATUS = "voice_permission_status";
 
     public static final String PREF_ENABLE_CLIPBOARD_HISTORY = "enable_clipboard_history";
     public static final String PREF_CLIPBOARD_HISTORY_RETENTION_TIME = "clipboard_history_retention_time";
@@ -534,7 +541,19 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     // "default" layout as in this is used if nothing else is specified in the subtype
     public static String readDefaultLayoutName(final LayoutType type, final SharedPreferences prefs) {
-        return prefs.getString(PREF_LAYOUT_PREFIX + type.name(), Defaults.INSTANCE.getDefault(type));
+        String layoutName = prefs.getString(PREF_LAYOUT_PREFIX + type.name(), Defaults.INSTANCE.getDefault(type));
+        // Apply iOS mode transformations for functional and symbol layouts
+        if (LayoutModeHelper.INSTANCE.isIOSMode(prefs)) {
+            if (type == LayoutType.FUNCTIONAL) {
+                boolean isTablet = getInstance().isTablet();
+                return LayoutModeHelper.INSTANCE.getFunctionalLayoutName(isTablet, prefs);
+            } else if (type == LayoutType.SYMBOLS) {
+                return LayoutModeHelper.INSTANCE.getSymbolsLayoutName(prefs);
+            } else if (type == LayoutType.MORE_SYMBOLS) {
+                return LayoutModeHelper.INSTANCE.getMoreSymbolsLayoutName(prefs);
+            }
+        }
+        return layoutName;
     }
 
     public static void writeDefaultLayoutName(@Nullable final String name, final LayoutType type, final SharedPreferences prefs) {

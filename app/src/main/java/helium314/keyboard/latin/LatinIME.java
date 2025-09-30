@@ -29,12 +29,14 @@ import android.util.Printer;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InlineSuggestion;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InlineSuggestionsRequest;
 import android.view.inputmethod.InlineSuggestionsResponse;
 import android.view.inputmethod.InputMethodInfo;
@@ -98,6 +100,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+
+import helium314.keyboard.voice.VoiceInputManager;
 
 /**
  * Input method implementation for Qwerty'ish keyboard.
@@ -180,6 +184,8 @@ public class LatinIME extends InputMethodService implements
     private GestureConsumer mGestureConsumer = GestureConsumer.NULL_GESTURE_CONSUMER;
 
     private final ClipboardHistoryManager mClipboardHistoryManager = new ClipboardHistoryManager(this);
+
+    private VoiceInputManager mVoiceInputManager;
 
     public static final class UIHandler extends LeakGuardHandlerWrapper<LatinIME> {
         private static final int MSG_UPDATE_SHIFT_STATE = 0;
@@ -641,6 +647,51 @@ public class LatinIME extends InputMethodService implements
         mHandler.onCreate();
         loadSettings();
 
+        // Initialize voice input manager
+        mVoiceInputManager = new VoiceInputManager(this);
+        mVoiceInputManager.setInputMethodService(this);
+        mVoiceInputManager.setListener(new VoiceInputManager.VoiceInputListener() {
+            @Override
+            public void onVoiceInputStarted() {
+                // Voice input UI is shown
+            }
+
+            @Override
+            public void onVoiceInputResult(String text, String languageCode) {
+                // Commit the voice input text
+                if (text != null && !text.isEmpty()) {
+                    final InputConnection ic = getCurrentInputConnection();
+                    if (ic != null) {
+                        ic.commitText(text + " ", 1);
+                    }
+                }
+                // Hide voice keyboard and restore normal keyboard
+                if (mKeyboardSwitcher != null) {
+                    mKeyboardSwitcher.hideVoiceKeyboard();
+                }
+                mVoiceInputManager.hideVoiceInput();
+            }
+
+            @Override
+            public void onVoiceInputCanceled() {
+                // Voice input was canceled
+                if (mKeyboardSwitcher != null) {
+                    mKeyboardSwitcher.hideVoiceKeyboard();
+                }
+                mVoiceInputManager.hideVoiceInput();
+            }
+
+            @Override
+            public void onVoiceInputError(String error) {
+                // Handle voice input error
+                Log.e(TAG, "Voice input error: " + error);
+                if (mKeyboardSwitcher != null) {
+                    mKeyboardSwitcher.hideVoiceKeyboard();
+                }
+                mVoiceInputManager.hideVoiceInput();
+            }
+        });
+
         // Register to receive ringer mode change.
         final IntentFilter filter = new IntentFilter();
         filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
@@ -778,6 +829,10 @@ public class LatinIME extends InputMethodService implements
         mClipboardHistoryManager.onDestroy();
         mDictionaryFacilitator.closeDictionaries();
         mSettings.onDestroy();
+        if (mVoiceInputManager != null) {
+            mVoiceInputManager.cleanup();
+            mVoiceInputManager = null;
+        }
         unregisterReceiver(mRingerModeChangeReceiver);
         unregisterReceiver(mDictionaryPackInstallReceiver);
         unregisterReceiver(mDictionaryDumpBroadcastReceiver);
@@ -1555,7 +1610,28 @@ public class LatinIME extends InputMethodService implements
     // completely replace #onCodeInput.
     public void onEvent(@NonNull final Event event) {
         if (KeyCode.VOICE_INPUT == event.getMKeyCode()) {
-            mRichImm.switchToShortcutIme(this);
+            // Check if we should use built-in voice recognition
+            if (mSettings.getCurrent().mUseBuiltInVoiceRecognition) {
+                // Show built-in voice input UI using KeyboardSwitcher
+                if (mVoiceInputManager != null && mKeyboardSwitcher != null) {
+                    final String currentLanguage = mRichImm.getCurrentSubtypeLocale().getLanguage();
+
+                    // Initialize voice view if needed
+                    final helium314.keyboard.voice.ui.VoiceInputView voiceView =
+                        mKeyboardSwitcher.getVoiceInputView();
+                    if (voiceView != null) {
+                        mVoiceInputManager.initializeVoiceView(voiceView);
+                    }
+
+                    // Show voice keyboard
+                    mKeyboardSwitcher.setVoiceKeyboard();
+                    mVoiceInputManager.showVoiceInput(currentLanguage);
+                }
+            } else {
+                // Use external voice input (legacy behavior)
+                mRichImm.switchToShortcutIme(this);
+            }
+            return;
         }
         final InputTransaction completeInputTransaction =
                 mInputLogic.onCodeInput(mSettings.getCurrent(), event,
@@ -1807,6 +1883,11 @@ public class LatinIME extends InputMethodService implements
     // Hooks for hardware keyboard
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
+        // Handle back button when voice input is active
+        if (keyCode == KeyEvent.KEYCODE_BACK && mVoiceInputManager != null && mVoiceInputManager.isVoiceInputActive()) {
+            mVoiceInputManager.cancelVoiceInput();
+            return true;
+        }
         if (mKeyboardActionListener.onKeyDown(keyCode, keyEvent))
             return true;
         return super.onKeyDown(keyCode, keyEvent);
