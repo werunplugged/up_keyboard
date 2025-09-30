@@ -67,6 +67,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
     private SuggestionStripView mSuggestionStripView;
     private FrameLayout mStripContainer;
     private ClipboardHistoryView mClipboardHistoryView;
+    private helium314.keyboard.voice.ui.VoiceInputView mVoiceInputView;
     private TextView mFakeToastView;
     private LatinIME mLatinIME;
     private RichInputMethodManager mRichImm;
@@ -369,6 +370,37 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         mClipboardHistoryView.setVisibility(View.VISIBLE);
     }
 
+    // Voice input keyboard
+    public void setVoiceKeyboard() {
+        if (DEBUG_ACTION) {
+            Log.d(TAG, "setVoiceKeyboard");
+        }
+        mMainKeyboardFrame.setVisibility(View.VISIBLE);
+        // Hide main keyboard and other views
+        mKeyboardView.setVisibility(View.GONE);
+        mEmojiTabStripView.setVisibility(View.GONE);
+        mSuggestionStripView.setVisibility(View.GONE);
+        mStripContainer.setVisibility(View.GONE);
+        mClipboardStripScrollView.setVisibility(View.GONE);
+        mEmojiPalettesView.setVisibility(View.GONE);
+        mClipboardHistoryView.setVisibility(View.GONE);
+
+        // Show voice input view
+        if (mVoiceInputView != null) {
+            mVoiceInputView.setVisibility(View.VISIBLE);
+            mVoiceInputView.setAutoStartRecording(true);
+        }
+    }
+
+    // Hide voice keyboard
+    public void hideVoiceKeyboard() {
+        if (mVoiceInputView != null) {
+            mVoiceInputView.setVisibility(View.GONE);
+        }
+        // Restore alphabet keyboard
+        setAlphabetKeyboard();
+    }
+
     @Override
     public void setNumpadKeyboard() {
         if (DEBUG_ACTION) {
@@ -621,6 +653,14 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         return mClipboardHistoryView != null && mClipboardHistoryView.isShown();
     }
 
+    public boolean isShowingVoiceInput() {
+        return mVoiceInputView != null && mVoiceInputView.isShown();
+    }
+
+    public helium314.keyboard.voice.ui.VoiceInputView getVoiceInputView() {
+        return mVoiceInputView;
+    }
+
     public boolean isShowingPopupKeysPanel() {
         if (isShowingEmojiPalettes() || isShowingClipboardHistory()) {
             return false;
@@ -697,6 +737,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         mMainKeyboardFrame = mCurrentInputView.findViewById(R.id.main_keyboard_frame);
         mEmojiPalettesView = mCurrentInputView.findViewById(R.id.emoji_palettes_view);
         mClipboardHistoryView = mCurrentInputView.findViewById(R.id.clipboard_history_view);
+        mVoiceInputView = mCurrentInputView.findViewById(R.id.voice_input_view);
         mFakeToastView = mCurrentInputView.findViewById(R.id.fakeToast);
 
         mKeyboardViewWrapper = mCurrentInputView.findViewById(R.id.keyboard_view_wrapper);

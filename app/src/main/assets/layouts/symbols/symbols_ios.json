@@ -1,0 +1,33 @@
+[
+  [
+    { "label": "1" },
+    { "label": "2" },
+    { "label": "3" },
+    { "label": "4" },
+    { "label": "5" },
+    { "label": "6" },
+    { "label": "7" },
+    { "label": "8" },
+    { "label": "9" },
+    { "label": "0" }
+  ],
+  [
+    { "label": "-", "popup": { "relevant": [ { "label": "–" }, { "label": "—" }, { "label": "⁻" } ] } },
+    { "label": "/", "popup": { "relevant": [ { "label": "÷" }, { "label": "⁄" }, { "label": "∕" } ] } },
+    { "label": ":", "popup": { "relevant": [ { "label": "∶" }, { "label": "⁚" } ] } },
+    { "label": ";", "popup": { "relevant": [ { "label": "؛" } ] } },
+    { "label": "(", "popup": { "relevant": [ { "label": "[" }, { "label": "{" }, { "label": "⟨" }, { "label": "⁽" } ] } },
+    { "label": ")", "popup": { "relevant": [ { "label": "]" }, { "label": "}" }, { "label": "⟩" }, { "label": "⁾" } ] } },
+    { "label": "$$$" },
+    { "label": "&" },
+    { "label": "@" },
+    { "label": "\"", "popup": { "relevant": [ { "label": "\u201C" }, { "label": "\u201D" }, { "label": "\u00AB" }, { "label": "\u00BB" }, { "label": "\u201E" }, { "label": "\u201C" }, { "label": "\u201D" } ] } }
+  ],
+  [
+    { "label": ".", "width": 0.14, "popup": { "relevant": [ { "label": "…" }, { "label": "·" }, { "label": "∙" }, { "label": "°" }, { "label": "•" } ] } },
+    { "label": ",", "width": 0.14, "popup": { "relevant": [ { "label": "‚" }, { "label": "¸" } ] } },
+    { "label": "?", "width": 0.14, "popup": { "relevant": [ { "label": "¿" }, { "label": "‽" }, { "label": "⸘" } ] } },
+    { "label": "!", "width": 0.14, "popup": { "relevant": [ { "label": "¡" }, { "label": "‼" }, { "label": "⁉" } ] } },
+    { "label": "'", "width": 0.14, "popup": { "relevant": [ { "label": "'" }, { "label": "'" }, { "label": "`" }, { "label": "´" } ] } }
+  ]
+]

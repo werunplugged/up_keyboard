@@ -477,6 +477,14 @@ language, hence "No language". -->
     <string name="settings_screen_secondary_layouts">Secondary layouts</string>
     <!-- Name for functional keys layout -->
     <string name="layout_functional_keys" tools:keep="@string/layout_functional_keys">Functional keys</string>
+    <!-- Title for keyboard layout mode preference -->
+    <string name="prefs_keyboard_layout_mode">Keyboard layout style</string>
+    <!-- Summary for keyboard layout mode preference -->
+    <string name="prefs_keyboard_layout_mode_summary">Choose between Android-style (comma and period on bottom row) or iOS-style (emoji and language keys on bottom row)</string>
+    <!-- Option for Android-style keyboard layout -->
+    <string name="layout_mode_android">Android style</string>
+    <!-- Option for iOS-style keyboard layout -->
+    <string name="layout_mode_ios">iOS style</string>
     <!-- Name for functional keys layout for tablets -->
     <string name="layout_functional_keys_tablet" tools:keep="@string/layout_functional_keys_tablet">Functional keys (large screen)</string>
     <!-- Name for functional keys layout when showing symbols layout -->
@@ -705,6 +713,8 @@ New dictionary:
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>
     <!-- Theme name for violette theme -->
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violette</string>
+    <!-- Theme name for UP Dark theme -->
+    <string name="theme_name_up_dark" tools:keep="@string/theme_name_up_dark">UP Dark</string>
     <!-- Theme name for user-defined theme -->
     <string name="theme_name_user" tools:keep="@string/theme_name_user">User-Defined</string>
     <!-- Theme name for user-defined theme night mode theme -->
@@ -915,4 +925,28 @@ New dictionary:
     <string name="custom_subtype">Custom subtype</string>
     <!-- Name for landscape orientation, used in various settings -->
     <string name="landscape">Landscape</string>
+
+    <!-- Voice input strings -->
+    <string name="voice_tap_to_speak">Tap to speak</string>
+    <string name="voice_listening">Listening...</string>
+    <string name="voice_processing">Processing...</string>
+    <string name="voice_success">Success</string>
+    <string name="voice_stop_recording">Stop recording</string>
+    <string name="voice_recording_error">Recording error</string>
+    <string name="voice_permission_required">Microphone permission required</string>
+    <string name="voice_no_audio">No audio data</string>
+    <string name="voice_no_speech">No speech detected</string>
+    <string name="voice_recognition_error">Recognition error</string>
+    <string name="voice_engine_unavailable">Voice engine unavailable</string>
+
+    <!-- Voice settings strings -->
+    <string name="voice_input_category">Voice Input</string>
+    <string name="enable_voice_input">Enable voice input</string>
+    <string name="enable_voice_input_summary">Show voice input button on keyboard</string>
+    <string name="use_builtin_voice_recognition">Use built-in voice recognition</string>
+    <string name="use_builtin_voice_recognition_summary">Use HeliBoard\'s voice recognition instead of external keyboard</string>
+    <string name="voice_permission_status">Microphone permission</string>
+    <string name="voice_permission_granted">Permission granted</string>
+    <string name="voice_permission_denied">Permission required</string>
+    <string name="voice_grant_permission">Grant permission</string>
 </resources>

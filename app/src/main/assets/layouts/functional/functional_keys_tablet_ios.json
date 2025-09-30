@@ -1,0 +1,25 @@
+[
+  [
+    { "label": "tab", "width": 0.15 },
+    { "type": "placeholder" },
+    { "label": "delete", "width": 0.15 }
+  ],
+  [
+    { "label": "shift", "width": 0.19 },
+    { "type": "placeholder" },
+    { "label": "action", "width": 0.19 }
+  ],
+  [
+    { "label": "symbol_alpha", "width": 0.11 },
+    { "label": "emoji", "width": 0.11 },
+    { "label": "space" },
+    { "$": "keyboard_state_selector", 
+      "languageKeyEnabled": { 
+        "$": "keyboard_state_selector", 
+        "alphabet": { "label": "language_switch", "width": 0.11 }
+      }
+    },
+    { "label": "!icon/previous_key|!code/key_action_previous", "width": 0.09 },
+    { "label": "!icon/next_key|!code/key_action_next", "width": 0.09 }
+  ]
+]

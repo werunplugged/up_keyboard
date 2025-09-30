@@ -13,6 +13,7 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application android:label="@string/english_ime_name"
             android:name="helium314.keyboard.latin.App"
@@ -46,6 +47,18 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
             </intent-filter>
             <meta-data android:name="android.view.textservice.scs"
                     android:resource="@xml/spellchecker" />
+        </service>
+
+        <!-- Voice Recognition Service -->
+        <service android:name="helium314.keyboard.voice.service.HeliboardRecognitionService"
+                 android:label="@string/english_ime_name"
+                 android:permission="android.permission.RECORD_AUDIO"
+                 android:exported="true">
+            <intent-filter>
+                <action android:name="android.speech.RecognitionService" />
+            </intent-filter>
+            <meta-data android:name="android.speech"
+                    android:resource="@xml/voice_recognition_service" />
         </service>
 
         <!-- Activities -->

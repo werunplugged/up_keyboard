@@ -48,6 +48,9 @@
     <!-- Color resources for LXX_Base_Border theme. -->
     <color name="keyboard_background_lxx_base_border">@android:color/white</color>
     <color name="key_background_normal_lxx_base_border">@android:color/white</color>
+
+    <!-- Voice input colors -->
+    <color name="success_green">#66BB6A</color>
     <color name="key_bottom_bevel_lxx_base">#A9ABAD</color>
     <color name="emoji_tab_page_indicator_background_lxx_base_border">@android:color/white</color>
 

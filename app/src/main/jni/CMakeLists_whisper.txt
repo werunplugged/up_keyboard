@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.10.2)
+
+project("whisperggml")
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Add source files
+add_library(whisperggml SHARED
+    helium314_keyboard_voice_whisper_WhisperGGML.cpp
+    # Add actual Whisper source files here when available:
+    # whisper.cpp
+    # ggml.cpp
+    # ggml-alloc.cpp
+    # ggml-backend.cpp
+)
+
+# Find and link Android libraries
+find_library(log-lib log)
+find_library(android-lib android)
+
+# Link libraries
+target_link_libraries(whisperggml
+    ${log-lib}
+    ${android-lib}
+)
+
+# Set compiler flags
+target_compile_options(whisperggml PRIVATE
+    -O3
+    -DNDEBUG
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+    -ffast-math
+)
+
+# For ARM NEON optimizations
+if(${ANDROID_ABI} STREQUAL "arm64-v8a")
+    target_compile_options(whisperggml PRIVATE -march=armv8-a+fp16)
+endif()
+
+# Include directories
+target_include_directories(whisperggml PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)

@@ -33,7 +33,7 @@
 // Must be equal to Constants.Dictionary.MAX_WORD_LENGTH in Java
 #define MAX_WORD_LENGTH 48
 // Must be equal to BinaryDictionary.MAX_RESULTS in Java
-#define MAX_RESULTS 18
+#define MAX_RESULTS 40
 // Must be equal to ProximityInfo.MAX_PROXIMITY_CHARS_SIZE in Java
 #define MAX_PROXIMITY_CHARS_SIZE 16
 #define ADDITIONAL_PROXIMITY_CHAR_DELIMITER_CODE 2
@@ -102,10 +102,10 @@ AK_FORCE_INLINE static int intArrayToCharArray(const int *const source, const in
 #define LOG_TAG "LatinIME: "
 #endif // LOG_TAG
 
-#if defined(HOST_TOOL)
+#if defined(HOST_TOOL) || !defined(__ANDROID__)
 #include <stdio.h>
-#define AKLOGE(fmt, ...) printf(fmt "\n", ##__VA_ARGS__)
-#define AKLOGI(fmt, ...) printf(fmt "\n", ##__VA_ARGS__)
+#define AKLOGE(fmt, ...) fprintf(stderr, fmt "\n", ##__VA_ARGS__)
+#define AKLOGI(fmt, ...) fprintf(stderr, fmt "\n", ##__VA_ARGS__)
 #else // defined(HOST_TOOL)
 #define AKLOGE(fmt, ...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, fmt, ##__VA_ARGS__)
 #define AKLOGI(fmt, ...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, fmt, ##__VA_ARGS__)
@@ -175,7 +175,8 @@ static inline void showStackTrace() {
 #endif // defined(FLAG_DO_PROFILE) || defined(FLAG_DBG)
 
 #ifdef FLAG_DBG
-#define DEBUG_DICT true
+//#define DEBUG_DICT true
+#define DEBUG_DICT false
 #define DEBUG_DICT_FULL false
 #define DEBUG_EDIT_DISTANCE false
 #define DEBUG_NODE DEBUG_DICT_FULL
@@ -267,7 +268,7 @@ static inline void showStackTrace() {
 
 // Max value for length, distance and probability which are used in weighting
 // TODO: Remove
-#define MAX_VALUE_FOR_WEIGHTING 10000000
+#define MAX_VALUE_FOR_WEIGHTING 10000000.0f
 
 // The max number of the keys in one keyboard layout
 #define MAX_KEY_COUNT_IN_A_KEYBOARD 64
@@ -338,5 +339,8 @@ typedef enum {
     CT_NEW_WORD_SPACE_OMISSION,
     // Create new word with space substitution
     CT_NEW_WORD_SPACE_SUBSTITUTION,
+    // Transition between characters for swipe input
+    CT_TRANSITION
 } CorrectionType;
+
 #endif // LATINIME_DEFINES_H

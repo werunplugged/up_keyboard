@@ -1,0 +1,33 @@
+[
+  [
+    { "label": "[", "popup": { "relevant": [ { "label": "⟦" }, { "label": "⌊" }, { "label": "〚" } ] } },
+    { "label": "]", "popup": { "relevant": [ { "label": "⟧" }, { "label": "⌋" }, { "label": "〛" } ] } },
+    { "label": "{", "popup": { "relevant": [ { "label": "⟨" }, { "label": "｛" } ] } },
+    { "label": "}", "popup": { "relevant": [ { "label": "⟩" }, { "label": "｝" } ] } },
+    { "label": "#", "popup": { "relevant": [ { "label": "♯" } ] } },
+    { "label": "%", "popup": { "relevant": [ { "label": "‰" }, { "label": "℅" } ] } },
+    { "label": "^", "popup": { "relevant": [ { "label": "ˆ" }, { "label": "ˇ" } ] } },
+    { "label": "*", "popup": { "relevant": [ { "label": "⁎" }, { "label": "★" }, { "label": "✱" }, { "label": "✳" } ] } },
+    { "label": "+", "popup": { "relevant": [ { "label": "±" }, { "label": "⁺" }, { "label": "†" } ] } },
+    { "label": "=", "popup": { "relevant": [ { "label": "≈" }, { "label": "≠" }, { "label": "≡" } ] } }
+  ],
+  [
+    { "label": "_", "popup": { "relevant": [ { "label": "–" }, { "label": "—" }, { "label": "⁻" } ] } },
+    { "label": "\\", "popup": { "relevant": [ { "label": "∖" } ] } },
+    { "label": "|", "popup": { "relevant": [ { "label": "¦" }, { "label": "∣" } ] } },
+    { "label": "~", "popup": { "relevant": [ { "label": "∼" }, { "label": "˜" } ] } },
+    { "label": "<", "popup": { "relevant": [ { "label": "!fixedColumnOrder!3" }, { "label": "‹" }, { "label": "≤" }, { "label": "«" }, { "label": "⟨" } ] } },
+    { "label": ">", "popup": { "relevant": [ { "label": "!fixedColumnOrder!3" }, { "label": "›" }, { "label": "≥" }, { "label": "»" }, { "label": "⟩" } ] } },
+    { "label": "€" },
+    { "label": "£" },
+    { "label": "¥" },
+    { "label": "•", "popup": { "relevant": [ { "label": "°" }, { "label": "∙" }, { "label": "·" }, { "label": "‣" }, { "label": "◦" } ] } }
+  ],
+  [
+    { "label": ".", "width": 0.14, "popup": { "relevant": [ { "label": "…" }, { "label": "·" }, { "label": "∙" }, { "label": "°" }, { "label": "•" } ] } },
+    { "label": ",", "width": 0.14, "popup": { "relevant": [ { "label": "‚" }, { "label": "¸" } ] } },
+    { "label": "?", "width": 0.14, "popup": { "relevant": [ { "label": "¿" }, { "label": "‽" }, { "label": "⸘" } ] } },
+    { "label": "!", "width": 0.14, "popup": { "relevant": [ { "label": "¡" }, { "label": "‼" }, { "label": "⁉" } ] } },
+    { "label": "'", "width": 0.14, "popup": { "relevant": [ { "label": "'" }, { "label": "'" }, { "label": "`" }, { "label": "´" } ] } }
+  ]
+]

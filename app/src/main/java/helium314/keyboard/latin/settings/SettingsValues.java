@@ -130,6 +130,10 @@ public class SettingsValues {
     public final float mFontSizeMultiplierEmoji;
     public final boolean mEmojiKeyFit;
 
+    // Voice input settings
+    public final boolean mEnableVoiceInput;
+    public final boolean mUseBuiltInVoiceRecognition;
+
     // From the input box
     @NonNull
     public final InputAttributes mInputAttributes;
@@ -258,6 +262,10 @@ public class SettingsValues {
         mShiftRemovesAutospace = prefs.getBoolean(Settings.PREF_SHIFT_REMOVES_AUTOSPACE, Defaults.PREF_SHIFT_REMOVES_AUTOSPACE);
         mClipboardHistoryEnabled = prefs.getBoolean(Settings.PREF_ENABLE_CLIPBOARD_HISTORY, Defaults.PREF_ENABLE_CLIPBOARD_HISTORY);
         mClipboardHistoryRetentionTime = prefs.getInt(Settings.PREF_CLIPBOARD_HISTORY_RETENTION_TIME, Defaults.PREF_CLIPBOARD_HISTORY_RETENTION_TIME);
+
+        // Voice input settings
+        mEnableVoiceInput = prefs.getBoolean(Settings.PREF_ENABLE_VOICE_INPUT, Defaults.PREF_ENABLE_VOICE_INPUT);
+        mUseBuiltInVoiceRecognition = prefs.getBoolean(Settings.PREF_USE_BUILTIN_VOICE_RECOGNITION, Defaults.PREF_USE_BUILTIN_VOICE_RECOGNITION);
 
         mOneHandedModeEnabled = Settings.readOneHandedModeEnabled(prefs, isLandscape, mIsSplitKeyboardEnabled);
         mOneHandedModeGravity = Settings.readOneHandedModeGravity(prefs, isLandscape, mIsSplitKeyboardEnabled);
