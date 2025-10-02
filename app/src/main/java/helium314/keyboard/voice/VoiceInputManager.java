@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import helium314.keyboard.voice.recognition.PlaceholderRecognitionEngine;
 import helium314.keyboard.voice.recognition.VoiceRecognitionEngine;
 import helium314.keyboard.voice.recognition.WhisperRecognitionEngine;
 import helium314.keyboard.voice.ui.VoiceInputView;
@@ -42,15 +41,9 @@ public class VoiceInputManager {
     }
     
     private void initializeRecognitionEngine() {
-        // Try to use Whisper engine if available, fallback to placeholder
-        WhisperRecognitionEngine whisperEngine = new WhisperRecognitionEngine(context);
-        if (whisperEngine.isAvailable()) {
-            Log.d(TAG, "Using Whisper recognition engine");
-            recognitionEngine = whisperEngine;
-        } else {
-            Log.d(TAG, "Whisper not available, using placeholder engine");
-            recognitionEngine = new PlaceholderRecognitionEngine(context);
-        }
+        // Use Whisper recognition engine
+        recognitionEngine = new WhisperRecognitionEngine(context);
+        Log.d(TAG, "Using Whisper recognition engine");
     }
     
     public void setInputMethodService(InputMethodService ims) {

@@ -13,7 +13,7 @@ import android.util.Log;
 
 import helium314.keyboard.voice.audio.RecordBuffer;
 import helium314.keyboard.voice.audio.Recorder;
-import helium314.keyboard.voice.recognition.PlaceholderRecognitionEngine;
+import helium314.keyboard.voice.recognition.WhisperRecognitionEngine;
 import helium314.keyboard.voice.recognition.VoiceRecognitionEngine;
 
 import java.util.ArrayList;
@@ -39,9 +39,8 @@ public class HeliboardRecognitionService extends RecognitionService {
     }
     
     private void initializeRecognitionEngine() {
-        // Use placeholder engine for now
-        // TODO: Replace with actual recognition engine based on settings
-        mRecognitionEngine = new PlaceholderRecognitionEngine(this);
+        // Use Whisper recognition engine for system-wide voice input
+        mRecognitionEngine = new WhisperRecognitionEngine(this);
         mRecognitionEngine.initialize();
     }
     
@@ -82,8 +81,9 @@ public class HeliboardRecognitionService extends RecognitionService {
             setupRecorderListener(callback, langCode);
         }
         
-        // Start recording
+        // Start recording with VAD
         if (!mRecorder.isInProgress()) {
+            mRecorder.initVad(this);
             mRecorder.start();
             try {
                 callback.beginningOfSpeech();

@@ -143,15 +143,22 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
         Log.d(TAG, "[VOICE] Audio data length: " + audioData.length + " samples");
         Log.d(TAG, "[VOICE] Raw language hint: " + languageHint);
 
-        if (languageHint == null || languageHint.isEmpty()) {
-            languageHint = "en"; // Default to English
-            Log.d(TAG, "[VOICE] No language hint provided, defaulting to: en");
-        }
+        // Parse language hint into array
+        String[] languageArray;
+        String primaryLanguage;
 
-        // Parse multiple languages if comma-separated
-        String[] languageArray = languageHint.contains(",") ?
-            languageHint.split(",") : new String[]{languageHint};
-        String primaryLanguage = languageArray[0];
+        if (languageHint == null || languageHint.isEmpty()) {
+            // No language hint - use empty array to trigger full auto-detection in C++ layer
+            languageArray = new String[0];
+            primaryLanguage = "auto"; // For model loading (triggers multilingual) and reporting
+            Log.d(TAG, "[VOICE] No language hint provided, using FULL AUTO-DETECTION with multilingual model");
+            Log.d(TAG, "[VOICE] Passing EMPTY language array to C++ layer");
+        } else {
+            // Parse multiple languages if comma-separated
+            languageArray = languageHint.contains(",") ?
+                languageHint.split(",") : new String[]{languageHint};
+            primaryLanguage = languageArray[0];
+        }
 
         Log.d(TAG, "[VOICE] Parsed languages count: " + languageArray.length);
         for (int i = 0; i < languageArray.length; i++) {
@@ -211,7 +218,12 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
                 }
 
                 String[] languages;
-                if (normalizedLanguages.length == 1) {
+                if (normalizedLanguages.length == 0) {
+                    // No languages - full auto-detection
+                    languages = normalizedLanguages;
+                    Log.d(TAG, "[VOICE] *** FULL AUTO-DETECTION MODE ***");
+                    Log.d(TAG, "[VOICE] Empty language array passed to JNI - triggers unrestricted auto-detection");
+                } else if (normalizedLanguages.length == 1) {
                     // Single language - strict lock (pass twice for enforcement)
                     languages = new String[]{normalizedLanguages[0], normalizedLanguages[0]};
                     Log.d(TAG, "[VOICE] *** STRICT LOCK MODE ***");

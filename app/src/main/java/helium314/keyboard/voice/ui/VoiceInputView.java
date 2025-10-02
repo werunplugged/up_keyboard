@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat;
 import helium314.keyboard.latin.R;
 import helium314.keyboard.voice.audio.RecordBuffer;
 import helium314.keyboard.voice.audio.Recorder;
-import helium314.keyboard.voice.recognition.PlaceholderRecognitionEngine;
+import helium314.keyboard.voice.recognition.WhisperRecognitionEngine;
 import helium314.keyboard.voice.recognition.VoiceRecognitionEngine;
 
 import android.inputmethodservice.InputMethodService;
@@ -152,9 +152,8 @@ public class VoiceInputView extends FrameLayout {
     }
     
     private void initializeRecognitionEngine() {
-        // Use placeholder engine for now
-        // TODO: Replace with actual recognition engine when available
-        recognitionEngine = new PlaceholderRecognitionEngine(getContext());
+        // Use Whisper recognition engine for voice input
+        recognitionEngine = new WhisperRecognitionEngine(getContext());
         recognitionEngine.initialize();
         recognitionEngine.setListener(new VoiceRecognitionEngine.RecognitionListener() {
             @Override

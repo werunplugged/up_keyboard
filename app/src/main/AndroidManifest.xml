@@ -61,6 +61,20 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
                     android:resource="@xml/voice_recognition_service" />
         </service>
 
+        <!-- Voice Recognition Activity (with UI) -->
+        <activity android:name="helium314.keyboard.voice.VoiceRecognizeActivity"
+                  android:label="@string/english_ime_name"
+                  android:exported="true"
+                  android:theme="@style/VoiceRecognizeFloatingTheme"
+                  android:launchMode="singleInstance"
+                  android:clearTaskOnLaunch="true"
+                  android:configChanges="orientation|screenLayout|screenSize|keyboardHidden|keyboard">
+            <intent-filter>
+                <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- Activities -->
         <activity android:name="helium314.keyboard.settings.SettingsActivity"
                 android:theme="@style/platformActivityTheme"
