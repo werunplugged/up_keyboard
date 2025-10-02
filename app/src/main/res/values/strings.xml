@@ -949,4 +949,16 @@ New dictionary:
     <string name="voice_permission_granted">Permission granted</string>
     <string name="voice_permission_denied">Permission required</string>
     <string name="voice_grant_permission">Grant permission</string>
+
+    <!-- VAD settings -->
+    <string name="vad_sensitivity">VAD Sensitivity</string>
+    <string name="vad_sensitivity_summary">How aggressively silence is detected</string>
+    <string name="vad_silence_duration">Silence Duration</string>
+    <string name="vad_silence_duration_summary">Stop after %d ms of silence</string>
+    <string name="vad_speech_duration">Minimum Speech Duration</string>
+    <string name="vad_speech_duration_summary">Minimum %d ms to trigger recording</string>
+    <string name="vad_mode_normal">Normal</string>
+    <string name="vad_mode_quality">Quality</string>
+    <string name="vad_mode_low_bitrate">Low Bitrate</string>
+    <string name="vad_mode_very_aggressive">Very Aggressive</string>
 </resources>

@@ -359,8 +359,9 @@ public class VoiceInputView extends FrameLayout {
             }
         }, RECORDING_MAX_TIME);
         
-        // Start recording
+        // Start recording with VAD
         if (mRecorder != null) {
+            mRecorder.initVad(getContext());
             mRecorder.start();
         }
         

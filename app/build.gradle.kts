@@ -37,7 +37,7 @@ android {
         debug {
             // "normal" debug has minify for smaller APK to fit the GitHub 25 MB limit when zipped
             // and for better performance in case users want to install a debug APK
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             isJniDebuggable = false
             applicationIdSuffix = ".debug"
         }
@@ -121,6 +121,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.3")
     implementation("sh.calvin.reorderable:reorderable:2.4.3") // for easier re-ordering
     implementation("com.github.skydoves:colorpicker-compose:1.1.2") // for user-defined colors
+
+    // voice activity detection
+    implementation("com.github.gkonovalov.android-vad:webrtc:2.0.9")
 
     // test
     testImplementation(kotlin("test"))
