@@ -82,6 +82,7 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
         // Load new model if not cached
         try {
             Log.d(TAG, "[VOICE] Loading NEW model for language: " + languageCode);
+            Log.d(TAG, "[VOICE] Model file: " + modelPath);
             ByteBuffer modelBuffer = modelLoader.loadModelForLanguage(languageCode);
             if (modelBuffer != null) {
                 Log.d(TAG, "[VOICE] Model buffer loaded, creating WhisperGGML instance...");
@@ -121,6 +122,19 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
         }
         // Switching between English and non-English -> switch needed
         return true;
+    }
+
+    /**
+     * Normalize language codes to Whisper's expected format.
+     * Maps deprecated/alternative ISO 639 codes to current standard codes.
+     */
+    private String normalizeLanguageCode(String languageCode) {
+        switch (languageCode) {
+            case "iw": return "he";  // Hebrew: iw (deprecated) -> he
+            case "in": return "id";  // Indonesian: in (deprecated) -> id
+            case "ji": return "yi";  // Yiddish: ji (deprecated) -> yi
+            default: return languageCode;
+        }
     }
     
     @Override
@@ -187,19 +201,27 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
                     }
                 });
 
-                // Prepare language hints
+                // Prepare language hints - normalize to Whisper's expected codes
+                String[] normalizedLanguages = new String[finalLanguages.length];
+                for (int i = 0; i < finalLanguages.length; i++) {
+                    normalizedLanguages[i] = normalizeLanguageCode(finalLanguages[i]);
+                    if (!normalizedLanguages[i].equals(finalLanguages[i])) {
+                        Log.d(TAG, "[VOICE] Normalized language: " + finalLanguages[i] + " -> " + normalizedLanguages[i]);
+                    }
+                }
+
                 String[] languages;
-                if (finalLanguages.length == 1) {
+                if (normalizedLanguages.length == 1) {
                     // Single language - strict lock (pass twice for enforcement)
-                    languages = new String[]{finalLanguages[0], finalLanguages[0]};
+                    languages = new String[]{normalizedLanguages[0], normalizedLanguages[0]};
                     Log.d(TAG, "[VOICE] *** STRICT LOCK MODE ***");
-                    Log.d(TAG, "[VOICE] Duplicating language for strict lock: " + finalLanguages[0]);
+                    Log.d(TAG, "[VOICE] Duplicating language for strict lock: " + normalizedLanguages[0]);
                     Log.d(TAG, "[VOICE] Passing to JNI: [" + languages[0] + ", " + languages[1] + "]");
                 } else {
                     // Multiple languages - restricted auto-detection
-                    languages = finalLanguages;
+                    languages = normalizedLanguages;
                     Log.d(TAG, "[VOICE] *** MULTI-LANGUAGE MODE ***");
-                    Log.d(TAG, "[VOICE] Languages for restricted auto-detection: " + String.join(", ", finalLanguages));
+                    Log.d(TAG, "[VOICE] Languages for restricted auto-detection: " + String.join(", ", normalizedLanguages));
                 }
 
                 // No bail languages for now

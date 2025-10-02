@@ -160,36 +160,44 @@ JNIEXPORT jstring JNICALL Java_helium314_keyboard_voice_whisper_WhisperGGML_infe
             AKLOGI("[VOICE]   wparams.language = '%s' (id=%d)", wparams.language, allowed_languages[0]);
             AKLOGI("[VOICE]   wparams.allowed_langs_size = 1 (forced)");
         } else if(allowed_languages.size() > 2 && has_duplicate) {
-            // Multiple languages with duplicate first - priority hint
-            // Set the primary language as strong hint
-            wparams.language = whisper_lang_str(allowed_languages[0]);
-            wparams.allowed_langs = allowed_languages.data() + 1; // Skip the duplicate
-            wparams.allowed_langs_size = allowed_languages.size() - 1;
+            // Multiple languages with duplicate first - use smart auto-detection
+            // Remove the duplicate by skipping the second occurrence
+            int primary_lang = allowed_languages[0];
 
-            AKLOGI("[VOICE] PRIORITIZED MULTI-LANGUAGE - PRIMARY HINT SET");
-            AKLOGI("[VOICE]   Primary language (duplicated for priority): '%s' (id=%d)",
-                   wparams.language, allowed_languages[0]);
+            // Remove duplicate by erasing the second element (index 1)
+            allowed_languages.erase(allowed_languages.begin() + 1);
+
+            // Use auto-detection instead of forcing primary language
+            wparams.language = nullptr;  // Trigger auto-detection
+            wparams.allowed_langs = allowed_languages.data();
+            wparams.allowed_langs_size = allowed_languages.size();
+
+            AKLOGI("[VOICE] SMART MULTI-LANGUAGE AUTO-DETECTION");
+            AKLOGI("[VOICE]   Primary keyboard language: '%s' (id=%d) - used as hint only",
+                   whisper_lang_str(primary_lang), primary_lang);
+            AKLOGI("[VOICE]   Auto-detecting best language from allowed set");
             AKLOGI("[VOICE]   wparams.allowed_langs_size = %d", wparams.allowed_langs_size);
-            AKLOGI("[VOICE]   All languages with priority:");
-            for(int i = 0; i < allowed_languages.size(); i++) {
+            AKLOGI("[VOICE]   Allowed languages for detection:");
+            for(size_t i = 0; i < allowed_languages.size(); i++) {
                 const char* lang_str = whisper_lang_str(allowed_languages[i]);
                 AKLOGI("[VOICE]     [%d] '%s' (id=%d) %s",
                        i, lang_str, allowed_languages[i],
-                       (i < 2 && has_duplicate) ? "<-- PRIMARY (duplicated)" : "");
+                       i == 0 ? "<-- PRIMARY KEYBOARD" : "");
             }
         } else {
-            // Multiple distinct languages - allow detection between them
-            // But still set first language as hint
-            wparams.language = whisper_lang_str(allowed_languages[0]);
+            // Multiple distinct languages - use smart auto-detection
+            wparams.language = nullptr;  // Trigger auto-detection
             wparams.allowed_langs = allowed_languages.data();
             wparams.allowed_langs_size = allowed_languages.size();
-            AKLOGI("[VOICE] MULTIPLE DISTINCT LANGUAGES - HINTED AUTO-DETECTION");
-            AKLOGI("[VOICE]   Primary hint: '%s' (id=%d)", wparams.language, allowed_languages[0]);
+            AKLOGI("[VOICE] SMART MULTI-LANGUAGE AUTO-DETECTION");
+            AKLOGI("[VOICE]   Primary keyboard language: '%s' (id=%d) - used as hint only",
+                   whisper_lang_str(allowed_languages[0]), allowed_languages[0]);
+            AKLOGI("[VOICE]   Auto-detecting best language from allowed set");
             AKLOGI("[VOICE]   wparams.allowed_langs_size = %d", wparams.allowed_langs_size);
             for(int i = 0; i < wparams.allowed_langs_size; i++) {
                 AKLOGI("[VOICE]   Allowed language[%d]: %s (id=%d) %s",
                     i, whisper_lang_str(allowed_languages[i]), allowed_languages[i],
-                    i == 0 ? "<-- PRIMARY HINT" : "");
+                    i == 0 ? "<-- PRIMARY KEYBOARD" : "");
             }
         }
     }
@@ -303,43 +311,6 @@ JNIEXPORT jstring JNICALL Java_helium314_keyboard_voice_whisper_WhisperGGML_infe
     AKLOGI("[VOICE] === DETECTED LANGUAGE ===");
     AKLOGI("[VOICE]   ID: %d", detected_lang_id);
     AKLOGI("[VOICE]   Code: %s", detected_lang_str ? detected_lang_str : "unknown");
-
-    // Get and log language detection probabilities
-    AKLOGI("[VOICE] === LANGUAGE DETECTION CONFIDENCE ===");
-
-    // Allocate array for language probabilities
-    std::vector<float> lang_probs(whisper_lang_max_id() + 1, 0.0f);
-
-    // Run language detection to get probabilities
-    // Note: We use the same audio samples we just processed
-    int auto_detected_lang = whisper_lang_auto_detect(
-        state->context,
-        0,  // offset_ms
-        2,  // n_threads (use 2 threads for detection)
-        lang_probs.data()
-    );
-
-    AKLOGI("[VOICE] Auto-detected language: %s (id=%d)",
-           whisper_lang_str(auto_detected_lang), auto_detected_lang);
-
-    // Sort languages by probability
-    std::vector<std::pair<int, float>> lang_prob_pairs;
-    for (int i = 0; i <= whisper_lang_max_id(); i++) {
-        if (lang_probs[i] > 0.01f) {  // Only show languages with >1% probability
-            lang_prob_pairs.push_back({i, lang_probs[i]});
-        }
-    }
-    std::sort(lang_prob_pairs.begin(), lang_prob_pairs.end(),
-              [](const auto& a, const auto& b) { return a.second > b.second; });
-
-    // Log top 5 languages with highest probability
-    AKLOGI("[VOICE] Top language probabilities:");
-    for (size_t i = 0; i < std::min(size_t(5), lang_prob_pairs.size()); i++) {
-        const char* lang_str = whisper_lang_str(lang_prob_pairs[i].first);
-        AKLOGI("[VOICE]   %d. %s: %.2f%%",
-               i+1, lang_str ? lang_str : "unknown",
-               lang_prob_pairs[i].second * 100.0f);
-    }
 
     // Log whether the detected language matches any allowed language
     if (!allowed_languages.empty()) {

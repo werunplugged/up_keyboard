@@ -14,16 +14,16 @@ import java.nio.channels.FileChannel;
  */
 public class WhisperModelLoader {
     private static final String TAG = "WhisperModelLoader";
-    
+
     private static final String ENGLISH_MODEL_PATH = "voice/voice-input-english-39.bin.tflite";
-    private static final String MULTILINGUAL_MODEL_PATH = "voice/voice-input-multilingual-74.bin.tflite";
-    
+    private static final String MULTILINGUAL_MODEL_PATH = "voice/voice-input-multilingual-244.bin.tflite";
+
     private final Context context;
-    
+
     public WhisperModelLoader(Context context) {
         this.context = context;
     }
-    
+
     /**
      * Check if any model is available
      * @return true if at least one model exists
@@ -37,7 +37,7 @@ public class WhisperModelLoader {
             return false;
         }
     }
-    
+
     /**
      * Get the appropriate model for the given language
      * @param languageCode ISO language code (e.g., "en", "es", "fr")
@@ -52,7 +52,7 @@ public class WhisperModelLoader {
             return MULTILINGUAL_MODEL_PATH;
         }
     }
-    
+
     /**
      * Load model as ByteBuffer from assets
      * @param languageCode ISO language code
@@ -63,7 +63,7 @@ public class WhisperModelLoader {
         String modelPath = getModelPathForLanguage(languageCode);
         return loadModelFromAssets(modelPath);
     }
-    
+
     /**
      * Load model from assets as a memory-mapped ByteBuffer
      * @param assetPath Path to the model in assets
@@ -76,20 +76,20 @@ public class WhisperModelLoader {
                 FileChannel fileChannel = inputStream.getChannel();
                 long startOffset = fileDescriptor.getStartOffset();
                 long declaredLength = fileDescriptor.getDeclaredLength();
-                
+
                 // Memory-map the model file for efficient access
                 ByteBuffer buffer = fileChannel.map(
                     FileChannel.MapMode.READ_ONLY,
                     startOffset,
                     declaredLength
                 );
-                
+
                 Log.d(TAG, "Loaded model from " + assetPath + " (" + declaredLength + " bytes)");
                 return buffer;
             }
         }
     }
-    
+
     /**
      * Convert language code to Whisper language format
      * @param languageCode ISO language code (e.g., "en", "es")
@@ -100,7 +100,7 @@ public class WhisperModelLoader {
         if (languageCode == null || languageCode.isEmpty()) {
             return "";
         }
-        
+
         // Handle special cases
         switch (languageCode.toLowerCase()) {
             case "zh":
@@ -123,7 +123,7 @@ public class WhisperModelLoader {
                 return languageCode.toLowerCase();
         }
     }
-    
+
     /**
      * Get all supported languages for the multilingual model
      * @return Array of Whisper language codes

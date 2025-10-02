@@ -3,7 +3,8 @@
     "allow": [
       "Bash(ndk-build:*)",
       "WebFetch(domain:github.com)",
-      "Bash(./gradlew:*)"
+      "Bash(./gradlew:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []
