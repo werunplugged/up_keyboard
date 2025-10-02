@@ -144,6 +144,9 @@ object Defaults {
     // Voice input defaults
     const val PREF_ENABLE_VOICE_INPUT = true
     const val PREF_USE_BUILTIN_VOICE_RECOGNITION = true
+    const val PREF_VAD_SENSITIVITY = 3 // Mode.VERY_AGGRESSIVE
+    const val PREF_VAD_SILENCE_DURATION = 800 // milliseconds
+    const val PREF_VAD_SPEECH_DURATION = 200 // milliseconds
     @JvmField
     val PREF_NAVBAR_COLOR = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     const val PREF_NARROW_KEY_GAPS = false

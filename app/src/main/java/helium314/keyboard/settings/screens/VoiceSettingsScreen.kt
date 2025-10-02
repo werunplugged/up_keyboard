@@ -47,6 +47,8 @@ import helium314.keyboard.settings.SettingsWithoutKey
 import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
+import helium314.keyboard.settings.preferences.ListPreference
+import helium314.keyboard.settings.preferences.SliderPreference
 import helium314.keyboard.settings.preferences.SwitchPreference
 
 @Composable
@@ -59,11 +61,16 @@ fun VoiceSettingsScreen(
     if ((b?.value ?: 0) < 0)
         Log.v("irrelevant", "stupid way to trigger recomposition on preference change")
     
+    val voiceEnabled = prefs.getBoolean(Settings.PREF_ENABLE_VOICE_INPUT, Defaults.PREF_ENABLE_VOICE_INPUT)
+    val builtinEnabled = prefs.getBoolean(Settings.PREF_USE_BUILTIN_VOICE_RECOGNITION, Defaults.PREF_USE_BUILTIN_VOICE_RECOGNITION)
+
     val items = listOf(
         R.string.voice_input_category,
         Settings.PREF_ENABLE_VOICE_INPUT,
-        if (prefs.getBoolean(Settings.PREF_ENABLE_VOICE_INPUT, Defaults.PREF_ENABLE_VOICE_INPUT))
-            Settings.PREF_USE_BUILTIN_VOICE_RECOGNITION else null,
+        if (voiceEnabled) Settings.PREF_USE_BUILTIN_VOICE_RECOGNITION else null,
+        if (voiceEnabled && builtinEnabled) Settings.PREF_VAD_SENSITIVITY else null,
+        if (voiceEnabled && builtinEnabled) Settings.PREF_VAD_SILENCE_DURATION else null,
+        if (voiceEnabled && builtinEnabled) Settings.PREF_VAD_SPEECH_DURATION else null,
         SettingsWithoutKey.VOICE_PERMISSION_STATUS
     )
     
@@ -75,13 +82,45 @@ fun VoiceSettingsScreen(
 }
 
 fun createVoiceSettings(context: Context) = listOf(
-    Setting(context, Settings.PREF_ENABLE_VOICE_INPUT, 
+    Setting(context, Settings.PREF_ENABLE_VOICE_INPUT,
         R.string.enable_voice_input, R.string.enable_voice_input_summary) {
         SwitchPreference(it, Defaults.PREF_ENABLE_VOICE_INPUT)
     },
     Setting(context, Settings.PREF_USE_BUILTIN_VOICE_RECOGNITION,
         R.string.use_builtin_voice_recognition, R.string.use_builtin_voice_recognition_summary) {
         SwitchPreference(it, Defaults.PREF_USE_BUILTIN_VOICE_RECOGNITION)
+    },
+    Setting(context, Settings.PREF_VAD_SENSITIVITY,
+        R.string.vad_sensitivity, R.string.vad_sensitivity_summary) { setting ->
+        val modes = listOf(
+            context.getString(R.string.vad_mode_normal) to 0,
+            context.getString(R.string.vad_mode_quality) to 1,
+            context.getString(R.string.vad_mode_low_bitrate) to 2,
+            context.getString(R.string.vad_mode_very_aggressive) to 3
+        )
+        ListPreference(setting, modes, Defaults.PREF_VAD_SENSITIVITY)
+    },
+    Setting(context, Settings.PREF_VAD_SILENCE_DURATION,
+        R.string.vad_silence_duration) { setting ->
+        SliderPreference<Int>(
+            name = setting.title,
+            key = Settings.PREF_VAD_SILENCE_DURATION,
+            description = { context.getString(R.string.vad_silence_duration_summary, it) },
+            default = Defaults.PREF_VAD_SILENCE_DURATION,
+            range = 500f..2000f,
+            stepSize = 100
+        )
+    },
+    Setting(context, Settings.PREF_VAD_SPEECH_DURATION,
+        R.string.vad_speech_duration) { setting ->
+        SliderPreference<Int>(
+            name = setting.title,
+            key = Settings.PREF_VAD_SPEECH_DURATION,
+            description = { context.getString(R.string.vad_speech_duration_summary, it) },
+            default = Defaults.PREF_VAD_SPEECH_DURATION,
+            range = 100f..1000f,
+            stepSize = 100
+        )
     },
     Setting(context, SettingsWithoutKey.VOICE_PERMISSION_STATUS, R.string.voice_permission_status) { setting ->
         VoicePermissionStatus(setting)

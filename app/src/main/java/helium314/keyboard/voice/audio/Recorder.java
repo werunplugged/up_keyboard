@@ -3,7 +3,9 @@ package helium314.keyboard.voice.audio;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -11,6 +13,15 @@ import android.media.MediaRecorder;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
+
+import com.konovalov.vad.webrtc.Vad;
+import com.konovalov.vad.webrtc.VadWebRTC;
+import com.konovalov.vad.webrtc.config.FrameSize;
+import com.konovalov.vad.webrtc.config.Mode;
+import com.konovalov.vad.webrtc.config.SampleRate;
+
+import helium314.keyboard.latin.settings.Settings;
+import helium314.keyboard.latin.settings.Defaults;
 
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +55,10 @@ public class Recorder {
     private final Object fileSavedLock = new Object();
 
     private volatile boolean shouldStartRecording = false;
+    private boolean useVAD = false;
+    private VadWebRTC vad = null;
+    private static final int VAD_FRAME_SIZE = 480;
+
     private final Thread workerThread;
 
     public Recorder(Context context) {
@@ -56,6 +71,28 @@ public class Recorder {
 
     public void setListener(RecorderListener listener) {
         this.mListener = listener;
+    }
+
+    public void initVad(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Read VAD parameters from preferences
+        int sensitivity = prefs.getInt(Settings.PREF_VAD_SENSITIVITY, Defaults.PREF_VAD_SENSITIVITY);
+        int silenceDuration = prefs.getInt(Settings.PREF_VAD_SILENCE_DURATION, Defaults.PREF_VAD_SILENCE_DURATION);
+        int speechDuration = prefs.getInt(Settings.PREF_VAD_SPEECH_DURATION, Defaults.PREF_VAD_SPEECH_DURATION);
+
+        // Convert sensitivity index to Mode enum
+        Mode mode = Mode.values()[sensitivity];
+
+        vad = Vad.builder()
+                .setSampleRate(SampleRate.SAMPLE_RATE_16K)
+                .setFrameSize(FrameSize.FRAME_SIZE_480)
+                .setMode(mode)
+                .setSilenceDurationMs(silenceDuration)
+                .setSpeechDurationMs(speechDuration)
+                .build();
+        useVAD = true;
+        Log.d(TAG, "VAD initialized with mode=" + mode + ", silence=" + silenceDuration + "ms, speech=" + speechDuration + "ms");
     }
 
     public void start() {
@@ -151,7 +188,7 @@ public class Recorder {
         int audioSource = MediaRecorder.AudioSource.VOICE_RECOGNITION;
 
         int bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
-        if (bufferSize < 960) bufferSize = 960; // Minimum reasonable buffer
+        if (bufferSize < VAD_FRAME_SIZE * 2) bufferSize = VAD_FRAME_SIZE * 2; // Ensure buffer supports VAD frame size
 
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         
@@ -184,24 +221,24 @@ public class Recorder {
 
             byte[] audioData = new byte[bufferSize];
             int totalBytesRead = 0;
-            
+
+            // VAD state tracking
+            boolean isSpeech;
+            boolean isRecording = false;
+            byte[] vadAudioBuffer = new byte[VAD_FRAME_SIZE * 2];  // VAD needs 16-bit samples
+
             // For audio visualization
             long lastVisualizationUpdate = 0;
             final long VISUALIZATION_UPDATE_INTERVAL = 33; // ~30fps for smooth animation
-            
+
             boolean hasNotifiedRecording = false;
 
             while (mInProgress.get() && totalBytesRead < bytesForThirtySeconds) {
-                int bytesRead = audioRecord.read(audioData, 0, audioData.length);
+                int bytesRead = audioRecord.read(audioData, 0, VAD_FRAME_SIZE * 2);
                 if (bytesRead > 0) {
                     outputBuffer.write(audioData, 0, bytesRead);
                     totalBytesRead += bytesRead;
-                    
-                    if (!hasNotifiedRecording) {
-                        sendUpdate(MSG_RECORDING);
-                        hasNotifiedRecording = true;
-                    }
-                    
+
                     // Send audio buffer for visualization
                     long currentTime = System.currentTimeMillis();
                     if (currentTime - lastVisualizationUpdate > VISUALIZATION_UPDATE_INTERVAL) {
@@ -212,19 +249,58 @@ public class Recorder {
                     Log.d(TAG, "AudioRecord error, bytes read: " + bytesRead);
                     break;
                 }
+
+                // VAD processing
+                if (useVAD) {
+                    byte[] outputBufferByteArray = outputBuffer.toByteArray();
+                    if (outputBufferByteArray.length >= VAD_FRAME_SIZE * 2) {
+                        // Always use the last VAD_FRAME_SIZE * 2 bytes (16-bit) from outputBuffer for VAD
+                        System.arraycopy(outputBufferByteArray, outputBufferByteArray.length - VAD_FRAME_SIZE * 2, vadAudioBuffer, 0, VAD_FRAME_SIZE * 2);
+
+                        isSpeech = vad.isSpeech(vadAudioBuffer);
+                        if (isSpeech) {
+                            if (!isRecording) {
+                                Log.d(TAG, "VAD Speech detected: recording starts");
+                                sendUpdate(MSG_RECORDING);
+                            }
+                            isRecording = true;
+                        } else {
+                            if (isRecording) {
+                                Log.d(TAG, "VAD Silence detected: stopping recording");
+                                isRecording = false;
+                                mInProgress.set(false);
+                            }
+                        }
+                    }
+                } else {
+                    if (!hasNotifiedRecording) {
+                        sendUpdate(MSG_RECORDING);
+                        hasNotifiedRecording = true;
+                    }
+                }
             }
             
             Log.d(TAG, "Total bytes recorded: " + totalBytesRead);
 
+            // Clean up VAD if it was used
+            if (useVAD) {
+                useVAD = false;
+                if (vad != null) {
+                    vad.close();
+                    vad = null;
+                }
+                Log.d(TAG, "Closing VAD");
+            }
+
             // Save recorded audio data to BufferStore (up to 30 seconds)
             RecordBuffer.setOutputBuffer(outputBuffer.toByteArray());
-            
+
             if (totalBytesRead > 6400) {  // min 0.2s of audio
                 sendUpdate(MSG_RECORDING_DONE);
             } else {
                 sendUpdate(MSG_RECORDING_ERROR);
             }
-            
+
         } finally {
             if (audioRecord != null) {
                 audioRecord.stop();

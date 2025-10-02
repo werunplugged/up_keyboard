@@ -4,7 +4,8 @@
       "Bash(ndk-build:*)",
       "WebFetch(domain:github.com)",
       "Bash(./gradlew:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Read(//d/Dev/UP-IME-Keyboard/**)"
     ],
     "deny": [],
     "ask": []

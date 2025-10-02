@@ -151,6 +151,9 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_ENABLE_VOICE_INPUT = "enable_voice_input";
     public static final String PREF_USE_BUILTIN_VOICE_RECOGNITION = "use_builtin_voice_recognition";
     public static final String PREF_VOICE_PERMISSION_STATUS = "voice_permission_status";
+    public static final String PREF_VAD_SENSITIVITY = "vad_sensitivity";
+    public static final String PREF_VAD_SILENCE_DURATION = "vad_silence_duration";
+    public static final String PREF_VAD_SPEECH_DURATION = "vad_speech_duration";
 
     public static final String PREF_ENABLE_CLIPBOARD_HISTORY = "enable_clipboard_history";
     public static final String PREF_CLIPBOARD_HISTORY_RETENTION_TIME = "clipboard_history_retention_time";
