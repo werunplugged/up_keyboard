@@ -64,41 +64,46 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
     }
     
     private void initializeForLanguage(String languageCode) {
-        Log.d(TAG, "Initializing for language: " + languageCode);
-        
+        Log.d(TAG, "[VOICE] === initializeForLanguage() ===");
+        Log.d(TAG, "[VOICE] Requested language: " + languageCode);
+
         // Get the model path for this language
         String modelPath = modelLoader.getModelPathForLanguage(languageCode);
-        
+        Log.d(TAG, "[VOICE] Model path: " + modelPath);
+
         // Check if we already have this model cached
         if (modelCache.containsKey(modelPath)) {
             whisperInstance = modelCache.get(modelPath);
             currentLanguage = languageCode;
-            Log.d(TAG, "Using cached model for language: " + languageCode);
+            Log.d(TAG, "[VOICE] Using CACHED model for language: " + languageCode);
             return;
         }
-        
+
         // Load new model if not cached
         try {
+            Log.d(TAG, "[VOICE] Loading NEW model for language: " + languageCode);
             ByteBuffer modelBuffer = modelLoader.loadModelForLanguage(languageCode);
             if (modelBuffer != null) {
+                Log.d(TAG, "[VOICE] Model buffer loaded, creating WhisperGGML instance...");
                 WhisperGGML newInstance = new WhisperGGML(modelBuffer);
                 modelCache.put(modelPath, newInstance);
                 whisperInstance = newInstance;
                 currentLanguage = languageCode;
-                Log.d(TAG, "Loaded and cached model for language: " + languageCode);
+                Log.d(TAG, "[VOICE] Model loaded and cached successfully");
+                Log.d(TAG, "[VOICE] Model type: " + (languageCode.equals("en") ? "English-only" : "Multilingual"));
             } else {
-                Log.e(TAG, "Failed to load model for language: " + languageCode);
+                Log.e(TAG, "[VOICE] Failed to load model buffer for language: " + languageCode);
                 if (listener != null) {
                     listener.onRecognitionError("Failed to load voice model");
                 }
             }
         } catch (WhisperGGML.InvalidModelException e) {
-            Log.e(TAG, "Invalid model", e);
+            Log.e(TAG, "[VOICE] Invalid model exception", e);
             if (listener != null) {
                 listener.onRecognitionError("Invalid voice model");
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error loading model", e);
+            Log.e(TAG, "[VOICE] IO exception loading model", e);
             if (listener != null) {
                 listener.onRecognitionError("Error loading voice model");
             }
@@ -120,51 +125,91 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
     
     @Override
     public void recognize(float[] audioData, String languageHint) {
+        Log.d(TAG, "[VOICE] ===== WhisperRecognitionEngine.recognize() =====");
+        Log.d(TAG, "[VOICE] Audio data length: " + audioData.length + " samples");
+        Log.d(TAG, "[VOICE] Raw language hint: " + languageHint);
+
         if (languageHint == null || languageHint.isEmpty()) {
             languageHint = "en"; // Default to English
+            Log.d(TAG, "[VOICE] No language hint provided, defaulting to: en");
         }
-        
-        // Initialize for the requested language if needed
-        if (whisperInstance == null || !languageHint.equals(currentLanguage)) {
-            initializeForLanguage(languageHint);
+
+        // Parse multiple languages if comma-separated
+        String[] languageArray = languageHint.contains(",") ?
+            languageHint.split(",") : new String[]{languageHint};
+        String primaryLanguage = languageArray[0];
+
+        Log.d(TAG, "[VOICE] Parsed languages count: " + languageArray.length);
+        for (int i = 0; i < languageArray.length; i++) {
+            Log.d(TAG, "[VOICE] Language[" + i + "]: " + languageArray[i] +
+                  (i == 0 ? " (PRIMARY)" : ""));
         }
-        
+
+        // Initialize for the primary language if needed
+        if (whisperInstance == null || !primaryLanguage.equals(currentLanguage)) {
+            Log.d(TAG, "[VOICE] Initializing model for primary language: " + primaryLanguage);
+            Log.d(TAG, "[VOICE] Previous language was: " + currentLanguage);
+            initializeForLanguage(primaryLanguage);
+        } else {
+            Log.d(TAG, "[VOICE] Model already initialized for: " + currentLanguage);
+        }
+
         if (whisperInstance == null) {
+            Log.e(TAG, "[VOICE] Failed to initialize Whisper instance");
             if (listener != null) {
                 listener.onRecognitionError("Voice recognition not initialized");
             }
             return;
         }
-        
+
         if (isProcessing) {
-            Log.w(TAG, "Recognition already in progress");
+            Log.w(TAG, "[VOICE] Recognition already in progress");
             return;
         }
-        
+
         isProcessing = true;
         if (listener != null) {
             listener.onRecognitionStarted();
         }
-        
+
         // Ensure executor service is available
         ensureExecutorService();
-        
-        final String finalLanguageHint = languageHint;
+
+        final String[] finalLanguages = languageArray;
+        final String finalPrimaryLanguage = primaryLanguage;
         currentTask = executorService.submit(() -> {
             try {
                 // Set up partial result callback
                 whisperInstance.setPartialResultCallback(text -> {
-                    Log.d(TAG, "Partial result callback received: " + text);
+                    Log.d(TAG, "[VOICE] Partial result: \"" + text + "\"");
                     if (listener != null) {
                         listener.onPartialResult(text);
                     }
                 });
-                
+
                 // Prepare language hints
-                String[] languages = new String[]{finalLanguageHint};
-                String[] bailLanguages = new String[]{}; // No bail languages for now
-                
-                // Run inference
+                String[] languages;
+                if (finalLanguages.length == 1) {
+                    // Single language - strict lock (pass twice for enforcement)
+                    languages = new String[]{finalLanguages[0], finalLanguages[0]};
+                    Log.d(TAG, "[VOICE] *** STRICT LOCK MODE ***");
+                    Log.d(TAG, "[VOICE] Duplicating language for strict lock: " + finalLanguages[0]);
+                    Log.d(TAG, "[VOICE] Passing to JNI: [" + languages[0] + ", " + languages[1] + "]");
+                } else {
+                    // Multiple languages - restricted auto-detection
+                    languages = finalLanguages;
+                    Log.d(TAG, "[VOICE] *** MULTI-LANGUAGE MODE ***");
+                    Log.d(TAG, "[VOICE] Languages for restricted auto-detection: " + String.join(", ", finalLanguages));
+                }
+
+                // No bail languages for now
+                String[] bailLanguages = new String[]{};
+                Log.d(TAG, "[VOICE] Bail languages: " + (bailLanguages.length == 0 ? "none" : String.join(", ", bailLanguages)));
+
+                Log.d(TAG, "[VOICE] Starting Whisper inference...");
+                Log.d(TAG, "[VOICE] Model: " + (primaryLanguage.equals("en") ? "English" : "Multilingual"));
+
+                // Run inference with language enforcement
                 String result = whisperInstance.infer(
                     audioData,
                     "", // No prompt
@@ -173,22 +218,29 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
                     WhisperGGML.DecodingMode.GREEDY,
                     true // Suppress non-speech tokens
                 );
-                
+
+                Log.d(TAG, "[VOICE] Inference completed");
+
                 // Handle result
                 if (result != null && !result.isEmpty()) {
+                    Log.d(TAG, "[VOICE] Recognition result: \"" + result + "\"");
+                    Log.d(TAG, "[VOICE] Reporting language as: " + finalPrimaryLanguage);
                     if (listener != null) {
-                        listener.onRecognitionResult(result, currentLanguage);
+                        // Return the primary language for consistency
+                        listener.onRecognitionResult(result, finalPrimaryLanguage);
                     }
                 } else {
+                    Log.d(TAG, "[VOICE] Recognition result: EMPTY");
                     if (listener != null) {
-                        listener.onRecognitionResult("", currentLanguage);
+                        listener.onRecognitionResult("", finalPrimaryLanguage);
                     }
                 }
-                
+
             } catch (WhisperGGML.BailLanguageException e) {
                 Log.d(TAG, "Bail language detected: " + e.getLanguage());
                 if (listener != null) {
-                    listener.onRecognitionResult("", e.getLanguage());
+                    // Return empty result but keep the primary language
+                    listener.onRecognitionResult("", finalPrimaryLanguage);
                 }
             } catch (WhisperGGML.InferenceCancelledException e) {
                 Log.d(TAG, "Inference cancelled");

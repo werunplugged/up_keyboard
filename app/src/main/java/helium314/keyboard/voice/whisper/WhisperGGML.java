@@ -149,9 +149,24 @@ public class WhisperGGML {
         if (handle == 0L) {
             throw new IllegalStateException("WhisperGGML has already been closed, cannot infer");
         }
-        
+
+        Log.d(TAG, "[VOICE] === WhisperGGML.infer() ===");
+        Log.d(TAG, "[VOICE] Audio samples: " + samples.length);
+        Log.d(TAG, "[VOICE] Prompt: \"" + prompt + "\"");
+        Log.d(TAG, "[VOICE] Languages count: " + languages.length);
+        for (int i = 0; i < languages.length; i++) {
+            Log.d(TAG, "[VOICE] Language[" + i + "]: " + languages[i]);
+        }
+        Log.d(TAG, "[VOICE] Bail languages count: " + bailLanguages.length);
+        for (int i = 0; i < bailLanguages.length; i++) {
+            Log.d(TAG, "[VOICE] Bail language[" + i + "]: " + bailLanguages[i]);
+        }
+        Log.d(TAG, "[VOICE] Decoding mode: " + decodingMode.name() + " (value=" + decodingMode.getValue() + ")");
+        Log.d(TAG, "[VOICE] Suppress non-speech tokens: " + suppressNonSpeechTokens);
+
         this.partialResultCallback = partialCallback;
-        
+
+        Log.d(TAG, "[VOICE] Calling native inferNative()...");
         String result = inferNative(
             handle,
             samples,
@@ -161,19 +176,25 @@ public class WhisperGGML {
             decodingMode.getValue(),
             suppressNonSpeechTokens
         ).trim();
-        
+
+        Log.d(TAG, "[VOICE] Native inference returned: \"" + result + "\"");
+
         // Check for special cancellation markers
         if (result.contains("<>CANCELLED<>")) {
             if (result.contains("flag")) {
+                Log.d(TAG, "[VOICE] Inference was cancelled by flag");
                 throw new InferenceCancelledException();
             } else if (result.contains("lang=")) {
                 String language = result.split("lang=")[1];
+                Log.d(TAG, "[VOICE] Bail language detected: " + language);
                 throw new BailLanguageException(language);
             } else {
+                Log.e(TAG, "[VOICE] Cancelled for unknown reason");
                 throw new IllegalStateException("Cancelled for unknown reason");
             }
         }
-        
+
+        Log.d(TAG, "[VOICE] Returning final result: \"" + result + "\"");
         return result;
     }
     

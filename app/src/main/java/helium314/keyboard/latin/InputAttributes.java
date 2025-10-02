@@ -11,6 +11,7 @@ import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
 
 import helium314.keyboard.latin.common.StringUtilsKt;
+import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.utils.Log;
 import helium314.keyboard.latin.utils.InputTypeUtils;
 
@@ -99,11 +100,16 @@ public final class InputAttributes {
 
         mShouldInsertSpacesAutomatically = InputTypeUtils.isAutoSpaceFriendlyType(inputType);
 
+        // Check if voice input should be shown
+        // For built-in voice recognition, we don't need an external shortcut IME
+        final boolean usingBuiltInVoice = Settings.getInstance().getCurrent().mUseBuiltInVoiceRecognition
+                && Settings.getInstance().getCurrent().mEnableVoiceInput;
+
         final boolean noMicrophone = mIsPasswordField
                 || InputTypeUtils.isEmailVariation(variation)
                 || hasNoMicrophoneKeyOption()
                 || !RichInputMethodManager.isInitialized() // avoid crash when only using spell checker
-                || !RichInputMethodManager.getInstance().isShortcutImeReady();
+                || (!usingBuiltInVoice && !RichInputMethodManager.getInstance().isShortcutImeReady());
         mShouldShowVoiceInputKey = !noMicrophone;
 
         mDisableGestureFloatingPreviewText = InputAttributes.inPrivateImeOptions(
