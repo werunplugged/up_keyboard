@@ -111,6 +111,8 @@ JNIEXPORT jstring JNICALL Java_helium314_keyboard_voice_whisper_WhisperGGML_infe
     wparams.print_timestamps = false;
     wparams.max_tokens = 256;
     wparams.n_threads = (int)num_procs;
+    wparams.translate = false;  // Explicitly disable translation mode
+    AKLOGI("[VOICE] Translation mode: DISABLED (translate = false)");
 
     wparams.audio_ctx = std::max(160, std::min(1500, (int)ceil((double)num_samples / (double)(320.0)) + 32));
     wparams.temperature_inc = 0.0f;
@@ -298,6 +300,7 @@ JNIEXPORT jstring JNICALL Java_helium314_keyboard_voice_whisper_WhisperGGML_infe
         return false;
     };
 
+    AKLOGI("[VOICE] Final params.translate = %s", wparams.translate ? "TRUE" : "FALSE");
     AKLOGI("[VOICE] Calling whisper_full...");
     int res = whisper_full(state->context, wparams, samples, (int)num_samples);
     if(res != 0) {

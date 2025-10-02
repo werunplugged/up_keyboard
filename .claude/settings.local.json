@@ -5,7 +5,8 @@
       "WebFetch(domain:github.com)",
       "Bash(./gradlew:*)",
       "Bash(taskkill:*)",
-      "Read(//d/Dev/UP-IME-Keyboard/**)"
+      "Read(//d/Dev/UP-IME-Keyboard/**)",
+      "Read(//d/**)"
     ],
     "deny": [],
     "ask": []
