@@ -83,6 +83,7 @@ import helium314.keyboard.latin.utils.StatsUtils;
 import helium314.keyboard.latin.utils.StatsUtilsManager;
 import helium314.keyboard.latin.utils.SubtypeLocaleUtils;
 import helium314.keyboard.latin.utils.SubtypeSettings;
+import helium314.keyboard.latin.utils.SubtypeUtilsKt;
 import helium314.keyboard.latin.utils.ToolbarMode;
 import helium314.keyboard.latin.utils.ViewLayoutUtils;
 import helium314.keyboard.settings.SettingsActivity;
@@ -1614,7 +1615,51 @@ public class LatinIME extends InputMethodService implements
             if (mSettings.getCurrent().mUseBuiltInVoiceRecognition) {
                 // Show built-in voice input UI using KeyboardSwitcher
                 if (mVoiceInputManager != null && mKeyboardSwitcher != null) {
+                    // Get all enabled keyboard languages for voice recognition
+                    final List<InputMethodSubtype> enabledSubtypes =
+                        mRichImm.getMyEnabledInputMethodSubtypes(true);
+                    Log.d(TAG, "[VOICE] Number of enabled subtypes: " + enabledSubtypes.size());
+
+                    final StringBuilder languageHints = new StringBuilder();
                     final String currentLanguage = mRichImm.getCurrentSubtypeLocale().getLanguage();
+                    Log.d(TAG, "[VOICE] Current keyboard language: " + currentLanguage);
+
+                    // Add current language first for priority
+                    languageHints.append(currentLanguage);
+
+                    // Add other enabled languages
+                    int languageCount = 1;
+                    for (InputMethodSubtype subtype : enabledSubtypes) {
+                        // Get the locale from the subtype using the extension function
+                        // In Java, Kotlin extension functions are called as static methods
+                        final Locale locale = SubtypeUtilsKt.locale(subtype);
+                        if (locale != null) {
+                            final String lang = locale.getLanguage();
+                            Log.d(TAG, "[VOICE] Checking subtype language: " + lang +
+                                  " (locale: " + locale.toString() + ")");
+                            // Avoid duplicates and don't re-add current language
+                            if (!lang.equals(currentLanguage) &&
+                                languageHints.indexOf(lang) == -1) {
+                                languageHints.append(",").append(lang);
+                                languageCount++;
+                                Log.d(TAG, "[VOICE] Added language to hints: " + lang);
+                            }
+                        }
+                    }
+
+                    // If we have multiple languages but want to prioritize the current one,
+                    // duplicate it to give it stronger weight in language detection
+                    String languageHintString = languageHints.toString();
+                    if (languageCount > 1) {
+                        // Duplicate current language for stronger hint
+                        languageHintString = currentLanguage + "," + languageHintString;
+                        Log.d(TAG, "[VOICE] Duplicating current language for stronger hint");
+                        Log.d(TAG, "[VOICE] Modified hint string: " + languageHintString);
+                    }
+
+                    Log.d(TAG, "[VOICE] Final language hint string: " + languageHintString);
+                    Log.d(TAG, "[VOICE] Total unique languages: " + languageCount);
+                    Log.d(TAG, "[VOICE] Mode: " + (languageCount == 1 ? "STRICT LOCK" : "PRIORITIZED MULTI-LANGUAGE"));
 
                     // Initialize voice view if needed
                     final helium314.keyboard.voice.ui.VoiceInputView voiceView =
@@ -1625,7 +1670,7 @@ public class LatinIME extends InputMethodService implements
 
                     // Show voice keyboard
                     mKeyboardSwitcher.setVoiceKeyboard();
-                    mVoiceInputManager.showVoiceInput(currentLanguage);
+                    mVoiceInputManager.showVoiceInput(languageHintString);
                 }
             } else {
                 // Use external voice input (legacy behavior)

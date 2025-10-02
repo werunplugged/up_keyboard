@@ -109,26 +109,46 @@ public class VoiceInputManager {
      */
     public void showVoiceInput(String languageHint) {
         if (isVoiceInputActive) {
-            Log.w(TAG, "Voice input already active");
+            Log.w(TAG, "[VOICE] Voice input already active");
             return;
         }
-        
-        Log.d(TAG, "Showing voice input with language hint: " + languageHint);
+
+        Log.d(TAG, "[VOICE] ========================================");
+        Log.d(TAG, "[VOICE] Showing voice input with language hint: " + languageHint);
+
+        // Parse and log language details
+        if (languageHint != null) {
+            String[] languages = languageHint.split(",");
+            Log.d(TAG, "[VOICE] Number of languages in hint: " + languages.length);
+            for (int i = 0; i < languages.length; i++) {
+                Log.d(TAG, "[VOICE] Language[" + i + "]: " + languages[i]);
+            }
+
+            if (languages.length == 1) {
+                Log.d(TAG, "[VOICE] MODE: Single language - will use STRICT LOCK");
+            } else {
+                Log.d(TAG, "[VOICE] MODE: Multiple languages - will use RESTRICTED AUTO-DETECTION");
+            }
+        }
+
         isVoiceInputActive = true;
-        
+
         // Initialize recognition engine with language
         if (recognitionEngine != null) {
+            Log.d(TAG, "[VOICE] Initializing recognition engine: " + recognitionEngine.getEngineName());
             recognitionEngine.initialize();
         }
-        
+
         // Set language hint
         if (voiceInputView != null) {
+            Log.d(TAG, "[VOICE] Setting language hint on voice input view");
             voiceInputView.setLanguageHint(languageHint);
         }
-        
+
         if (listener != null) {
             listener.onVoiceInputStarted();
         }
+        Log.d(TAG, "[VOICE] ========================================");
     }
     
     /**

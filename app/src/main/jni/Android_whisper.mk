@@ -18,7 +18,7 @@ LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/src \
     $(LOCAL_PATH)/src/ggml
 
-LOCAL_CFLAGS := -O3 -DNDEBUG -Wall -Wextra -Wno-unused-parameter -ffast-math
+LOCAL_CFLAGS := -O3 -DNDEBUG -Wall -Wextra -Wno-unused-parameter -ffast-math -DFLAG_DO_PROFILE
 LOCAL_CPPFLAGS := -std=c++11 -fexceptions
 
 # For ARM NEON optimizations
