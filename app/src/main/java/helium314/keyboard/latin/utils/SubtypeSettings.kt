@@ -13,6 +13,7 @@ import helium314.keyboard.compat.locale
 import helium314.keyboard.keyboard.KeyboardSwitcher
 import helium314.keyboard.latin.RichInputMethodManager
 import helium314.keyboard.latin.common.Constants.Separators
+import helium314.keyboard.latin.common.Constants.Subtype.ExtraValue
 import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.define.DebugFlags
 import helium314.keyboard.latin.settings.Defaults
@@ -23,15 +24,88 @@ import helium314.keyboard.latin.utils.ScriptUtils.script
 import java.util.Locale
 
 object SubtypeSettings {
-    /** @return enabled subtypes. If no subtypes are enabled, but a contextForFallback is provided,
-     *  subtypes for system locales will be returned, or en-US if none found. */
+    private var context: Context? = null
+
+    /** @return enabled subtypes - either system-synced (when toggle ON) or manual (when toggle OFF).
+     *  If fallback is true and no subtypes found, returns en-US. */
     fun getEnabledSubtypes(fallback: Boolean = false): List<InputMethodSubtype> {
-        if (fallback && enabledSubtypes.isEmpty())
-            return getDefaultEnabledSubtypes()
-        return enabledSubtypes
+        val ctx = context ?: return emptyList()
+        val useSystemLanguages = ctx.prefs().getBoolean(
+            Settings.PREF_USE_SYSTEM_LANGUAGES,
+            Defaults.PREF_USE_SYSTEM_LANGUAGES
+        )
+
+        return if (useSystemLanguages) {
+            // System sync mode - automatically sync with Android system languages
+            getSystemSyncedSubtypes(fallback)
+        } else {
+            // Manual mode - use the manually configured list
+            if (fallback && enabledSubtypes.isEmpty())
+                getDefaultEnabledSubtypes()
+            else
+                enabledSubtypes
+        }
     }
 
-    fun isEnabled(subtype: InputMethodSubtype?): Boolean = subtype in enabledSubtypes || subtype in getDefaultEnabledSubtypes()
+    /** @return enabled subtypes based on system languages.
+     *  Each system language is mapped to its preferred layout (from PREF_ENABLED_SUBTYPES) or default layout.
+     *  If fallback is true and no system languages found, returns en-US. */
+    private fun getSystemSyncedSubtypes(fallback: Boolean): List<InputMethodSubtype> {
+        val ctx = context
+        val layoutPrefs = if (ctx != null) loadLayoutPreferences(ctx.prefs()) else emptyMap()
+
+        val subtypes = systemLocales.mapNotNull { systemLocale ->
+            // Try exact match first, fallback to language-based match (for cases like iw_IL → iw)
+            val resourceLocale = if (resourceSubtypesByLocale.containsKey(systemLocale)) {
+                systemLocale
+            } else {
+                LocaleUtils.getBestMatch(systemLocale, resourceSubtypesByLocale.keys) { it }
+            }
+
+            if (resourceLocale == null) return@mapNotNull null
+            val availableSubtypes = resourceSubtypesByLocale[resourceLocale]!!
+
+            // Try to find preferred layout using both system locale and resource locale
+            // (e.g., system locale "iw_IL" may have preference saved under resource locale "iw")
+            val preferredLayout = layoutPrefs[systemLocale] ?: layoutPrefs[resourceLocale]
+
+            // Try to find subtype with preferred layout, or use first available
+            availableSubtypes.firstOrNull { it.mainLayoutName() == preferredLayout }
+                ?: availableSubtypes.first()
+        }
+
+        return if (subtypes.isEmpty() && fallback) {
+            // Fallback to en-US if no system languages
+            listOf(resourceSubtypesByLocale[Locale.US]!!.first())
+        } else {
+            subtypes
+        }
+    }
+
+    /** Load layout preferences from PREF_ENABLED_SUBTYPES.
+     *  Format: locale → preferred layout name */
+    private fun loadLayoutPreferences(prefs: SharedPreferences): Map<Locale, String> {
+        val prefString = prefs.getString(Settings.PREF_ENABLED_SUBTYPES, Defaults.PREF_ENABLED_SUBTYPES) ?: ""
+        return createSettingsSubtypes(prefString).associate {
+            it.locale to (it.mainLayoutName() ?: SubtypeLocaleUtils.QWERTY)
+        }
+    }
+
+    /** Save layout preference for a locale */
+    private fun saveLayoutPreference(context: Context, locale: Locale, layoutName: String) {
+        val prefs = context.prefs()
+        val currentPrefs = loadLayoutPreferences(prefs).toMutableMap()
+        currentPrefs[locale] = layoutName
+
+        // Convert back to SettingsSubtype format for storage
+        val subtypes = currentPrefs.map { (loc, layout) ->
+            SettingsSubtype(loc, "${ExtraValue.KEYBOARD_LAYOUT_SET}=MAIN:$layout")
+        }
+        val newString = createPrefSubtypes(subtypes)
+        prefs.edit { putString(Settings.PREF_ENABLED_SUBTYPES, newString) }
+    }
+
+    fun isEnabled(subtype: InputMethodSubtype?): Boolean = subtype in getEnabledSubtypes(fallback = true)
 
     fun getAllAvailableSubtypes(): List<InputMethodSubtype> =
         resourceSubtypesByLocale.values.flatten() + additionalSubtypes
@@ -52,25 +126,86 @@ object SubtypeSettings {
         }
     }
 
-    fun addEnabledSubtype(prefs: SharedPreferences, newSubtype: InputMethodSubtype) {
-        val subtype = newSubtype.toSettingsSubtype()
-        val subtypes = createSettingsSubtypes(prefs.getString(Settings.PREF_ENABLED_SUBTYPES, Defaults.PREF_ENABLED_SUBTYPES)!!) + subtype
-        val newString = createPrefSubtypes(subtypes)
-        prefs.edit { putString(Settings.PREF_ENABLED_SUBTYPES, newString) }
+    /** Add/enable a subtype.
+     *  In system sync mode: Only saves layout preference for the language.
+     *  In manual mode: Adds subtype to enabled list and preferences. */
+    fun addEnabledSubtype(context: Context, newSubtype: InputMethodSubtype) {
+        val prefs = context.prefs()
+        val useSystemLanguages = prefs.getBoolean(
+            Settings.PREF_USE_SYSTEM_LANGUAGES,
+            Defaults.PREF_USE_SYSTEM_LANGUAGES
+        )
 
-        if (newSubtype !in enabledSubtypes) {
-            enabledSubtypes.add(newSubtype)
-            enabledSubtypes.sortBy { it.locale().toLanguageTag() } // for consistent order
-            RichInputMethodManager.getInstance().refreshSubtypeCaches()
+        if (useSystemLanguages) {
+            // System sync mode - only save layout preference
+            val layoutName = newSubtype.mainLayoutName() ?: SubtypeLocaleUtils.QWERTY
+            saveLayoutPreference(context, newSubtype.locale(), layoutName)
+            // Reload from preferences and sync with system
+            reloadEnabledSubtypes(context)
+        } else {
+            // Manual mode - add subtype directly (preserves all properties like NoShiftKey)
+            val settingsSubtype = newSubtype.toSettingsSubtype()
+            val currentEnabledSubtypes = createSettingsSubtypes(
+                prefs.getString(Settings.PREF_ENABLED_SUBTYPES, Defaults.PREF_ENABLED_SUBTYPES)!!
+            ).toMutableList()
+
+            if (settingsSubtype !in currentEnabledSubtypes) {
+                currentEnabledSubtypes.add(settingsSubtype)
+                prefs.edit {
+                    putString(Settings.PREF_ENABLED_SUBTYPES, createPrefSubtypes(currentEnabledSubtypes))
+                }
+
+                // Add to list if not already present
+                if (newSubtype !in enabledSubtypes) {
+                    enabledSubtypes.add(newSubtype)
+                    enabledSubtypes.sortBy { it.locale().toLanguageTag() }
+                }
+            }
+            // Refresh cache
+            if (RichInputMethodManager.isInitialized())
+                RichInputMethodManager.getInstance().refreshSubtypeCaches()
         }
     }
 
-    /** @return whether subtype was actually removed */
+    /** Remove/disable a subtype.
+     *  In system sync mode: Removes layout preference (reverts to default).
+     *  In manual mode: Removes subtype from enabled list and preferences. */
     fun removeEnabledSubtype(context: Context, subtype: InputMethodSubtype): Boolean {
-        if (!removeEnabledSubtype(context.prefs(), subtype.toSettingsSubtype())) return false
-        if (!enabledSubtypes.remove(subtype)) reloadEnabledSubtypes(context)
-        else RichInputMethodManager.getInstance().refreshSubtypeCaches()
-        return true
+        val prefs = context.prefs()
+        val useSystemLanguages = prefs.getBoolean(
+            Settings.PREF_USE_SYSTEM_LANGUAGES,
+            Defaults.PREF_USE_SYSTEM_LANGUAGES
+        )
+
+        return if (useSystemLanguages) {
+            // System sync mode - remove layout preference
+            val currentPrefs = loadLayoutPreferences(prefs).toMutableMap()
+            val wasRemoved = currentPrefs.remove(subtype.locale()) != null
+
+            if (wasRemoved) {
+                // Save updated preferences
+                val subtypes = currentPrefs.map { (loc, layout) ->
+                    SettingsSubtype(loc, "${ExtraValue.KEYBOARD_LAYOUT_SET}=MAIN:$layout")
+                }
+                val newString = createPrefSubtypes(subtypes)
+                prefs.edit { putString(Settings.PREF_ENABLED_SUBTYPES, newString) }
+                // Reload from preferences and sync with system
+                reloadEnabledSubtypes(context)
+            }
+            wasRemoved
+        } else {
+            // Manual mode - remove from list and preferences
+            val settingsSubtype = subtype.toSettingsSubtype()
+            val wasRemoved = removeEnabledSubtype(prefs, settingsSubtype)
+
+            if (wasRemoved) {
+                enabledSubtypes.remove(subtype)
+                // Refresh cache
+                if (RichInputMethodManager.isInitialized())
+                    RichInputMethodManager.getInstance().refreshSubtypeCaches()
+            }
+            wasRemoved
+        }
     }
 
     fun getSelectedSubtype(prefs: SharedPreferences): InputMethodSubtype {
@@ -79,6 +214,8 @@ object SubtypeSettings {
             return selectedSubtype.toAdditionalSubtype()
         // no additional subtype, must be a resource subtype
 
+        // Use getEnabledSubtypes() directly instead of old mutable list
+        val enabledSubtypes = getEnabledSubtypes(fallback = false)
         val subtype = enabledSubtypes.firstOrNull { it.toSettingsSubtype() == selectedSubtype }
         if (subtype != null) {
             return subtype
@@ -122,7 +259,13 @@ object SubtypeSettings {
 
     fun getSystemLocales(): List<Locale> = systemLocales.toList()
 
-    fun getResourceSubtypesForLocale(locale: Locale): List<InputMethodSubtype> = resourceSubtypesByLocale[locale].orEmpty()
+    fun getResourceSubtypesForLocale(locale: Locale): List<InputMethodSubtype> {
+        // Try exact match first, fallback to language-based match (for cases like iw_IL → iw)
+        return resourceSubtypesByLocale[locale]
+            ?: LocaleUtils.getBestMatch(locale, resourceSubtypesByLocale.keys) { it }
+                ?.let { resourceSubtypesByLocale[it] }
+            ?: emptyList()
+    }
 
     fun getAvailableSubtypeLocales(): List<Locale> = resourceSubtypesByLocale.keys.toList()
 
@@ -165,9 +308,23 @@ object SubtypeSettings {
     }
 
     fun reloadEnabledSubtypes(context: Context) {
-        enabledSubtypes.clear()
+        // Reload system locales (they may have changed)
+        reloadSystemLocales(context)
+
+        // Reload additional subtypes
         loadAdditionalSubtypes(context.prefs())
-        loadEnabledSubtypes(context)
+
+        // Reload enabled subtypes list if in manual mode
+        val useSystemLanguages = context.prefs().getBoolean(
+            Settings.PREF_USE_SYSTEM_LANGUAGES,
+            Defaults.PREF_USE_SYSTEM_LANGUAGES
+        )
+        if (!useSystemLanguages) {
+            enabledSubtypes.clear()
+            loadEnabledSubtypes(context)
+        }
+
+        // Refresh caches
         if (RichInputMethodManager.isInitialized())
             RichInputMethodManager.getInstance().refreshSubtypeCaches()
     }
@@ -182,6 +339,7 @@ object SubtypeSettings {
         subtypes.map { it.toPref() }.toSortedSet().joinToString(Separators.SETS)
 
     fun init(context: Context) {
+        this.context = context.applicationContext
         SubtypeLocaleUtils.init(context) // necessary to get the correct getKeyboardLayoutSetName
 
         // necessary to set system locales at start, because for some weird reason (bug?)
@@ -190,7 +348,15 @@ object SubtypeSettings {
 
         loadResourceSubtypes(context.resources)
         loadAdditionalSubtypes(context.prefs())
-        loadEnabledSubtypes(context)
+
+        // Load enabled subtypes list if in manual mode
+        val useSystemLanguages = context.prefs().getBoolean(
+            Settings.PREF_USE_SYSTEM_LANGUAGES,
+            Defaults.PREF_USE_SYSTEM_LANGUAGES
+        )
+        if (!useSystemLanguages) {
+            loadEnabledSubtypes(context)
+        }
     }
 
     private fun getDefaultEnabledSubtypes(): List<InputMethodSubtype> {
@@ -223,7 +389,7 @@ object SubtypeSettings {
         additionalSubtypes.addAll(subtypes)
     }
 
-    // requires loadResourceSubtypes to be called before
+    /** Load enabled subtypes from preferences into the list. Used only in manual mode. */
     private fun loadEnabledSubtypes(context: Context) {
         val prefs = context.prefs()
         val settingsSubtypes = createSettingsSubtypes(prefs.getString(Settings.PREF_ENABLED_SUBTYPES, Defaults.PREF_ENABLED_SUBTYPES)!!)
@@ -245,7 +411,7 @@ object SubtypeSettings {
 
             val subtype = subtypesForLocale.firstOrNull { it.mainLayoutNameOrQwerty() == (settingsSubtype.mainLayoutName() ?: SubtypeLocaleUtils.QWERTY) }
             if (subtype == null) {
-                val message = "subtype $settingsSubtype could not be loaded"
+                val message = "no resource subtype for $settingsSubtype"
                 Log.w(TAG, message)
                 if (DebugFlags.DEBUG_ENABLED)
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -253,9 +419,9 @@ object SubtypeSettings {
                     removeEnabledSubtype(prefs, settingsSubtype)
                 continue
             }
-
             enabledSubtypes.add(subtype)
         }
+        enabledSubtypes.sortBy { it.locale().toLanguageTag() }
     }
 
     /** @return whether pref was changed */
@@ -278,7 +444,7 @@ object SubtypeSettings {
         return true
     }
 
-    private val enabledSubtypes = mutableListOf<InputMethodSubtype>()
+    private val enabledSubtypes = mutableListOf<InputMethodSubtype>()  // Used only in manual mode
     private val resourceSubtypesByLocale = LinkedHashMap<Locale, MutableList<InputMethodSubtype>>(100)
     private val additionalSubtypes = mutableListOf<InputMethodSubtype>()
     private val systemLocales = mutableListOf<Locale>()

@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import helium314.keyboard.keyboard.KeyboardLayoutSet;
 import helium314.keyboard.latin.settings.Settings;
+import helium314.keyboard.latin.utils.SubtypeSettings;
 import helium314.keyboard.latin.utils.UncachedInputMethodManagerUtils;
 import helium314.keyboard.settings.SettingsActivity;
 
@@ -63,6 +64,8 @@ public final class SystemBroadcastReceiver extends BroadcastReceiver {
         } else if (Intent.ACTION_LOCALE_CHANGED.equals(intentAction)) {
             Log.i(TAG, "System locale changed");
             KeyboardLayoutSet.onSystemLocaleChanged();
+            // Reload system locales and sync with system so language switch key appears
+            SubtypeSettings.INSTANCE.reloadEnabledSubtypes(context);
         }
 
         // The process that hosts this broadcast receiver is invoked and remains alive even after

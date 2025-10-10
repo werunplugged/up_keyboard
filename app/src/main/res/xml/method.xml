@@ -630,11 +630,11 @@
         android:imeSubtypeExtraValue="KeyboardLayoutSet=MAIN:armenian_phonetic,EmojiCapable"
         android:isAsciiCapable="false"
     />
-    <!-- Java uses the deprecated "in" code instead of the standard "id" code for Indonesian. -->
+    <!-- Updated to use standard "id" code for Indonesian (was deprecated "in"). -->
     <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_generic"
         android:subtypeId="0x7daea460"
-        android:imeSubtypeLocale="in"
+        android:imeSubtypeLocale="id"
         android:languageTag="id"
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="AsciiCapable,EmojiCapable"
@@ -676,11 +676,11 @@
         android:imeSubtypeExtraValue="KeyboardLayoutSet=MAIN:qwertz+,AsciiCapable,EmojiCapable"
         android:isAsciiCapable="true"
     />
-    <!-- Java uses the deprecated "iw" code instead of the standard "he" code for Hebrew. -->
+    <!-- Updated to use standard "he" code for Hebrew (was deprecated "iw"). -->
     <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_generic"
         android:subtypeId="0x66fb18bd"
-        android:imeSubtypeLocale="iw"
+        android:imeSubtypeLocale="he"
         android:languageTag="he"
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="KeyboardLayoutSet=MAIN:hebrew,NoShiftKey,SupportTouchPositionCorrection,EmojiCapable"
@@ -689,7 +689,7 @@
     <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_hebrew_1452_2"
         android:subtypeId="0x66fb18be"
-        android:imeSubtypeLocale="iw"
+        android:imeSubtypeLocale="he"
         android:languageTag="he"
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="KeyboardLayoutSet=MAIN:hebrew_1452_2,NoShiftKey,SupportTouchPositionCorrection,EmojiCapable"

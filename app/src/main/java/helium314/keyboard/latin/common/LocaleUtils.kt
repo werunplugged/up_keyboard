@@ -5,7 +5,6 @@
  */
 package helium314.keyboard.latin.common
 
-import android.content.Context
 import android.content.res.Resources
 import helium314.keyboard.compat.locale
 import helium314.keyboard.latin.R
@@ -154,7 +153,7 @@ object LocaleUtils {
             val language = elements[0].lowercase()
             val region = elements.getOrNull(1)?.uppercase()
             val locale = if (elements.size == 1) {
-                Locale(language) // "zz" works both in constructor and forLanguageTag
+                Locale.forLanguageTag(language) // Use forLanguageTag for proper language tag parsing
             } else if (elements.size == 2) {
                 if (region == "ZZ") Locale.forLanguageTag(elements[0] + "-Latn")
                 else Locale(language, region!!)
