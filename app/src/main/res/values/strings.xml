@@ -715,6 +715,8 @@ New dictionary:
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violette</string>
     <!-- Theme name for UP Dark theme -->
     <string name="theme_name_up_dark" tools:keep="@string/theme_name_up_dark">UP Dark</string>
+    <!-- Theme name for UP Light theme -->
+    <string name="theme_name_up_light" tools:keep="@string/theme_name_up_light">UP Light</string>
     <!-- Theme name for user-defined theme -->
     <string name="theme_name_user" tools:keep="@string/theme_name_user">User-Defined</string>
     <!-- Theme name for user-defined theme night mode theme -->

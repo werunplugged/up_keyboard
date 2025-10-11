@@ -375,6 +375,15 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         if (DEBUG_ACTION) {
             Log.d(TAG, "setVoiceKeyboard");
         }
+
+        // Check if voice input view is available before switching
+        if (mVoiceInputView == null) {
+            Log.w(TAG, "Voice input view is not initialized, falling back to alphabet keyboard");
+            // Fall back to alphabet keyboard to prevent white screen
+            setAlphabetKeyboard();
+            return;
+        }
+
         mMainKeyboardFrame.setVisibility(View.VISIBLE);
         // Hide main keyboard and other views
         mKeyboardView.setVisibility(View.GONE);
@@ -386,10 +395,8 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         mClipboardHistoryView.setVisibility(View.GONE);
 
         // Show voice input view
-        if (mVoiceInputView != null) {
-            mVoiceInputView.setVisibility(View.VISIBLE);
-            mVoiceInputView.setAutoStartRecording(true);
-        }
+        mVoiceInputView.setVisibility(View.VISIBLE);
+        mVoiceInputView.setAutoStartRecording(true);
     }
 
     // Hide voice keyboard
