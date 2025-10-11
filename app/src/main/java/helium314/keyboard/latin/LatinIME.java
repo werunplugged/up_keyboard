@@ -1666,11 +1666,13 @@ public class LatinIME extends InputMethodService implements
                         mKeyboardSwitcher.getVoiceInputView();
                     if (voiceView != null) {
                         mVoiceInputManager.initializeVoiceView(voiceView);
+                        // Show voice keyboard only if voice view is available
+                        mKeyboardSwitcher.setVoiceKeyboard();
+                        mVoiceInputManager.showVoiceInput(languageHintString);
+                    } else {
+                        Log.e(TAG, "[VOICE] Voice input view is null, cannot show voice keyboard");
+                        // Stay on current keyboard to prevent white screen
                     }
-
-                    // Show voice keyboard
-                    mKeyboardSwitcher.setVoiceKeyboard();
-                    mVoiceInputManager.showVoiceInput(languageHintString);
                 }
             } else {
                 // Use external voice input (legacy behavior)

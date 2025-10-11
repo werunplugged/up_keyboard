@@ -64,6 +64,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val THEME_SAND = "sand"
         const val THEME_VIOLETTE = "violette"
         const val THEME_UP_DARK = "up_dark"
+        const val THEME_UP_LIGHT = "up_light"
         fun getAvailableDefaultColors(prefs: SharedPreferences, isNight: Boolean) = listOfNotNull(
             if (!isNight) THEME_LIGHT else null, THEME_DARK,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_DYNAMIC else null,
@@ -80,7 +81,8 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             THEME_OCEAN,
             if (!isNight) THEME_SAND else null,
             THEME_VIOLETTE,
-            THEME_UP_DARK
+            THEME_UP_DARK,
+            if (!isNight) THEME_UP_LIGHT else null
         )
         val STYLES = arrayOf(STYLE_MATERIAL, STYLE_HOLO, STYLE_ROUNDED)
 
@@ -346,6 +348,18 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     Color.rgb(100, 100, 100),   // spacebar background
                     Color.rgb(255, 255, 255),   // key text
                     Color.rgb(255, 255, 255),   // key hint text
+                    keyboardBackground = backgroundImage
+                )
+                THEME_UP_LIGHT -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    Color.rgb(71, 92, 199),      // Blue accent from UP_DARK
+                    ContextCompat.getColor(context, R.color.keyboard_background_lxx_light_border),
+                    ContextCompat.getColor(context, R.color.key_background_normal_lxx_light_border),
+                    ContextCompat.getColor(context, R.color.key_background_functional_lxx_light_border),
+                    ContextCompat.getColor(context, R.color.key_background_normal_lxx_light_border),
+                    ContextCompat.getColor(context, R.color.key_text_color_lxx_light),
+                    ContextCompat.getColor(context, R.color.key_hint_letter_color_lxx_light),
                     keyboardBackground = backgroundImage
                 )
                 else -> { // user-defined theme
