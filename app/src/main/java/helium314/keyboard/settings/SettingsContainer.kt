@@ -75,7 +75,6 @@ object SettingsWithoutKey {
     const val LICENSE = "license"
     const val HIDDEN_FEATURES = "hidden_features"
     const val GITHUB = "github"
-    const val GITHUB_WIKI = "github_wiki"
     const val SAVE_LOG = "save_log"
     const val BACKUP_RESTORE = "backup_restore"
     const val DEBUG_SETTINGS = "screen_debug"
