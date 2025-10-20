@@ -1,14 +1,13 @@
-# HeliBoard
-HeliBoard is a privacy-conscious and customizable open-source keyboard, based on AOSP / OpenBoard.
-Does not use internet permission, and thus is 100% offline.
+# UP Keyboard
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/helium314.keyboard/)
-[<img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Get APK from GitHub" height="80">](https://github.com/Helium314/HeliBoard/releases/latest)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80">](https://apt.izzysoft.de/fdroid/index/apk/helium314.keyboard)
+UP Keyboard is a privacy-focused fork of [HeliBoard](https://github.com/Helium314/HeliBoard), specifically developed for Unplugged devices. Built on HeliBoard's solid foundation (which itself is based on AOSP / OpenBoard), UP Keyboard extends the feature set with advanced offline voice recognition capabilities and thoughtful improvements tailored for the Unplugged ecosystem.
+
+Like its predecessor, UP Keyboard does not use internet permission and operates 100% offline, ensuring your privacy is never compromised.
 
 ## Table of Contents
 
-- [Features](#features)
+- [Key Features (Unplugged Additions)](#key-features-unplugged-additions)
+- [Core Features (Inherited from HeliBoard)](#core-features-inherited-from-heliboard)
 - [Contributing](#contributing-)
    * [Reporting Issues](#reporting-issues)
    * [Translations](#translations)
@@ -17,7 +16,29 @@ Does not use internet permission, and thus is 100% offline.
 - [License](#license)
 - [Credits](#credits)
 
-# Features
+# Key Features (Unplugged Additions)
+
+UP Keyboard builds upon HeliBoard with the following major enhancements:
+
+## Built-in Offline Voice Recognition
+- **Local Speech-to-Text**: Integrated Whisper/GGML engine for completely offline voice recognition
+- **No Cloud Dependencies**: All voice processing happens on-device, ensuring complete privacy
+- **System-wide Service**: Acts as a system voice recognition service, allowing other apps to leverage UP Keyboard's voice input capabilities
+- **Visual Feedback**: Custom voice input UI with waveform visualizer, countdown timer, and clear status indicators
+
+## Advanced Voice Features
+- **Voice Activity Detection (VAD)**: Intelligent detection of speech start/end for improved voice input experience
+- **Multilingual Recognition**: Support for multiple languages with automatic language detection
+- **Configurable Voice Settings**: Fine-tune voice input behavior to match your preferences
+
+## Flexible Language Settings
+- **Dual Settings Modes**: Choose between using system languages or manual language selection
+- **Language Detection**: Improved language detection and handling for multilingual typing
+
+## Enhanced Layouts
+- **iOS-style Keyboard Layouts**: Optional iOS-style functional and symbol keyboard layouts with prominent emoji and language switch keys
+
+# Core Features (Inherited from HeliBoard)
 <ul>
   <li>Add dictionaries for suggestions and spell check</li>
   <ul>
@@ -45,20 +66,29 @@ Does not use internet permission, and thus is 100% offline.
   <li>Backup and restore your settings and learned word / history data</li>
 </ul>
 
-For [FAQ](https://github.com/Helium314/HeliBoard/wiki/FAQ) and more information about the app and features, please visit the [wiki](https://github.com/Helium314/HeliBoard/wiki)
+For more information about HeliBoard's core features, including FAQ and detailed documentation, please visit the [HeliBoard wiki](https://github.com/Helium314/HeliBoard/wiki)
 
 # Contributing ❤
 
+UP Keyboard is a fork of HeliBoard with Unplugged-specific enhancements. We welcome contributions!
+
 ## Reporting Issues
 
-Whether you encountered a bug, or want to see a new feature in HeliBoard, you can contribute to the project by opening a new issue [here](https://github.com/Helium314/HeliBoard/issues). Your help is always welcome!
+Whether you encountered a bug, or want to see a new feature in UP Keyboard, you can contribute to the project. Your help is always welcome!
+
+**For UP Keyboard specific features** (voice recognition, Unplugged-specific improvements):
+- Please open issues in this repository
+
+**For core keyboard functionality** inherited from HeliBoard:
+- Consider reporting to the [upstream HeliBoard project](https://github.com/Helium314/HeliBoard/issues) so all users can benefit
 
 Before opening a new issue, be sure to check the following:
- - **Does the issue already exist?** Make sure a similar issue has not been reported by browsing [existing issues](https://github.com/Helium314/HeliBoard/issues?q=). Please search open and closed issues.
- - **Is the issue still relevant?** Make sure your issue is not already fixed in the latest version of HeliBoard.
+ - **Does the issue already exist?** Make sure a similar issue has not been reported by browsing existing issues. Please search open and closed issues.
+ - **Is the issue still relevant?** Make sure your issue is not already fixed in the latest version.
  - **Is it a single topic?** If you want to suggest multiple things, open multiple issues.
  - **Did you use the issue template?** It is important to make life of our kind contributors easier by avoiding issues that miss key information to their resolution.
-Note that issues that that ignore part of the issue template will likely get treated with very low priority, as often they are needlessly hard to read or understand (e.g. huge screenshots, not providing a proper description, or addressing multiple topics). Blatant violation of the guidelines may result in the issue getting closed.
+
+Note that issues that ignore part of the issue template will likely get treated with very low priority, as often they are needlessly hard to read or understand (e.g. huge screenshots, not providing a proper description, or addressing multiple topics). Blatant violation of the guidelines may result in the issue getting closed.
 
 If you're interested, you can read the following useful text about effective bug reporting (a bit longer read): https://www.chiark.greenend.org.uk/~sgtatham/bugs.html
 
@@ -89,7 +119,7 @@ See [Contribution Guidelines](CONTRIBUTING.md)
 
 # License
 
-HeliBoard (as a fork of OpenBoard) is licensed under GNU General Public License v3.0.
+UP Keyboard (as a fork of HeliBoard, which is itself a fork of OpenBoard) is licensed under GNU General Public License v3.0.
 
  > Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
 
@@ -98,7 +128,39 @@ See repo's [LICENSE](/LICENSE) file.
 Since the app is based on Apache 2.0 licensed AOSP Keyboard, an [Apache 2.0](LICENSE-Apache-2.0) license file is provided.
 The icon is licensed under [Creative Commons BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). A [license file](LICENSE-CC-BY-SA-4.0) is also included.
 
+## Third-Party Libraries for Voice Features
+
+The voice recognition and voice activity detection features use the following libraries with their respective licenses:
+
+**Speech Recognition:**
+- **OpenAI Whisper Models** - Pre-trained speech recognition model weights (MIT License)
+  - Reference: https://github.com/openai/whisper/blob/main/LICENSE
+- **FUTO ACFT-Finetuned Whisper Models** - Optimized for mobile with dynamic audio context (Apache-2.0 License)
+  - Reference: https://huggingface.co/collections/futo-org/whisper-acft-667c430f8de3a22b73151d74
+  - ACFT optimization: https://github.com/futo-org/whisper-acft
+- **Whisper.cpp / GGML** - C/C++ implementation for running Whisper models (MIT License)
+  - Reference: https://github.com/ggml-org/whisper.cpp
+
+**Voice Activity Detection:**
+- **android-vad by Georgiy Konovalov** - Voice activity detection library (MIT License)
+  - Reference: https://github.com/gkonovalov/android-vad
+- **WebRTC VAD** - Underlying VAD implementation (BSD-style license)
+
+These third-party libraries retain their original licenses and copyrights.
+
 # Credits
+
+## UP Keyboard Specific
+- **Unplugged Team** - Voice recognition integration and Unplugged-specific enhancements
+- **OpenAI** - [Whisper](https://github.com/openai/whisper) base models and pre-trained weights for speech recognition
+- **FUTO** - [ACFT-finetuned Whisper models](https://huggingface.co/collections/futo-org/whisper-acft-667c430f8de3a22b73151d74) optimized for on-device mobile use with dynamic audio context
+- [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) - C/C++ port of Whisper for efficient on-device inference
+- [GGML](https://github.com/ggerganov/ggml) - Machine learning library for efficient inference
+- [android-vad](https://github.com/gkonovalov/android-vad) by Georgiy Konovalov - Voice activity detection library
+- [WebRTC](https://webrtc.org/) - Voice activity detection implementation
+
+## HeliBoard and Upstream Projects
+- [HeliBoard](https://github.com/Helium314/HeliBoard) - The upstream keyboard project this fork is based on
 - Icon by [Fabian OvrWrt](https://github.com/FabianOvrWrt) with contributions from [The Eclectic Dyslexic](https://github.com/the-eclectic-dyslexic)
 - [OpenBoard](https://github.com/openboard-team/openboard)
 - [AOSP Keyboard](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/)
@@ -106,4 +168,4 @@ The icon is licensed under [Creative Commons BY-SA 4.0](https://creativecommons.
 - [Simple Keyboard](https://github.com/rkkr/simple-keyboard)
 - [Indic Keyboard](https://gitlab.com/indicproject/indic-keyboard)
 - [FlorisBoard](https://github.com/florisboard/florisboard/)
-- Our [contributors](https://github.com/Helium314/HeliBoard/graphs/contributors)
+- [HeliBoard contributors](https://github.com/Helium314/HeliBoard/graphs/contributors)
