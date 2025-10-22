@@ -6,7 +6,16 @@
       "Bash(./gradlew:*)",
       "Bash(taskkill:*)",
       "Read(//d/Dev/UP-IME-Keyboard/**)",
-      "Read(//d/**)"
+      "Read(//d/**)",
+      "WebSearch",
+      "WebFetch(domain:android.googlesource.com)",
+      "Bash(git log:*)",
+      "Bash(git show a18fe13e --format=fuller)",
+      "Bash(xxd \"D:\\Dev\\up_keyboard\\app\\src\\main\\assets\\voice\\voice-input-english-39.bin.tflite\")",
+      "WebFetch(domain:keyboard.futo.org)",
+      "Bash(cat \"D:\\Dev\\up_keyboard\\README.md\")",
+      "Bash(cat -A)",
+      "Bash(adb logcat -c)"
     ],
     "deny": [],
     "ask": []
