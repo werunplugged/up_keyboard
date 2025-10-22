@@ -5,7 +5,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -61,8 +64,33 @@ public class Recorder {
 
     private final Thread workerThread;
 
+    // Audio focus management
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private AudioFocusRequest audioFocusRequest;
+    private boolean hasAudioFocus = false;
+
     public Recorder(Context context) {
         this.mContext = context.getApplicationContext();
+
+        // Initialize audio focus change listener
+        audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                switch (focusChange) {
+                    case AudioManager.AUDIOFOCUS_LOSS:
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        // Lost audio focus - stop recording if in progress
+                        Log.d(TAG, "Audio focus lost, stopping recording");
+                        if (mInProgress.get()) {
+                            stop();
+                        }
+                        break;
+                    case AudioManager.AUDIOFOCUS_GAIN:
+                        Log.d(TAG, "Audio focus gained");
+                        break;
+                }
+            }
+        };
 
         // Initialize and start the worker thread
         workerThread = new Thread(this::recordLoop);
@@ -191,7 +219,42 @@ public class Recorder {
         if (bufferSize < VAD_FRAME_SIZE * 2) bufferSize = VAD_FRAME_SIZE * 2; // Ensure buffer supports VAD frame size
 
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        
+
+        // Request audio focus to pause other audio playback completely
+        int result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Use modern AudioFocusRequest API for API 26+
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+
+            audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
+                    .setAudioAttributes(audioAttributes)
+                    .setOnAudioFocusChangeListener(audioFocusChangeListener)
+                    .setAcceptsDelayedFocusGain(false)
+                    .setWillPauseWhenDucked(false)
+                    .build();
+
+            result = audioManager.requestAudioFocus(audioFocusRequest);
+            Log.d(TAG, "Requesting audio focus with AudioFocusRequest API");
+        } else {
+            // Fallback to deprecated API for older devices
+            result = audioManager.requestAudioFocus(
+                audioFocusChangeListener,
+                AudioManager.STREAM_VOICE_CALL,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE
+            );
+            Log.d(TAG, "Requesting audio focus with deprecated API");
+        }
+
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            hasAudioFocus = true;
+            Log.d(TAG, "Audio focus granted - other audio should pause");
+        } else {
+            Log.w(TAG, "Audio focus request failed - continuing anyway");
+        }
+
         // Optional: Enable Bluetooth SCO for Bluetooth headset recording
         try {
             audioManager.startBluetoothSco();
@@ -306,12 +369,24 @@ public class Recorder {
                 audioRecord.stop();
                 audioRecord.release();
             }
-            
+
             try {
                 audioManager.stopBluetoothSco();
                 audioManager.setBluetoothScoOn(false);
             } catch (Exception e) {
                 Log.w(TAG, "Error stopping Bluetooth SCO", e);
+            }
+
+            // Release audio focus to allow other audio to resume
+            if (hasAudioFocus) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && audioFocusRequest != null) {
+                    audioManager.abandonAudioFocusRequest(audioFocusRequest);
+                    Log.d(TAG, "Audio focus abandoned (modern API) - other audio can resume");
+                } else {
+                    audioManager.abandonAudioFocus(audioFocusChangeListener);
+                    Log.d(TAG, "Audio focus abandoned (legacy API) - other audio can resume");
+                }
+                hasAudioFocus = false;
             }
 
             // Notify the waiting thread that recording is complete
