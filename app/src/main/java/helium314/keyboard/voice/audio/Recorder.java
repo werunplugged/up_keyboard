@@ -277,8 +277,8 @@ public class Recorder {
             audioRecord = builder.build();
             audioRecord.startRecording();
 
-            // Calculate maximum byte counts for 30 seconds
-            int bytesForThirtySeconds = sampleRateInHz * bytesPerSample * channels * 30;
+            // Calculate maximum byte counts for 60 seconds
+            int bytesForSixtySeconds = sampleRateInHz * bytesPerSample * channels * 60;
 
             ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
 
@@ -296,7 +296,7 @@ public class Recorder {
 
             boolean hasNotifiedRecording = false;
 
-            while (mInProgress.get() && totalBytesRead < bytesForThirtySeconds) {
+            while (mInProgress.get() && totalBytesRead < bytesForSixtySeconds) {
                 int bytesRead = audioRecord.read(audioData, 0, VAD_FRAME_SIZE * 2);
                 if (bytesRead > 0) {
                     outputBuffer.write(audioData, 0, bytesRead);
@@ -355,7 +355,7 @@ public class Recorder {
                 Log.d(TAG, "Closing VAD");
             }
 
-            // Save recorded audio data to BufferStore (up to 30 seconds)
+            // Save recorded audio data to BufferStore (up to 60 seconds)
             RecordBuffer.setOutputBuffer(outputBuffer.toByteArray());
 
             if (totalBytesRead > 6400) {  // min 0.2s of audio
