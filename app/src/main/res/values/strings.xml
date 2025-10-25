@@ -930,7 +930,7 @@ New dictionary:
 
     <!-- Voice input strings -->
     <string name="voice_tap_to_speak">Tap to speak</string>
-    <string name="voice_listening">Listening...</string>
+    <string name="voice_listening">Transcribing...</string>
     <string name="voice_processing">Processing...</string>
     <string name="voice_success">Success</string>
     <string name="voice_stop_recording">Stop recording</string>
