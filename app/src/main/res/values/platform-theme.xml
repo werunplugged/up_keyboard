@@ -32,5 +32,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:textColorPrimary">@color/foreground</item>
+        <item name="android:colorAccent">@color/accent</item>
     </style>
 </resources>
