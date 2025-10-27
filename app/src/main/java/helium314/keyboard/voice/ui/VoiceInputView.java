@@ -64,6 +64,7 @@ public class VoiceInputView extends FrameLayout {
 
     // IME Support
     private InputMethodService inputMethodService = null;
+    private boolean autoStartRecording = false;
     private boolean autoCommitAndSwitch = false;
 
     // Listener
