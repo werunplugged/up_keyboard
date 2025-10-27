@@ -24,7 +24,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/voice_tap_to_speak"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="@color/foreground" />
     
     <!-- Partial transcription text -->
     <TextView
@@ -37,7 +37,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/colorAccent"
+        android:textColor="@color/accent"
         android:visibility="gone" />
 
     <!-- Container for action items (stop button, checkmark, spinner, countdown timer) -->
