@@ -7,5 +7,5 @@
   <!-- Replace this with your custom background (gradient or solid color) -->
   <path
       android:pathData="M0,0L108,0L108,108L0,108Z"
-      android:fillColor="#E0E0E0"/>
+      android:fillColor="#7B68EE"/>
 </vector>
