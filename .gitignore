@@ -112,3 +112,7 @@ Gemfile
 
 # Voice model files (large binary files)
 app/src/main/assets/voice/*.bin
+
+# Claude Code configuration
+CLAUDE.md
+.claude/
