@@ -17,7 +17,7 @@
     <string name="enable_split_keyboard">"Увімкнути розділену клавіатуру"</string>
     <string name="language_switch_key_switch_input_method">Зміна методів введення</string>
     <string name="show_language_switch_key">"Клавіша зміни мови"</string>
-    <string name="abbreviation_unit_milliseconds">%s мс.</string>
+    <string name="abbreviation_unit_milliseconds">%s мілісекунд</string>
     <string name="settings_system_default">Типово</string>
     <string name="use_contacts_dict_summary">"Показувати виправлення на основі імен зі списку контактів"</string>
     <string name="use_personalized_dicts">"Персональні пропозиції"</string>
@@ -70,10 +70,10 @@
     <string name="setup_start_action">Розпочати</string>
     <string name="setup_steps_title">Налаштування%s</string>
     <string name="setup_step1_title">Увімкнути%s</string>
-    <string name="setup_step1_instruction">Перевірте застосунок \\%s у налаштуваннях «Мова та введення». Це дозволить йому працювати на вашому пристрої.</string>
+    <string name="setup_step1_instruction">Перевірте застосунок \"%s\" у налаштуваннях «Мова та введення». Це дозволить йому працювати на вашому пристрої.</string>
     <string name="setup_step1_action">Увімкнути в налаштуваннях</string>
     <string name="setup_step2_title">Перемкнути на%s</string>
-    <string name="setup_step2_instruction">Виберіть \\%s поточним методом введення.</string>
+    <string name="setup_step2_instruction">Виберіть %s поточним методом введення.</string>
     <string name="setup_step2_action">Змінити метод введення</string>
     <string name="setup_step3_title">Вітаємо, налаштування завершено!</string>
     <string name="setup_step3_instruction">Тепер ви можете писати в усіх улюблених застосунках за допомогою %s.</string>
@@ -82,11 +82,9 @@
     <string name="show_setup_wizard_icon_summary">Відображати піктограму програми нв лаунчері</string>
     <string name="dictionary_category_title">Додаткові словники</string>
     <string name="dictionary_available">Словник доступний</string>
-    <string name="last_update">Останнє оновлення</string>
     <string name="settings">Налаштування</string>
     <string name="delete">Видалити</string>
-    <string name="version_text">Версія %1$s</string>
-    <string name="user_dict_settings_add_dialog_title">Додати в словник</string>
+    <string name="version_text">Версія %s</string>
     <string name="user_dict_settings_add_shortcut_option_name">"Ярлик:"</string>
     <string name="user_dict_settings_add_locale_option_name">"Мова:"</string>
     <string name="user_dict_settings_add_word_hint">Введіть слово</string>
@@ -94,7 +92,6 @@
     <string name="user_dict_settings_edit_dialog_title">Редагувати слово</string>
     <string name="user_dict_settings_all_languages">Для всіх мов</string>
     <string name="user_dict_settings_more_languages">"Інші мови…"</string>
-    <string name="user_dict_fast_scroll_alphabet">" АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ"</string>
     <string name="ime_settings">Налаштування HeliBoard</string>
     <string name="day_night_mode_summary">Вигляд наслідує системні налаштування</string>
     <string name="autospace_after_punctuation_summary">Автоматично вставляти пробіл після знаків пунктуації під час введення нового слова</string>
@@ -114,7 +111,7 @@
     <string name="settings_category_miscellaneous">Різне</string>
     <string name="show_emoji_key">Клавіша емоджі</string>
     <string name="settings_no_limit">Без обмежень</string>
-    <string name="abbreviation_unit_minutes">%s хв.</string>
+    <string name="abbreviation_unit_minutes">%s хвилин</string>
     <string name="enable_clipboard_history">Увімкнути історію буфера обміну</string>
     <string name="enable_clipboard_history_summary">Якщо вимкнено, клавіша буфера обміну вставляє вміст, якщо він є</string>
     <string name="clipboard_history_retention_time">Час зберігання історії</string>
@@ -124,9 +121,7 @@
     <string name="theme_name_darker">Сіра</string>
     <string name="theme_name_black">Чорна</string>
     <string name="theme_name_user">Користувацька</string>
-    <string name="theme_name_user_night">Користувацька (темна)</string>
     <string name="auto_user_color">Автоматичний вибір кольору</string>
-    <string name="select_user_colors_summary">Виберіть кольори для тексту та фону</string>
     <string name="select_color_background">Фон клавіатури</string>
     <string name="select_color_key">Текст клавіш</string>
     <string name="select_color_key_hint">Текст спецсимволів клавіш</string>
@@ -139,8 +134,7 @@
     <string name="version">Версія</string>
     <string name="about_github_link">Подивитися на GitHub</string>
     <string name="license">Ліцензія з відкритим кодом</string>
-    <string name="gnu_gpl">GNU General Public License v3.0</string>
-    <string name="use_system_language_to_select_input_method_subtypes">Використовувати мови системи</string>
+    <string name="gnu_gpl">Загальна публічна ліцензія GNU версії 3.0</string>
     <string name="dialog_close">Закрити</string>
     <string name="text_tap_languages">Натисніть мову, щоб відкрити налаштування</string>
     <string name="hidden_features_title">Опис прихованих функцій</string>
@@ -188,7 +182,7 @@
     <string name="language_and_layouts_title">Мови та розкладки</string>
     <string name="add_to_personal_dictionary">Додати слова до особистого словника</string>
     <string name="split_spacer_scale">Відстань розділення</string>
-    <string name="switch_language">Зміна мови</string>
+    <string name="switch_language">Змінити мову</string>
     <string name="disable_personalized_dicts_message">Попередження: Вимкнення цього параметра призведе до видалення отриманих даних</string>
     <string name="language_switch_key_switch_both">Зміна обох</string>
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Хмарний</string>
@@ -258,7 +252,6 @@
     <string name="layout_phone" tools:keep="@string/layout_phone">Телефон</string>
     <string name="button_load_custom">Завантажити файл</string>
     <string name="file_read_error">Неможливо прочитати файл</string>
-    <string name="button_copy_existing_layout">Копіювати поточну розкладку</string>
     <string name="delete_layout">Справді видалити власну розкладку %s?</string>
     <string name="layout_error">Помилка розкладки: %s</string>
     <string name="subtype_probhat_bn_BD">%s (Пробгат)</string>
@@ -271,7 +264,6 @@
     <string name="dictionary_link_text">тут</string>
     <string name="available_dictionary_experimental">%s (експериментальний)</string>
     <string name="dictionary_file_error">Помилка: вибраний файл не є коректним словником</string>
-    <string name="dictionary_file_wrong_locale">Вибраний файл призначений для %1$s, але очікувався %2$s. Ви все ще використовуєте його для %2$s?</string>
     <string name="all_colors">Показувати усі кольори</string>
     <string name="select_color_suggestion">Текст смуги пропозицій</string>
     <string name="hidden_features_text">сховище, захищене пристроєм</string>
@@ -287,7 +279,6 @@
     <string name="no_dictionary_dont_show_again_button">Більше не показувати</string>
     <string name="add_dictionary">Виберіть, щоб додати словник. Словники у форматі .dict можна завантажити у %s.</string>
     <string name="dictionary_file_wrong_script">Помилка: скрипт несумісний із цією клавіатурою</string>
-    <string name="dictionary_file_wrong_locale_ok">Все ще використовується</string>
     <string name="dictionary_load_error">Помилка завантаження файлу словника</string>
     <string name="user_dict_settings_add_weight_value">Вага:</string>
     <string name="user_dict_word_already_present">Це слово вже є у словнику користувача %s. Будь ласка, введіть інше.</string>
@@ -297,7 +288,7 @@
     <string name="show_horizontal_space_swipe">Горизонтальний свайп по пробілу</string>
     <string name="show_vertical_space_swipe">Вертикальний свайп по пробілу</string>
     <string name="action_none">Бездіяльність</string>
-    <string name="space_swipe_move_cursor_entry">Переміщення курсору</string>
+    <string name="space_swipe_move_cursor_entry">Перемістити курсор</string>
     <string name="main_colors">Показувати лише основні кольори</string>
     <string name="replace_dictionary_message">Замінити словник користувача «%1$s»?\n\nПоточний словник:\n%2$s\n\nНовий словник:\n%3$s</string>
     <string name="no_dictionary_message">"Без словника ви отримуватимете пропозиції лише для попередньо введеного тексту.&lt;br&gt;\n        Ви можете завантажити словники %1$s або перевірити, чи може словник для «%2$s» завантажити безпосередньо %3$s."</string>
@@ -377,7 +368,6 @@
     <string name="label_bin" tools:keep="@string/label_bin">Смітник</string>
     <string name="customize_icons_reset_message">Дійсно скинути всі персоналізовані значки?</string>
     <string name="vibrate_in_dnd_mode">Вібрація в режимі «Не турбувати»</string>
-    <string name="split_spacer_scale_landscape">Відстань розділення (альбомна)</string>
     <string name="subtype_dru">Даргинська (Урахі)</string>
     <string name="split" tools:keep="@string/split">Розділена клавіатура</string>
     <string name="enable_split_keyboard_landscape">Увімкнути розділену клавіатуру (альбомну)</string>
@@ -389,15 +379,59 @@
     <string name="prefs_key_emoji_max_sdk">Перевизначити версію емоджі</string>
     <string name="custom_font">Встановити власний шрифт з файлу</string>
     <string name="customize_toolbar_key_code_reset_message">Ви дійсно хочете очистити всі налаштовані коди клавіш?</string>
-    <string name="prefs_bottom_padding_scale_landscape">Шкала нижнього відступу (альбомна)</string>
     <string name="prefs_font_scale">Шкала шрифту клавіатури</string>
     <string name="prefs_emoji_font_scale">Шкала шрифту перегляду емоджі</string>
     <string name="prefs_side_padding_scale">Шкала бічного відступу</string>
-    <string name="prefs_side_padding_scale_landscape">Шкала бічного відступу (альбомна)</string>
     <string name="number_row_hints">Показувати підказки в рядку з цифрами</string>
     <string name="prefs_language_swipe_distance">Відстань проведення для перемикання мови</string>
-    <string name="show_emoji_descriptions_summary">Потрібен словник емодзі</string>
     <string name="suggest_emojis">Запропонувати емодзі</string>
-    <string name="suggest_emojis_summary">Використовуйте словник емодзі у звичайних реченнях</string>
+    <string name="suggest_emojis_summary">Пропонувати емодзі зі словника у підказках в горі клавіатури</string>
     <string name="show_emoji_descriptions">Показати опис емодзі при тривалому натисканні</string>
+    <string name="settings_category_space">Пробіл</string>
+    <string name="use_apps_dict">Пропонувати назви програм</string>
+    <string name="use_apps_dict_summary">Використовувати назви встановлених програм для пропозицій та виправлень</string>
+    <string name="prefs_always_show_suggestions_except_web_text">Не завжди показувати підказки для текстових полів на вебсторінках</string>
+    <string name="prefs_always_show_suggestions_except_web_text_summary">Поля редагування вебсторінок (здебільшого розташовані в браузерах) є дуже поширеною причиною проблем із налаштуванням «завжди показувати пропозиції»</string>
+    <string name="backspace_reverts_autocorrect">Скасовувати автовиправлення за допомогою Backspace</string>
+    <string name="suggest_punctuation">Пропозиції щодо пунктуації</string>
+    <string name="suggest_punctuation_summary">Показувати розділові знаки, коли немає інших пропозицій</string>
+    <string name="backup_restored">Резервна копія відновлена успішно</string>
+    <string name="timestamp_format_title">Формат дати та часу</string>
+    <string name="locales_with_dict">Мови зі словниками</string>
+    <string name="autospace_after_suggestion">Автоматичне додавання пробілу після вибору пропозиції</string>
+    <string name="autospace_before_gesture_typing">Автопробіл перед жестовим введенням слова</string>
+    <string name="autospace_after_gesture_typing">Автопробіл після жестового введення слова</string>
+    <string name="shift_removes_autospace">Не вставляти автопробіл коли натиснуто Shift</string>
+    <string name="shift_removes_autospace_summary">Shift видаляє запланований автопробіл</string>
+    <string name="popup_order_and_hint_source">Порядок спливних клавіш та джерело підказок</string>
+    <string name="show_tld_popup_keys">Показати спливні клавіші TLD</string>
+    <string name="show_tld_popup_keys_summary">При утриманні крапки під час введення в полі адреси URL або Email будуть з\'являтися такі підказки як \".com, .ua, .net\". Замість символів які спливають при натисненні крапки зазвичай</string>
+    <string name="toolbar_mode">Режим панелі інструментів</string>
+    <string name="toolbar_mode_expandable">Панель інструментів та підказки</string>
+    <string name="toolbar_mode_toolbar_keys">Лише панель інструментів</string>
+    <string name="toolbar_mode_suggestion_strip">Лише підказки</string>
+    <string name="toolbar_mode_hidden">Приховано</string>
+    <string name="toolbar_hiding_global">Приховати панелі інструментів буфера обміну та емодзі</string>
+    <string name="prefs_emoji_key_fit">Масштабувати розмір клавіші емодзі залежно від розміру шрифту</string>
+    <string name="prefs_emoji_skin_tone">Тон шкіри емодзі за замовчуванням</string>
+    <string name="prefs_emoji_skin_tone_neutral">Нейтральний (жовтий)</string>
+    <string name="subtype_dag">Дагбані</string>
+    <string name="subtype_st">Сесото</string>
+    <string name="subtype_with_layout_generic">Мова: %1$s. Розкладка: %2$s</string>
+    <string name="subtype_baishakhi_bn_IN">%s (Байшахі)</string>
+    <string name="layout_in_use">Увага: цей макет наразі використовується</string>
+    <string name="settings_screen_secondary_layouts">Додаткові макети</string>
+    <string name="layout_functional_keys_tablet" tools:keep="@string/layout_functional_keys_tablet">Функціональні клавіші (великий екран)</string>
+    <string name="layout_number_row_basic" tools:keep="@string/layout_number_row_basic">Ряд цифр (базовий)</string>
+    <string name="after_numpad_and_space">Натискання Enter або пробілу після інших клавіш на цифровій клавіатурі</string>
+    <string name="get_colors_message">Ви можете знаходити та ділитися темами в %s .</string>
+    <string name="get_layouts_message">Ви можете знайти та поділитися макетами клавіатури в %s .</string>
+    <string name="discussion_section_link">обговорення</string>
+    <string name="about_wiki_link">Переглянути Вікі</string>
+    <string name="about_wiki_link_description">Вікі може бути покращена будь-яким користувачем GitHub!</string>
+    <string name="space_swipe_hide_keyboard_entry">Приховати клавіатуру</string>
+    <string name="delete_confirmation">Ви насправді хочете видалити %s ?</string>
+    <string name="name_invalid">Недійсне ім\'я</string>
+    <string name="custom_subtype">Власний макет</string>
+    <string name="landscape">Горизонтальна</string>
 </resources>

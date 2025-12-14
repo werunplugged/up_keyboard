@@ -1,3 +1,5 @@
+import com.android.build.api.variant.ApplicationVariant
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -12,8 +14,8 @@ android {
         applicationId = "com.unplugged.keyboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3307
-        versionName = "3.3.7"
+        versionCode = 3603
+        versionName = "3.6"
         ndk {
             abiFilters.clear()
             abiFilters.add("arm64-v8a")
@@ -53,6 +55,16 @@ android {
             applicationIdSuffix = ".debug"
         }
         base.archivesBaseName = "HeliBoard_" + defaultConfig.versionName
+        // got a little too big for GitHub after some dependency upgrades, so we remove the largest dictionary
+        androidComponents.onVariants { variant: ApplicationVariant ->
+            if (variant.buildType == "debug") {
+                variant.androidResources.ignoreAssetsPatterns = listOf("main_ro.dict")
+                variant.proguardFiles = emptyList()
+                //noinspection ProguardAndroidTxtUsage we intentionally use the "normal" file here
+                variant.proguardFiles.add(project.layout.buildDirectory.file(getDefaultProguardFile("proguard-android.txt").absolutePath))
+                variant.proguardFiles.add(project.layout.buildDirectory.file(project.buildFile.parent + "/proguard-rules.pro"))
+            }
+        }
     }
 
     buildFeatures {

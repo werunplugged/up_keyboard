@@ -82,5 +82,6 @@ object SettingsWithoutKey {
     const val BACKGROUND_IMAGE = "background_image"
     const val BACKGROUND_IMAGE_LANDSCAPE = "background_image_landscape"
     const val CUSTOM_FONT = "custom_font"
+    const val CUSTOM_EMOJI_FONT = "custom_emoji_font"
     const val VOICE_PERMISSION_STATUS = "voice_permission_status"
 }

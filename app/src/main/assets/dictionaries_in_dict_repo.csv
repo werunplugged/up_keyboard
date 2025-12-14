@@ -9,6 +9,7 @@ main,ar,
 main,ar,exp
 emoji,hy,cldr
 main,hy,
+main,hy_EAST,exp
 emoji,as,cldr
 main,as,
 emoji,ast,cldr
@@ -23,6 +24,7 @@ emoji,be,cldr
 main,be,
 emoji,bew,cldr
 emoji,bs,cldr
+main,bs,
 emoji,br,cldr
 emoji,bg,cldr
 main,bg,
@@ -159,6 +161,7 @@ emoji,mt,cldr
 emoji,mni,cldr
 emoji,mr,cldr
 main,mr,
+main,mwl,
 emoji,mn,cldr
 emoji,mi,cldr
 emoji,ne,cldr
@@ -177,6 +180,7 @@ main,or,
 emoji,om,cldr
 emoji,pap,cldr
 emoji,ps,cldr
+main,fa_IR,exp
 emoji,fa,cldr
 main,pms,exp
 emoji,pl,cldr
