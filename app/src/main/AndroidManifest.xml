@@ -75,6 +75,18 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
             </intent-filter>
         </activity>
 
+        <!-- Transcribe Activity (Share-to-Transcribe) -->
+        <activity android:name="helium314.keyboard.voice.transcribe.TranscribeActivity"
+                  android:label="@string/transcribe_share_label"
+                  android:exported="true"
+                  android:theme="@style/TranscribeActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+        </activity>
+
         <!-- Activities -->
         <activity android:name="helium314.keyboard.settings.SettingsActivity"
                 android:theme="@style/platformActivityTheme"

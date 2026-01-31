@@ -243,6 +243,37 @@ public class VoiceInputView extends FrameLayout {
      */
     public void setRecognitionEngine(VoiceRecognitionEngine engine) {
         if (recognitionEngine != null) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             recognitionEngine.cleanup();
         }
         this.recognitionEngine = engine;
