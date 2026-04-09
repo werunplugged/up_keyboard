@@ -48,7 +48,7 @@ object Defaults {
     const val PREF_THEME_KEY_BORDERS = true
     @JvmField
     val PREF_THEME_DAY_NIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-    const val PREF_KEYBOARD_LAYOUT_MODE = "android" // "android" or "ios"
+    const val PREF_KEYBOARD_LAYOUT_MODE = "ios" // "android" or "ios"
     const val PREF_CUSTOM_ICON_NAMES = ""
     const val PREF_TOOLBAR_CUSTOM_KEY_CODES = ""
     const val PREF_AUTO_CAP = true
