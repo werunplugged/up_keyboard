@@ -1429,7 +1429,7 @@ public class LatinIME extends InputMethodService implements
                 if (mVoiceInputManager != null && mKeyboardSwitcher != null) {
                     // Get all enabled keyboard languages for voice recognition
                     final List<InputMethodSubtype> enabledSubtypes =
-                        mRichImm.getMyEnabledInputMethodSubtypes(true);
+                        SubtypeSettings.INSTANCE.getEnabledSubtypes(true);
                     Log.d(TAG, "[VOICE] Number of enabled subtypes: " + enabledSubtypes.size());
 
                     final StringBuilder languageHints = new StringBuilder();

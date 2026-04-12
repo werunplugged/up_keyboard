@@ -144,16 +144,16 @@ public abstract class AndroidWordLevelSpellCheckerSession extends Session {
             if (imm != null) {
                 final InputMethodSubtype currentInputMethodSubtype = imm.getCurrentInputMethodSubtype();
                 if (currentInputMethodSubtype != null) {
+                    // HeliBoard uses a dummy subtype with "dummy" extra value, and manages
+                    // actual languages internally. Check for this first.
+                    if ("dummy".equals(currentInputMethodSubtype.getExtraValue())) {
+                        final SharedPreferences prefs = KtxKt.prefs(mService);
+                        return SubtypeSettings.INSTANCE.getSelectedSubtype(prefs).getLocale();
+                    }
                     final String localeString = currentInputMethodSubtype.getLocale();
                     if (!TextUtils.isEmpty(localeString)) {
                         // Use keyboard locale if available in the spell checker
                         return localeString;
-                    }
-                    // localeString for this app is always empty, get it from settings if possible
-                    // and we're sure this app is used
-                    if ("dummy".equals(currentInputMethodSubtype.getExtraValue())) {
-                        final SharedPreferences prefs = KtxKt.prefs(mService);
-                        return SubtypeSettings.INSTANCE.getSelectedSubtype(prefs).getLocale();
                     }
                 }
             }
