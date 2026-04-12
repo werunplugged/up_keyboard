@@ -142,22 +142,37 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         }
 
         // toolbar keys setup
-        val toolbarKeyLayoutParams = LinearLayout.LayoutParams(
-            resources.getDimensionPixelSize(R.dimen.config_suggestions_strip_edge_key_width),
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
+        // Calculate key width so icons always fill the available width.
+        // A maximum of MAX_TOOLBAR_KEYS_IN_ROW icons fit at their minimum size;
+        // fewer icons get more space each. If there are more, they keep the
+        // minimum size and the toolbar scrolls.
+        val MAX_TOOLBAR_KEYS_IN_ROW = 8
+        val expandKeyWidth = toolbarHeight // expand key is square, set above
+        val screenWidth = resources.displayMetrics.widthPixels
+        val availableWidth = screenWidth - expandKeyWidth
+        val minKeyWidth = availableWidth / MAX_TOOLBAR_KEYS_IN_ROW
         if (mToolbarMode == ToolbarMode.TOOLBAR_KEYS || mToolbarMode == ToolbarMode.EXPANDABLE) {
-            for (key in getEnabledToolbarKeys(context.prefs())) {
+            val enabledKeys = getEnabledToolbarKeys(context.prefs())
+            val keyWidth = if (enabledKeys.size <= MAX_TOOLBAR_KEYS_IN_ROW) {
+                availableWidth / enabledKeys.size
+            } else {
+                minKeyWidth
+            }
+            for (key in enabledKeys) {
                 val button = createToolbarKey(context, key)
-                button.layoutParams = toolbarKeyLayoutParams
+                button.layoutParams = LinearLayout.LayoutParams(keyWidth, LinearLayout.LayoutParams.MATCH_PARENT)
                 setupKey(button, colors)
                 toolbar.addView(button)
             }
         }
+        val pinnedKeyLayoutParams = LinearLayout.LayoutParams(
+            resources.getDimensionPixelSize(R.dimen.config_suggestions_strip_edge_key_width),
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
         if (!Settings.getValues().mSuggestionStripHiddenPerUserSettings) {
             for (pinnedKey in getPinnedToolbarKeys(context.prefs())) {
                 val button = createToolbarKey(context, pinnedKey)
-                button.layoutParams = toolbarKeyLayoutParams
+                button.layoutParams = pinnedKeyLayoutParams
                 setupKey(button, colors)
                 pinnedKeys.addView(button)
                 val pinnedKeyInToolbar = toolbar.findViewWithTag<View>(pinnedKey)
