@@ -162,16 +162,21 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         val minKeyWidth = availableWidth / MAX_TOOLBAR_KEYS_IN_ROW
         if (mToolbarMode == ToolbarMode.TOOLBAR_KEYS || mToolbarMode == ToolbarMode.EXPANDABLE) {
             val enabledKeys = getEnabledToolbarKeys(context.prefs())
-            val keyWidth = if (enabledKeys.size <= MAX_TOOLBAR_KEYS_IN_ROW) {
-                availableWidth / enabledKeys.size
+            if (enabledKeys.isEmpty()) {
+                // Hide the expand arrow when there are no toolbar keys
+                toolbarExpandKey.visibility = GONE
             } else {
-                minKeyWidth
-            }
-            for (key in enabledKeys) {
-                val button = createToolbarKey(context, key)
-                button.layoutParams = LinearLayout.LayoutParams(keyWidth, LinearLayout.LayoutParams.MATCH_PARENT)
-                setupKey(button, colors)
-                toolbar.addView(button)
+                val keyWidth = if (enabledKeys.size <= MAX_TOOLBAR_KEYS_IN_ROW) {
+                    availableWidth / enabledKeys.size
+                } else {
+                    minKeyWidth
+                }
+                for (key in enabledKeys) {
+                    val button = createToolbarKey(context, key)
+                    button.layoutParams = LinearLayout.LayoutParams(keyWidth, LinearLayout.LayoutParams.MATCH_PARENT)
+                    setupKey(button, colors)
+                    toolbar.addView(button)
+                }
             }
         }
         val pinnedKeyLayoutParams = LinearLayout.LayoutParams(
@@ -526,12 +531,13 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         val settingsValues = Settings.getValues()
 
         val toolbarIsExpandable = settingsValues.mToolbarMode == ToolbarMode.EXPANDABLE
+        val hasToolbarKeys = toolbar.childCount > 0
         if (settingsValues.mIncognitoModeEnabled) {
             toolbarExpandKey.setImageDrawable(incognitoIcon)
             toolbarExpandKey.isVisible = true
         } else {
             toolbarExpandKey.setImageDrawable(toolbarArrowIcon)
-            toolbarExpandKey.isVisible = toolbarIsExpandable
+            toolbarExpandKey.isVisible = toolbarIsExpandable && hasToolbarKeys
         }
 
         // hide pinned keys if device is locked, and avoid expanding toolbar

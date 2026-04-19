@@ -46,7 +46,10 @@ fun ReorderSwitchPreference(setting: Setting, default: String) {
                 KeyboardSwitcher.getInstance().setThemeNeedsReload()
             },
             onDismissRequest = { showDialog = false },
-            onNeutral = { prefs.edit { remove(setting.key)} },
+            onNeutral = {
+                prefs.edit { remove(setting.key) }
+                KeyboardSwitcher.getInstance().setThemeNeedsReload()
+            },
             neutralButtonText = if (prefs.contains(setting.key)) stringResource(R.string.button_default) else null,
             items = items,
             title = { Text(setting.title) },
