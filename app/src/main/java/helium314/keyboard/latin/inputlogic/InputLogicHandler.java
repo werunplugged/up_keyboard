@@ -39,6 +39,11 @@ class InputLogicHandler implements Handler.Callback {
         mNonUIThreadHandler.removeCallbacksAndMessages(null);
     }
 
+    public void destroy() {
+        mNonUIThreadHandler.removeCallbacksAndMessages(null);
+        mNonUIThreadHandler.getLooper().quitSafely();
+    }
+
     /**
      * Handle a message.
      * @see android.os.Handler.Callback#handleMessage(android.os.Message)
