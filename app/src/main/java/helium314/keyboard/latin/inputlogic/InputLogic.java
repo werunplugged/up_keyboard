@@ -180,6 +180,15 @@ public final class InputLogic {
     }
 
     /**
+     * Release resources held by the input logic. Must be paired with LatinIME.onDestroy so the
+     * background HandlerThread backing {@link InputLogicHandler} is stopped; otherwise it leaks
+     * one thread per LatinIME instance.
+     */
+    public void onDestroy() {
+        mInputLogicHandler.destroy();
+    }
+
+    /**
      * Call this when the orientation changes.
      * @param settingsValues the current values of the settings.
      */
