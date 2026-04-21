@@ -165,7 +165,12 @@ public final class InputLogic {
         mConnection.tryFixIncorrectCursorPosition();
         cancelDoubleSpacePeriodCountdown();
         mInputLogicHandler.reset();
-        mConnection.requestCursorUpdates(true, true);
+        // We request the immediate callback to learn the current cursor position once at input
+        // start, but skip CURSOR_UPDATE_MONITOR because HeliBoard does not override
+        // onUpdateCursorAnchorInfo or read CursorAnchorInfo anywhere — leaving the monitor on
+        // causes the framework to deliver per-frame anchor updates to this process while bound,
+        // which showed up as ~30% of the main-thread CPU burn in the background-IME case.
+        mConnection.requestCursorUpdates(false, true);
         setInlineEmojiSearchAction(false);
     }
 
