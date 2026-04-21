@@ -1047,6 +1047,13 @@ public class LatinIME extends InputMethodService implements
         if (mainKeyboardView != null) {
             mainKeyboardView.closing();
         }
+        // Stop voice input when keyboard is dismissed
+        if (mVoiceInputManager != null && mVoiceInputManager.isVoiceInputActive()) {
+            mVoiceInputManager.cancelVoiceInput();
+            if (mKeyboardSwitcher != null) {
+                mKeyboardSwitcher.hideVoiceKeyboard();
+            }
+        }
         clearNavigationBarColor();
     }
 
