@@ -136,8 +136,16 @@ class InputLogicTest {
         assertEquals(8, cursor)
     }
 
+    @Test fun combineHangul() {
+        reset()
+        val ko = SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first()
+        latinIME.switchToSubtype(ko)
+        chainInput("ㅂㄱㅑ")
+        assertEquals("ㅂ갸", text)
+    }
+
     // todo: make it work, but it might not be that simple because adding is done in combiner
-    //  https://github.com/Helium314/HeliBoard/issues/214
+    //  https://github.com/HeliBorg/HeliBoard/issues/214
     @Test fun insertLetterIntoWordHangulFails() {
         if (BuildConfig.BUILD_TYPE == "runTests") return
         reset()
@@ -160,8 +168,7 @@ class InputLogicTest {
         assertEquals("ㅛ.", text)
     }
 
-    // see issue 1551 (debug only)
-    @Test fun deleteHangul() {
+    @Test fun deleteHangulInDebugMode() { // issue 1551, later only happened on phone
         reset()
         latinIME.switchToSubtype(SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first())
         setText("ㅛㅛ ")
@@ -498,8 +505,8 @@ class InputLogicTest {
         assertEquals("b", composingText)
     }
 
-    // https://github.com/Helium314/HeliBoard/issues/215
-    // https://github.com/Helium314/HeliBoard/issues/229
+    // https://github.com/HeliBorg/HeliBoard/issues/215
+    // https://github.com/HeliBorg/HeliBoard/issues/229
     @Test fun `autospace works in URL field when input isn't URL, also for multiple suggestions`() {
         reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
@@ -545,7 +552,7 @@ class InputLogicTest {
         assertEquals("hi ${StringUtils.newSingleCodePointString(0x1F36D)}", text)
     }
 
-    // https://github.com/Helium314/HeliBoard/issues/230
+    // https://github.com/HeliBorg/HeliBoard/issues/230
     @Test fun `no autospace after opening quotes`() {
         reset()
         chainInput("\"Hi\" \"h")
@@ -656,7 +663,7 @@ class InputLogicTest {
         assertEquals("", text)
     }
 
-    // emoRegex update to unicode 16.0 was required, https://github.com/Helium314/HeliBoard/issues/1760
+    // emoRegex update to unicode 16.0 was required, https://github.com/HeliBorg/HeliBoard/issues/1760
     @Test fun `emojis deleted one by one`() {
         reset()
         chainInput("\uD83E\uDEC6\uD83E\uDEC6\uD83E\uDEC6")
@@ -749,11 +756,12 @@ class InputLogicTest {
         val oldAfter = textAfterCursor
         val insert = StringUtils.newSingleCodePointString(codePoint)
         val phantomSpaceToInsert = if (spaceState == SpaceState.PHANTOM) " " else ""
+        val oldIsAtEnd = !composer.isCursorFrontOrMiddleOfComposingWord
 
         latinIME.onEvent(Event.createEventForCodePointFromUnknownSource(codePoint))
         handleMessages()
 
-        if (currentScript != ScriptUtils.SCRIPT_HANGUL // check fails if hangul combiner merges symbols
+        if (!latinIME.prefs().getString(Settings.PREF_SELECTED_SUBTYPE, "")!!.contains("CombiningRules") // check fails if combiner merges symbols
             && !(codePoint == Constants.CODE_SPACE && oldBefore.lastOrNull() == ' ') // check fails when 2 spaces are converted into a period
             && !latinIME.mInputLogic.mSuggestedWords.mWillAutoCorrect // autocorrect obviously creates inconsistencies
             ) {
@@ -764,6 +772,8 @@ class InputLogicTest {
         }
         assertEquals(oldAfter, textAfterCursor)
         assertEquals(textBeforeCursor + textAfterCursor, getText())
+        if (composer.isComposingWord) // if we're not composing any more cursor is always at the end
+            assertEquals(oldIsAtEnd, !composer.isCursorFrontOrMiddleOfComposingWord)
         checkConnectionConsistency()
     }
 

@@ -19,7 +19,7 @@
         <item>Hinglish</item>
         <item>Ма̄ньси</item>
         <item>ХӀурухъла лугъат</item>
-        <item>Хайдаҡьан</item>
+        <item>Хайдаҡӏла</item>
         <item>Srpski</item>
     </string-array>
 
@@ -33,6 +33,7 @@
         <item>azerty</item>
         <item>dvorak</item>
         <item>halmak</item>
+        <item>hcesar</item>
         <item>colemak</item>
         <item>colemak_dh</item>
         <item>workman</item>
@@ -46,6 +47,7 @@
         <item>AZERTY</item>
         <item>Dvorak</item>
         <item>Halmak</item>
+        <item>HCESAR</item>
         <item>Colemak</item>
         <item>Colemak Mod-DH</item>
         <item>Workman</item>
@@ -55,6 +57,7 @@
 
     <!-- Description for Bulgarian (BDS) subtype. -->
     <string name="subtype_bulgarian_bds" translatable="false">%s (BDS)</string>
+
 
     <!-- Description for Bulgarian (BEKL) subtype. -->
     <string name="subtype_bulgarian_bekl" translatable="false">%s (BEKL)</string>

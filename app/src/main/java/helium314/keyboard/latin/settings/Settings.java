@@ -13,7 +13,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.ContextThemeWrapper;
@@ -32,8 +31,8 @@ import helium314.keyboard.latin.RichInputMethodManager;
 import helium314.keyboard.latin.RichInputMethodSubtype;
 import helium314.keyboard.latin.common.StringUtils;
 import helium314.keyboard.latin.utils.DeviceProtectedUtils;
+import helium314.keyboard.latin.utils.FoldableUtils;
 import helium314.keyboard.latin.utils.KtxKt;
-import helium314.keyboard.latin.utils.LayoutModeHelper;
 import helium314.keyboard.latin.utils.LayoutType;
 import helium314.keyboard.latin.utils.Log;
 import helium314.keyboard.latin.utils.ResourceUtils;
@@ -96,8 +95,11 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_ADDITIONAL_SUBTYPES = "additional_subtypes";
     public static final String PREF_ENABLE_SPLIT_KEYBOARD = "split_keyboard";
     public static final String PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE = "split_keyboard_landscape";
+    public static final String PREF_ENABLE_SPLIT_KEYBOARD_FOLDED = "split_keyboard_folded";
+    public static final String PREF_ENABLE_SPLIT_KEYBOARD_FOLDED_LANDSCAPE = "split_keyboard_folded_landscape";
     public static final String PREF_SPLIT_SPACER_SCALE_PREFIX = "split_spacer_scale";
     public static final String PREF_KEYBOARD_HEIGHT_SCALE_PREFIX = "keyboard_height_scale";
+    public static final String PREF_BOTTOM_ROW_SCALE_PREFIX = "bottom_row_scale";
     public static final String PREF_BOTTOM_PADDING_SCALE_PREFIX = "bottom_padding_scale";
     public static final String PREF_SIDE_PADDING_SCALE_PREFIX = "side_padding_scale";
     public static final String PREF_FONT_SCALE = "font_scale";
@@ -153,14 +155,6 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_SPACE_TO_CHANGE_LANG = "prefs_long_press_keyboard_to_change_lang";
     public static final String PREF_LANGUAGE_SWIPE_DISTANCE = "language_swipe_distance";
 
-    // Voice input preferences
-    public static final String PREF_ENABLE_VOICE_INPUT = "enable_voice_input";
-    public static final String PREF_USE_BUILTIN_VOICE_RECOGNITION = "use_builtin_voice_recognition";
-    public static final String PREF_VOICE_PERMISSION_STATUS = "voice_permission_status";
-    public static final String PREF_VAD_SENSITIVITY = "vad_sensitivity";
-    public static final String PREF_VAD_SILENCE_DURATION = "vad_silence_duration";
-    public static final String PREF_VAD_SPEECH_DURATION = "vad_speech_duration";
-
     public static final String PREF_ENABLE_CLIPBOARD_HISTORY = "enable_clipboard_history";
     public static final String PREF_CLIPBOARD_HISTORY_RETENTION_TIME = "clipboard_history_retention_time";
     public static final String PREF_CLIPBOARD_HISTORY_PINNED_FIRST = "clipboard_history_pinned_first";
@@ -188,6 +182,15 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_TIMESTAMP_FORMAT = "timestamp_format";
     public static final String PREF_TOOLBAR_MODE = "toolbar_mode";
     public static final String PREF_TOOLBAR_HIDING_GLOBAL = "toolbar_hiding_global";
+    public static final String PREF_TOOLBAR_SWIPE_DOWN_TO_HIDE = "toolbar_swipe_down_to_hide";
+
+    // Voice input preferences
+    public static final String PREF_ENABLE_VOICE_INPUT = "enable_voice_input";
+    public static final String PREF_USE_BUILTIN_VOICE_RECOGNITION = "use_builtin_voice_recognition";
+    public static final String PREF_VOICE_PERMISSION_STATUS = "voice_permission_status";
+    public static final String PREF_VAD_SENSITIVITY = "vad_sensitivity";
+    public static final String PREF_VAD_SILENCE_DURATION = "vad_silence_duration";
+    public static final String PREF_VAD_SPEECH_DURATION = "vad_speech_duration";
 
     // Emoji
     public static final String PREF_EMOJI_MAX_SDK = "emoji_max_sdk";
@@ -207,10 +210,6 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     // static cache for background images to avoid potentially slow reload on every settings reload
     private final static Drawable[] sCachedBackgroundImages = new Drawable[4];
-    private static Typeface sCachedTypeface;
-    private static boolean sCustomTypefaceLoaded; // to avoid repeatedly checking custom typeface file when there is no custom typeface
-    private static Typeface sCachedEmojiTypeface;
-    private static boolean sCustomEmojiTypefaceLoaded;
 
     private static final Settings sInstance = new Settings();
 
@@ -229,6 +228,10 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public static SettingsValues getValues() {
         return sInstance.mSettingsValues;
+    }
+
+    public static Context getCurrentContext() {
+        return sInstance.mContext;
     }
 
     public static void init(final Context context) {
@@ -381,81 +384,92 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         return prefs.getBoolean(PREF_SHOW_SETUP_WIZARD_ICON, Defaults.PREF_SHOW_SETUP_WIZARD_ICON);
     }
 
-    public static boolean readOneHandedModeEnabled(final SharedPreferences prefs, final boolean landscape, final boolean split) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_MODE_PREFIX, index, 2);
+    public static boolean readOneHandedModeEnabled(SharedPreferences prefs, boolean landscape, boolean split, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, split, folded);
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_MODE_PREFIX, index, 3);
         return prefs.getBoolean(key, Defaults.PREF_ONE_HANDED_MODE);
     }
 
     public void writeOneHandedModeEnabled(final boolean enabled) {
         final boolean landscape = mSettingsValues.mDisplayOrientation == Configuration.ORIENTATION_LANDSCAPE;
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_MODE_PREFIX, index, 2);
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled, FoldableUtils.INSTANCE.isFolded());
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_MODE_PREFIX, index, 3);
         mPrefs.edit().putBoolean(key, enabled).apply();
     }
 
-    public static float readOneHandedModeScale(final SharedPreferences prefs, final boolean landscape, final boolean split) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_SCALE_PREFIX, index, 2);
+    public static float readOneHandedModeScale(SharedPreferences prefs, boolean landscape, boolean split, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, split, folded);
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_SCALE_PREFIX, index, 3);
         return prefs.getFloat(key, Defaults.PREF_ONE_HANDED_SCALE);
     }
 
     public void writeOneHandedModeScale(final Float scale) {
         final boolean landscape = mSettingsValues.mDisplayOrientation == Configuration.ORIENTATION_LANDSCAPE;
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_SCALE_PREFIX, index, 2);
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled, FoldableUtils.INSTANCE.isFolded());
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_SCALE_PREFIX, index, 3);
         mPrefs.edit().putFloat(key, scale).apply();
     }
 
-    public static int readOneHandedModeGravity(final SharedPreferences prefs, final boolean landscape, final boolean split) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_GRAVITY_PREFIX, index, 2);
+    public static int readOneHandedModeGravity(SharedPreferences prefs, boolean landscape, boolean split, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, split, folded);
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_GRAVITY_PREFIX, index, 3);
         return prefs.getInt(key, Defaults.PREF_ONE_HANDED_GRAVITY);
     }
 
     public void writeOneHandedModeGravity(final int gravity) {
         final boolean landscape = mSettingsValues.mDisplayOrientation == Configuration.ORIENTATION_LANDSCAPE;
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled);
-        final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_GRAVITY_PREFIX, index, 2);
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, mSettingsValues.mIsSplitKeyboardEnabled, FoldableUtils.INSTANCE.isFolded());
+        String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_GRAVITY_PREFIX, index, 3);
         mPrefs.edit().putInt(key, gravity).apply();
     }
 
-    public void writeSplitKeyboardEnabled(final boolean enabled, final boolean isLandscape) {
-        final String pref = isLandscape ? PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : PREF_ENABLE_SPLIT_KEYBOARD;
+    public void writeSplitKeyboardEnabled(boolean enabled, boolean isLandscape, boolean isFolded) {
+        String pref = isLandscape
+                        ? (isFolded ? PREF_ENABLE_SPLIT_KEYBOARD_FOLDED_LANDSCAPE : PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE)
+                        : (isFolded ? PREF_ENABLE_SPLIT_KEYBOARD_FOLDED : PREF_ENABLE_SPLIT_KEYBOARD);
         mPrefs.edit().putBoolean(pref, enabled).apply();
     }
 
-    public static boolean readSplitKeyboardEnabled(final SharedPreferences prefs, final boolean isLandscape) {
-        final String pref = isLandscape ? PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : PREF_ENABLE_SPLIT_KEYBOARD;
-        return prefs.getBoolean(pref, isLandscape ? Defaults.PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : Defaults.PREF_ENABLE_SPLIT_KEYBOARD);
+    public static boolean readSplitKeyboardEnabled(SharedPreferences prefs, boolean isLandscape, boolean isFolded) {
+        String pref = isLandscape
+                      ? (isFolded ? PREF_ENABLE_SPLIT_KEYBOARD_FOLDED_LANDSCAPE : PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE)
+                      : (isFolded ? PREF_ENABLE_SPLIT_KEYBOARD_FOLDED : PREF_ENABLE_SPLIT_KEYBOARD);
+        return prefs.getBoolean(pref, Defaults.PREF_ENABLE_SPLIT_KEYBOARD);
     }
 
-    public static float readSplitSpacerScale(final SharedPreferences prefs, final boolean landscape) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
+    public static float readSplitSpacerScale(SharedPreferences prefs, boolean landscape, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, folded);
         final Float[] defaults = Defaults.PREF_SPLIT_SPACER_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SPLIT_SPACER_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SPLIT_SPACER_SCALE_PREFIX, index, 2), defaultValue);
     }
 
-    public static float readBottomPaddingScale(final SharedPreferences prefs, final boolean landscape) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
+    public static float readBottomPaddingScale(SharedPreferences prefs, boolean landscape, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, folded);
         final Float[] defaults = Defaults.PREF_BOTTOM_PADDING_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_BOTTOM_PADDING_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_BOTTOM_PADDING_SCALE_PREFIX, index, 2), defaultValue);
     }
 
-    public static float readSidePaddingScale(final SharedPreferences prefs, final boolean landscape, final boolean split) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
+    public static float readSidePaddingScale(SharedPreferences prefs, boolean landscape, boolean split, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, split, folded);
         final Float[] defaults = Defaults.PREF_SIDE_PADDING_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SIDE_PADDING_SCALE_PREFIX, index, 2), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SIDE_PADDING_SCALE_PREFIX, index, 3), defaultValue);
     }
 
-    public static float readHeightScale(final SharedPreferences prefs, final boolean landscape) {
-        final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
+    public static float readHeightScale(SharedPreferences prefs, boolean landscape, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, folded);
         final Float[] defaults = Defaults.PREF_KEYBOARD_HEIGHT_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_KEYBOARD_HEIGHT_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_KEYBOARD_HEIGHT_SCALE_PREFIX, index, 2), defaultValue);
+    }
+
+    public static float readBottomRowScale(SharedPreferences prefs, boolean landscape, boolean folded) {
+        int index = SettingsKt.findIndexOfDefaultSetting(landscape, folded);
+        final Float[] defaults = Defaults.PREF_BOTTOM_ROW_SCALE;
+        final float defaultValue = defaults[index];
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_BOTTOM_ROW_SCALE_PREFIX, index, 2), defaultValue);
     }
 
     public static boolean readHasHardwareKeyboard(final Configuration conf) {
@@ -540,19 +554,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     // "default" layout as in this is used if nothing else is specified in the subtype
     public static String readDefaultLayoutName(final LayoutType type, final SharedPreferences prefs) {
-        String layoutName = prefs.getString(PREF_LAYOUT_PREFIX + type.name(), Defaults.INSTANCE.getDefault(type));
-        // Apply iOS mode transformations for functional and symbol layouts
-        if (LayoutModeHelper.INSTANCE.isIOSMode(prefs)) {
-            if (type == LayoutType.FUNCTIONAL) {
-                boolean isTablet = getInstance().isTablet();
-                return LayoutModeHelper.INSTANCE.getFunctionalLayoutName(isTablet, prefs);
-            } else if (type == LayoutType.SYMBOLS) {
-                return LayoutModeHelper.INSTANCE.getSymbolsLayoutName(prefs);
-            } else if (type == LayoutType.MORE_SYMBOLS) {
-                return LayoutModeHelper.INSTANCE.getMoreSymbolsLayoutName(prefs);
-            }
-        }
-        return layoutName;
+        return prefs.getString(PREF_LAYOUT_PREFIX + type.name(), Defaults.INSTANCE.getDefault(type));
     }
 
     public static void writeDefaultLayoutName(@Nullable final String name, final LayoutType type, final SharedPreferences prefs) {
@@ -581,32 +583,4 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         return mPrefs.getBoolean(PREF_SAVE_SUBTYPE_PER_APP, Defaults.PREF_SAVE_SUBTYPE_PER_APP);
     }
 
-    @Nullable
-    public Typeface getCustomTypeface() {
-        if (!sCustomTypefaceLoaded) {
-            try {
-                sCachedTypeface = Typeface.createFromFile(getCustomFontFile(mContext));
-            } catch (Exception ignored) { }
-        }
-        sCustomTypefaceLoaded = true;
-        return sCachedTypeface;
-    }
-
-    @Nullable
-    public Typeface getCustomEmojiTypeface() {
-        if (!sCustomEmojiTypefaceLoaded) {
-            try {
-                sCachedEmojiTypeface = Typeface.createFromFile(getCustomEmojiFontFile(mContext));
-            } catch (Exception ignored) { }
-        }
-        sCustomEmojiTypefaceLoaded = true;
-        return sCachedEmojiTypeface;
-    }
-
-    public static void clearCachedTypeface() {
-        sCachedTypeface = null;
-        sCustomTypefaceLoaded = false;
-        sCachedEmojiTypeface = null;
-        sCustomEmojiTypefaceLoaded = false;
-    }
 }

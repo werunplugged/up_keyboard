@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.ComposeView
-import helium314.keyboard.settings.Theme
+import helium314.keyboard.latin.utils.Theme
 
 /** Activity that handles ACTION_SEND for audio MIME types, transcribes using Whisper. */
 class TranscribeActivity : ComponentActivity() {

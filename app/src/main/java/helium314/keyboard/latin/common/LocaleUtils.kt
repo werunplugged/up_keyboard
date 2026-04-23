@@ -62,23 +62,6 @@ object LocaleUtils {
     const val LOCALE_GOOD_MATCH = LOCALE_LANGUAGE_MATCH_COUNTRY_DIFFER
 
     /**
-     * Normalize deprecated ISO 639 language codes to their current standard codes.
-     * This is necessary because Android may use deprecated codes (iw, in, ji) while
-     * dictionary files use current standard codes (he, id, yi).
-     *
-     * @param languageCode the language code to normalize
-     * @return the normalized language code
-     */
-    private fun normalizeLanguageCode(languageCode: String): String {
-        return when (languageCode) {
-            "iw" -> "he"  // Hebrew: iw (deprecated) -> he
-            "in" -> "id"  // Indonesian: in (deprecated) -> id
-            "ji" -> "yi"  // Yiddish: ji (deprecated) -> yi
-            else -> languageCode
-        }
-    }
-
-    /**
      * Return how well a tested locale matches a reference locale.
      *
      *
@@ -116,7 +99,7 @@ object LocaleUtils {
     fun getMatchLevel(reference: Locale, tested: Locale): Int {
         if (reference == tested) return LOCALE_FULL_MATCH
         if (reference.toString().isEmpty()) return LOCALE_ANY_MATCH
-        if (normalizeLanguageCode(reference.language) != normalizeLanguageCode(tested.language)) return LOCALE_NO_MATCH
+        if (reference.language != tested.language) return LOCALE_NO_MATCH
         // language matches
         if (reference.script() != tested.script()) {
             return LOCALE_MATCH_SCRIPT_DIFFER
@@ -175,10 +158,10 @@ object LocaleUtils {
                 return locale
             }
             val elements = split("_", limit = 3)
-            val language = normalizeLanguageCode(elements[0].lowercase())
+            val language = elements[0].lowercase()
             val region = elements.getOrNull(1)?.uppercase()
             val locale = if (elements.size == 1) {
-                Locale.forLanguageTag(language) // Use forLanguageTag for proper language tag parsing
+                Locale(language) // "zz" works both in constructor and forLanguageTag
             } else if (elements.size == 2) {
                 if (region == "ZZ") Locale.forLanguageTag(elements[0] + "-Latn")
                 else Locale(language, region!!)
@@ -221,7 +204,7 @@ object LocaleUtils {
 
         val localeDisplayName = getDisplayName(displayLocale ?: resources.configuration.locale())
         return if (localeDisplayName == languageTag) {
-            getDisplayName(Locale.US) // try fallback to English name, relevant e.g. fpr pms, see https://github.com/Helium314/HeliBoard/pull/748
+            getDisplayName(Locale.US) // try fallback to English name, relevant e.g. fpr pms, see https://github.com/HeliBorg/HeliBoard/pull/748
         } else {
             localeDisplayName
         }

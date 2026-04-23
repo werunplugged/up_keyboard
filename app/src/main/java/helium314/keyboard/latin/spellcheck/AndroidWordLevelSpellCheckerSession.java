@@ -155,6 +155,12 @@ public abstract class AndroidWordLevelSpellCheckerSession extends Session {
                         // Use keyboard locale if available in the spell checker
                         return localeString;
                     }
+                    // localeString for this app is always empty, get it from settings if possible
+                    // and we're sure this app is used
+                    if ("dummy".equals(currentInputMethodSubtype.getExtraValue())) {
+                        final SharedPreferences prefs = KtxKt.prefs(mService);
+                        return SubtypeSettings.INSTANCE.getSelectedSubtype(prefs).getLocale();
+                    }
                 }
             }
         }

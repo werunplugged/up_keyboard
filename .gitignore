@@ -40,6 +40,10 @@ captures/
 
 # IntelliJ
 *.iml
+.idea
+.gradle
+.kotlin
+local.properties
 .idea/
 *.iws
 *.ipr
@@ -87,6 +91,11 @@ lint/reports/
 
 # OS-specific files
 .DS_Store
+Gemfile
+build
+app/build
+app/release
+app/.cxx
 .DS_Store?
 ._*
 .Spotlight-V100
@@ -107,7 +116,11 @@ nul
 app/build/
 app/release/
 app/.attach_*
+fastlane/Appfile
 tools/*.txt
+*.patch
+*.diff
+*.sh
 Gemfile
 
 # Voice model files (large binary files)

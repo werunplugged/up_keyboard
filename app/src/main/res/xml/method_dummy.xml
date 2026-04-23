@@ -7,6 +7,15 @@
 Dummy method.xml that is exposed to the system
 Contains a single English subtype for AOSP preloading compatibility.
 All actual language management is done through additional subtypes added dynamically.
+
+Before API 34 Android only allows enable subtypes using the system enabler, but we don't want it.
+Exposing the subtypes automatically shows enabled ones on the input method picker, and only the
+user can disable them. Even if all subtypes are disabled, the system will enable one, so it's not
+possible to switch to this keyboard without selecting a subtype, and we don't have control over
+which one.
+
+We don't want the subtypes managed by the system because it doesn't allow for nice settings, and
+the system picker crashes on some devices for unknown reasons.
 -->
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

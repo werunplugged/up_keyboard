@@ -13,6 +13,10 @@ object Links {
     const val WIKI_URL = "$GITHUB/wiki"
     const val CUSTOM_LAYOUTS = "$GITHUB/discussions/categories/custom-layout"
     const val CUSTOM_COLORS = "$GITHUB/discussions/categories/custom-colors"
+    const val GESTURE_DATA_VIDEO_PEERTUBE = "https://video.tedomum.net/w/gSzSa8cW4x2ieL4vTKzqzF"
+    const val GESTURE_DATA_VIDEO_YOUTUBE = "https://youtu.be/wjvnvVFYG20"
+    const val GESTURE_DATA_WIKI = "https://github.com/Helium314/HeliBoard/wiki/Gesture-data-gathering"
+    const val SWIPE_O_SCOPE = "https://github.com/Helium314/swipe-o-scope"
 }
 
 val combiningRange = 0x300..0x35b

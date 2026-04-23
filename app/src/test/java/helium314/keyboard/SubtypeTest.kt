@@ -60,7 +60,7 @@ class SubtypeTest {
 
         // edit enabled resource subtype
         val from = SubtypeSettings.getResourceSubtypesForLocale("es".constructLocale()).first()
-        SubtypeSettings.addEnabledSubtype(latinIME, from)
+        SubtypeSettings.addEnabledSubtype(prefs, from)
         val to = from.toSettingsSubtype().withLayout(LayoutType.SYMBOLS, "symbols_arabic")
         SubtypeUtilsAdditional.changeAdditionalSubtype(from.toSettingsSubtype(), to, latinIME)
         assertEquals(to, SubtypeSettings.getEnabledSubtypes(false).single().toSettingsSubtype())

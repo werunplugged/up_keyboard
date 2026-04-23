@@ -1352,7 +1352,8 @@ public class LatinIME extends InputMethodService implements
         return mInputLogic.getCurrentAutoCapsState(mSettings.getCurrent());
     }
 
-    public int getCurrentRecapitalizeState() {
+    @Nullable
+    public helium314.keyboard.latin.utils.RecapitalizeMode getCurrentRecapitalizeState() {
         return mInputLogic.getCurrentRecapitalizeState();
     }
 
@@ -1559,8 +1560,25 @@ public class LatinIME extends InputMethodService implements
                 dismissGestureFloatingPreviewText /* dismissDelayed */);
     }
 
-    private boolean hasSuggestionStripView() {
+    public boolean hasSuggestionStripView() {
         return null != mSuggestionStripView;
+    }
+
+    // Stubs for emoji search feature (not implemented in UP Keyboard fork)
+    public boolean isEmojiSearch() {
+        return false;
+    }
+
+    public void launchEmojiSearch() {
+        // not implemented
+    }
+
+    public void updateSuggestionStripView(final View view) {
+        // not implemented
+    }
+
+    public int getEmojiSearchActivityHeight() {
+        return 0;
     }
 
     private void setSuggestedWords(final SuggestedWords suggestedWords) {

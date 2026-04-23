@@ -48,12 +48,38 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
 
-object AppUpgrade {
-    fun checkVersionUpgrade(context: Context) {
+fun checkVersionUpgrade(context: Context) {
+    val prefs = context.prefs()
+    val oldVersion = prefs.getInt(Settings.PREF_VERSION_CODE, 0)
+    if (oldVersion != BuildConfig.VERSION_CODE)
+        AppUpgrade.onUpgrade(context)
+}
+
+fun transferOldPinnedClips(context: Context) {
+    @Serializable
+    data class OldClipboardHistoryEntry (
+        var timeStamp: Long,
+        val content: String,
+        var isPinned: Boolean = false
+    )
+    if (isUserLocked(context) || isDeviceLocked(context)) return
+    try {
+        val pinnedClipString = context.protectedPrefs().getString("pinned_clips", "")
+        if (pinnedClipString.isNullOrBlank())
+            return
+        val pinnedClips: List<OldClipboardHistoryEntry> = Json.decodeFromString(pinnedClipString)
+        val dao = ClipboardDao.getInstance(context) ?: return
+        pinnedClips.forEach { dao.addClip(it.timeStamp, it.isPinned, it.content) }
+        context.protectedPrefs().edit { remove("pinned_clips") }
+    } catch (e: Throwable) {
+        Log.e("upgrade", "error transferring old pinned clips", e)
+    }
+}
+
+private object AppUpgrade {
+    fun onUpgrade(context: Context) {
         val prefs = context.prefs()
         val oldVersion = prefs.getInt(Settings.PREF_VERSION_CODE, 0)
-        if (oldVersion == BuildConfig.VERSION_CODE)
-            return
         // clear extracted dictionaries, in case updated version contains newer ones
         DictionaryInfoUtils.getCacheDirectories(context).forEach {
             for (file in it.listFiles()!!) {
@@ -598,31 +624,50 @@ object AppUpgrade {
                     !prefs.getBoolean(Settings.PREF_BIGRAM_PREDICTIONS, Defaults.PREF_BIGRAM_PREDICTIONS))
             }
         }
+        if (oldVersion <= 3901) {
+            prefs.edit {
+                val prefixes2 = listOf(Settings.PREF_SPLIT_SPACER_SCALE_PREFIX, Settings.PREF_BOTTOM_PADDING_SCALE_PREFIX,
+                    Settings.PREF_KEYBOARD_HEIGHT_SCALE_PREFIX, Settings.PREF_BOTTOM_ROW_SCALE_PREFIX)
+                prefixes2.forEach { prefix ->
+                    for (i in 0..1) {
+                        val key = createPrefKeyForBooleanSettings(prefix, i, 1)
+                        if (prefs.contains(key)) {
+                            val newKey = createPrefKeyForBooleanSettings(prefix, i, 2)
+                            putFloat(newKey, prefs.getFloat(key, 0f))
+                            remove(key)
+                        }
+                    }
+                }
+                val prefixes3 = listOf(Settings.PREF_SIDE_PADDING_SCALE_PREFIX, Settings.PREF_ONE_HANDED_SCALE_PREFIX)
+                prefixes3.forEach { prefix ->
+                    for (i in 0..3) {
+                        val key = createPrefKeyForBooleanSettings(prefix, i, 2)
+                        if (prefs.contains(key)) {
+                            val newKey = createPrefKeyForBooleanSettings(prefix, i, 3)
+                            putFloat(newKey, prefs.getFloat(key, 0f))
+                            remove(key)
+                        }
+                    }
+                }
+                for (i in 0..3) {
+                    val keyA = createPrefKeyForBooleanSettings(Settings.PREF_ONE_HANDED_MODE_PREFIX, i, 2)
+                    val keyB = createPrefKeyForBooleanSettings(Settings.PREF_ONE_HANDED_GRAVITY_PREFIX, i, 2)
+                    if (prefs.contains(keyA)) {
+                        val newKey = createPrefKeyForBooleanSettings(Settings.PREF_ONE_HANDED_MODE_PREFIX, i, 3)
+                        putBoolean(newKey, prefs.getBoolean(keyA, false))
+                        remove(keyA)
+                    }
+                    if (prefs.contains(keyB)) {
+                        val newKey = createPrefKeyForBooleanSettings(Settings.PREF_ONE_HANDED_GRAVITY_PREFIX, i, 3)
+                        putInt(newKey, prefs.getInt(keyB, 0))
+                        remove(keyB)
+                    }
+                }
+            }
+        }
         upgradeToolbarPrefs(prefs)
         LayoutUtilsCustom.onLayoutFileChanged() // just to be sure
         prefs.edit { putInt(Settings.PREF_VERSION_CODE, BuildConfig.VERSION_CODE) }
-    }
-
-    // not only on upgrade, because this might also be called when db is locked
-    fun transferOldPinnedClips(context: Context) {
-        @Serializable
-        data class OldClipboardHistoryEntry (
-            var timeStamp: Long,
-            val content: String,
-            var isPinned: Boolean = false
-        )
-        if (isUserLocked(context) || isDeviceLocked(context)) return
-        try {
-            val pinnedClipString = context.protectedPrefs().getString("pinned_clips", "")
-            if (pinnedClipString.isNullOrBlank())
-                return
-            val pinnedClips: List<OldClipboardHistoryEntry> = Json.decodeFromString(pinnedClipString)
-            val dao = ClipboardDao.getInstance(context) ?: return
-            pinnedClips.forEach { dao.addClip(it.timeStamp, it.isPinned, it.content) }
-            context.protectedPrefs().edit { remove("pinned_clips") }
-        } catch (e: Throwable) {
-            Log.e("upgrade", "error transferring old pinned clips", e)
-        }
     }
 
     // old variant for old folder structure

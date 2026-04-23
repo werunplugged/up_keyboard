@@ -51,9 +51,9 @@ import helium314.keyboard.latin.utils.prefs
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.SettingsDestination
-import helium314.keyboard.settings.Theme
+import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.settings.initPreview
-import helium314.keyboard.settings.previewDark
+import helium314.keyboard.latin.utils.previewDark
 import helium314.keyboard.settings.screens.getUserAndInternalDictionaries
 import java.util.Locale
 
@@ -310,7 +310,7 @@ fun LanguageScreen(
                                         pendingSubtypeToggle = item
                                         showMissingDictDialog = true
                                     } else {
-                                        SubtypeSettings.addEnabledSubtype(ctx, item)
+                                        SubtypeSettings.addEnabledSubtype(prefs, item)
                                     }
                                 } else {
                                     SubtypeSettings.removeEnabledSubtype(ctx, item)
@@ -328,7 +328,7 @@ fun LanguageScreen(
         MissingDictionaryDialog(
             onDismissRequest = {
                 // User acknowledged the warning, enable the subtype anyway
-                SubtypeSettings.addEnabledSubtype(ctx, pendingSubtypeToggle!!)
+                SubtypeSettings.addEnabledSubtype(prefs, pendingSubtypeToggle!!)
                 showMissingDictDialog = false
                 pendingSubtypeToggle = null
             },

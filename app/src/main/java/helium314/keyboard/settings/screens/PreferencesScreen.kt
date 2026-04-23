@@ -28,10 +28,10 @@ import helium314.keyboard.settings.SearchSettingsScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.preferences.SliderPreference
 import helium314.keyboard.settings.preferences.SwitchPreference
-import helium314.keyboard.settings.Theme
+import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.preferences.SwitchPreferenceWithEmojiDictWarning
-import helium314.keyboard.settings.previewDark
+import helium314.keyboard.latin.utils.previewDark
 
 @Composable
 fun PreferencesScreen(
@@ -105,6 +105,9 @@ fun createPreferencesSettings(context: Context) = listOf(
             helium314.keyboard.keyboard.KeyboardLayoutSet.onKeyboardThemeChanged()
             KeyboardSwitcher.getInstance().reloadKeyboard()
         }
+    },
+    Setting(context, Settings.PREF_SAVE_SUBTYPE_PER_APP, R.string.save_subtype_per_app) {
+        SwitchPreference(it, Defaults.PREF_SAVE_SUBTYPE_PER_APP)
     },
     Setting(context, Settings.PREF_SHOW_HINTS, R.string.show_hints, R.string.show_hints_summary) {
         SwitchPreference(it, Defaults.PREF_SHOW_HINTS) { KeyboardSwitcher.getInstance().reloadKeyboard() }

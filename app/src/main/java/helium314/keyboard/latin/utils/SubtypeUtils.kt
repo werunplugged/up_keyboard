@@ -20,15 +20,11 @@ import org.xmlpull.v1.XmlPullParser
 import java.util.Locale
 
 fun InputMethodSubtype.locale(): Locale {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        if (languageTag.isNotEmpty()) {
-            languageTag.constructLocale()
-        } else {
-            @Suppress("deprecation") locale.constructLocale()
-        }
-    } else {
-        @Suppress("deprecation") locale.constructLocale()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (languageTag.isNotEmpty())
+            return languageTag.constructLocale()
     }
+    @Suppress("deprecation") return locale.constructLocale()
 }
 
 fun InputMethodSubtype.mainLayoutName(): String? {

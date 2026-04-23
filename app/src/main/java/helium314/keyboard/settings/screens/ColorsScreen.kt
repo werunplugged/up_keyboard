@@ -54,13 +54,13 @@ import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.Log
 import helium314.keyboard.latin.utils.getActivity
 import helium314.keyboard.latin.utils.prefs
-import helium314.keyboard.settings.CloseIcon
+import helium314.keyboard.latin.utils.CloseIcon
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.SettingsActivity
-import helium314.keyboard.settings.Theme
+import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.settings.contentTextDirectionStyle
 import helium314.keyboard.settings.dialogs.ColorPickerDialog
-import helium314.keyboard.settings.previewDark
+import helium314.keyboard.latin.utils.previewDark
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -267,7 +267,7 @@ val colorPrefsAndResIds = listOf(
 
 private fun getColorPrefsToHideInitially(prefs: SharedPreferences): List<String> {
     return listOf(KeyboardTheme.COLOR_SUGGESTION_TEXT, KeyboardTheme.COLOR_SPACEBAR_TEXT, KeyboardTheme.COLOR_GESTURE) +
-            if (prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, true)) listOf(KeyboardTheme.COLOR_SPACEBAR_TEXT)
+            if (prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, false)) listOf(KeyboardTheme.COLOR_SPACEBAR_TEXT)
             else listOf(KeyboardTheme.COLOR_FUNCTIONAL_KEYS)
 }
 
