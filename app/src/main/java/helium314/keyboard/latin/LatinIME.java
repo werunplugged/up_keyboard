@@ -185,6 +185,37 @@ public class LatinIME extends InputMethodService implements
 
     private VoiceInputManager mVoiceInputManager;
 
+    /** Listener that refreshes LatinIME's cached state after settings are reloaded due to a preference change.
+     * Ensures changes like vibrate/sound/gesture typing apply immediately while the keyboard is visible. */
+    private final Settings.OnSettingsReloadedListener mOnSettingsReloadedListener = () -> {
+        // Post to the main handler so this runs outside the preference-listener callback chain,
+        // and defensively: Settings may be reloaded very early during init, before mHandler is ready.
+        if (mHandler == null) return;
+        mHandler.post(() -> {
+            try {
+                final SettingsValues currentSettingsValues = Settings.getInstance().getCurrent();
+                if (currentSettingsValues == null) return;
+                AudioAndHapticFeedbackManager.getInstance().onSettingsChanged(currentSettingsValues);
+                if (mInputLogic != null && mInputLogic.mSuggest != null) {
+                    mInputLogic.mSuggest.clearNextWordSuggestionsCache();
+                }
+                // If the keyboard view is currently visible, rebuild it so visual/behavioral
+                // settings (gesture typing, number row, etc.) take effect without needing to
+                // close and reopen the keyboard.
+                final KeyboardSwitcher switcher = KeyboardSwitcher.getInstance();
+                if (switcher != null && isInputViewShown()) {
+                    final EditorInfo editorInfo = getCurrentInputEditorInfo();
+                    if (editorInfo != null) {
+                        switcher.loadKeyboard(editorInfo, currentSettingsValues,
+                                getCurrentAutoCapsState(), getCurrentRecapitalizeState(), null);
+                    }
+                }
+            } catch (final Exception e) {
+                Log.e(TAG, "error refreshing after settings reload", e);
+            }
+        });
+    };
+
     public static final class UIHandler extends LeakGuardHandlerWrapper<LatinIME> {
         private static final int MSG_UPDATE_SHIFT_STATE = 0;
         private static final int MSG_PENDING_IMS_CALLBACK = 1;
@@ -546,6 +577,10 @@ public class LatinIME extends InputMethodService implements
         super.onCreate();
 
         loadSettings();
+        // Refresh cached state whenever Settings reloads so changes apply immediately
+        // (e.g. vibrate on keypress, sound on keypress, gesture typing) without needing
+        // to close and reopen the keyboard.
+        mSettings.addOnSettingsReloadedListener(mOnSettingsReloadedListener);
         mClipboardHistoryManager.onCreate();
         mHandler.onCreate();
 
@@ -732,6 +767,7 @@ public class LatinIME extends InputMethodService implements
     public void onDestroy() {
         mClipboardHistoryManager.onDestroy();
         mDictionaryFacilitator.closeDictionaries();
+        mSettings.removeOnSettingsReloadedListener(mOnSettingsReloadedListener);
         mSettings.onDestroy();
         if (mVoiceInputManager != null) {
             mVoiceInputManager.cleanup();

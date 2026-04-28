@@ -5,6 +5,7 @@ import android.content.Context
 import helium314.keyboard.keyboard.Key
 import helium314.keyboard.keyboard.Key.KeyParams
 import helium314.keyboard.keyboard.KeyboardId
+import helium314.keyboard.keyboard.emoji.HiddenEmojis
 import helium314.keyboard.keyboard.emoji.SupportedEmojis
 import helium314.keyboard.keyboard.internal.KeyboardParams
 import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode
@@ -24,7 +25,10 @@ class EmojiParser(private val params: KeyboardParams, private val context: Conte
 
     fun parse(): ArrayList<ArrayList<KeyParams>> {
         val emojiFileName = getEmojiFileName(params.mId.mElementId)
-        val emojiLines = if (emojiFileName == null) {
+        // Emoticons are plain ASCII text (e.g. ":-)", "¯\_(ツ)_/¯"), not emoji glyphs —
+        // skip the unsupported-glyph and directional-dedupe filters or we'd remove all of them.
+        val isEmoticons = params.mId.mElementId == KeyboardId.ELEMENT_EMOJI_CATEGORY10
+        val rawLines = if (emojiFileName == null) {
             listOf( // special template keys for recents category
                 StringUtils.newSingleCodePointString(Constants.RECENTS_TEMPLATE_KEY_CODE_0),
                 StringUtils.newSingleCodePointString(Constants.RECENTS_TEMPLATE_KEY_CODE_1),
@@ -32,22 +36,30 @@ class EmojiParser(private val params: KeyboardParams, private val context: Conte
         } else {
             loadEmojiFile(emojiFileName, context)
         }
+        // Strip VS-16 (U+FE0F) from emoji strings — Noto Color Emoji's GSUB ligature
+        // patterns are written without VS-16, so leaving it in prevents the ligature from
+        // matching and the engine renders each codepoint separately (causing 🧑‍⚖️ to look
+        // like a person plus scales side-by-side, etc.). VS-16 is purely a presentation
+        // hint anyway and the font defaults full emoji ZWJ sequences to color presentation.
+        val emojiLines = if (isEmoticons) rawLines else rawLines.map { stripVariationSelector16(it) }
         if (params.mId.mElementId == KeyboardId.ELEMENT_EMOJI_CATEGORY2) {
             loadEmojiDefaultVersionsAndPopupSpecs(context, emojiLines)
-            return parseEmojis(emojiLines.map { line -> getEmojiDefaultVersion(line.splitOnWhitespace().first()) })
+            return parseEmojis(emojiLines.map { line -> getEmojiDefaultVersion(line.splitOnWhitespace().first()) }, isEmoticons)
         }
-        return parseEmojis(emojiLines)
+        return parseEmojis(emojiLines, isEmoticons)
     }
 
-    private fun parseEmojis(emojis: List<String>): ArrayList<ArrayList<KeyParams>> {
+    private fun parseEmojis(emojis: List<String>, isEmoticons: Boolean): ArrayList<ArrayList<KeyParams>> {
         val row = ArrayList<KeyParams>(emojis.size)
         var currentX = params.mLeftPadding.toFloat()
         val currentY = params.mTopPadding.toFloat() // no need to ever change, assignment to rows into rows is done in DynamicGridKeyboard
 
         val (keyWidth, keyHeight) = getEmojiKeyDimensions(params, context)
 
-        emojis.forEach { emoji ->
-            val keyParams = parseEmojiKeyNew(emoji) ?: return@forEach
+        // Dedupe directional ZWJ duplicates (🚶, 🚶‍➡️, 🚶‍⬅️, etc.) for non-emoticon categories.
+        val source = if (isEmoticons) emojis else dedupeDirectionalDuplicates(emojis)
+        source.forEach { emoji ->
+            val keyParams = parseEmojiKeyNew(emoji, isEmoticons) ?: return@forEach
             keyParams.xPos = currentX
             keyParams.yPos = currentY
             keyParams.mAbsoluteWidth = keyWidth
@@ -58,8 +70,16 @@ class EmojiParser(private val params: KeyboardParams, private val context: Conte
         return arrayListOf(row)
     }
 
-    private fun parseEmojiKeyNew(emoji: String): KeyParams? {
+    @Suppress("UNUSED_PARAMETER")
+    private fun parseEmojiKeyNew(emoji: String, isEmoticons: Boolean): KeyParams? {
         if (SupportedEmojis.isUnsupported(emoji)) return null
+        if (HiddenEmojis.isHidden(emoji)) return null
+        // We intentionally do NOT filter by Paint.hasGlyph here. Newer ZWJ sequences such
+        // as 🍄‍🟫 (brown mushroom) or ⛓️‍💥 (broken chain) won't render as a single glyph on
+        // older Android system fonts, but the user can install a current emoji font via
+        // Settings → Appearance → Set custom emoji font from file to fix the rendering.
+        // Filtering here would hide these emojis altogether, which is worse than showing
+        // them imperfectly.
         return KeyParams(
             emoji,
             emoji.getCode(),
@@ -70,6 +90,31 @@ class EmojiParser(private val params: KeyboardParams, private val context: Conte
         )
     }
 }
+
+/**
+ * Pattern matching ZWJ + directional arrow + optional VS-16 at end of an emoji.
+ * Covers ➡ U+27A1, ⬅ U+2B05, ⬆ U+2B06, ⬇ U+2B07 (walking/running directions) plus
+ * ↔ U+2194 and ↕ U+2195 (the Unicode 15.1 head-shake/head-nod smiley variants).
+ */
+private val directionalSuffix = Regex("\\u200D[\\u27A1\\u2B05\\u2B06\\u2B07\\u2194\\u2195]\\uFE0F?$")
+
+/** Removes VS-16 (U+FE0F) from a string. See call sites for rationale. */
+private fun stripVariationSelector16(s: String): String =
+    if ('️' in s) s.replace("️", "") else s
+
+/** Collapses lines like 🚶, 🚶‍➡️, 🚶‍⬅️ down to one (🚶) keeping the first occurrence. */
+private fun dedupeDirectionalDuplicates(lines: List<String>): List<String> {
+    val seen = HashSet<String>()
+    return lines.mapNotNull { line ->
+        // Use the leading emoji of the line for the canonical comparison; preserve the
+        // original line content (which may include skin-tone variants after a space) for
+        // popup spec lookups elsewhere.
+        val head = line.splitOnWhitespace().firstOrNull() ?: return@mapNotNull null
+        val canonical = head.replace(directionalSuffix, "")
+        if (seen.add(canonical)) line else null
+    }
+}
+
 
 fun getEmojiKeyDimensions(params: KeyboardParams, context: Context): Pair<Float, Float> {
     // determine key width for default settings (no number row, no one-handed mode, 100% height and bottom padding scale)
@@ -124,7 +169,8 @@ private fun loadEmojiDefaultVersionsAndPopupSpecs(context: Context, category2Emo
                 Collections.swap(split, 0, foundIndex)
             }
         }
-        split.drop(1).filterNot { SupportedEmojis.isUnsupported(it) }
+        split.drop(1)
+            .filterNot { SupportedEmojis.isUnsupported(it) || HiddenEmojis.isHidden(it) }
             .takeIf { it.isNotEmpty() }?.joinToString(",")?.let { emojiPopupSpecs[split.first()] = it }
     }
 }

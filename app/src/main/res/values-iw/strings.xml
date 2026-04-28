@@ -104,16 +104,16 @@
     <string name="prefs_keyboard_height_scale">קנה-מידה גובה המקלדת</string>
     <string name="key_borders">גבולות מקלדת</string>
     <string name="day_night_mode">מצב יום/לילה אוטומטי</string>
-    <string name="android_spell_checker_settings">הגדרות בודק האיות של HeliBoard</string>
+    <string name="android_spell_checker_settings">הגדרות בודק האיות של UP Keyboard</string>
     <string name="prefs_long_press_keyboard_to_change_lang">שינוי שיטת ההזנה על-ידי מקש רווח</string>
     <string name="show_emoji_key">מקש אמוג\'י</string>
     <string name="subtype_akkhor_bn_BD">%s (תווים)</string>
-    <string name="spell_checker_service_name">בודק האיות של HeliBoard</string>
+    <string name="spell_checker_service_name">בודק האיות של UP Keyboard</string>
     <string name="settings_category_clipboard_history">היסטוריית הלוח</string>
     <string name="autospace_after_punctuation">הוספת רווח אוטומטית אחרי סימני פיסוק</string>
     <string name="day_night_mode_summary">המראה יעקוב אחר הגדרות המערכת</string>
     <string name="autospace_after_punctuation_summary">הוספת רווח אוטומטית לאחר סימני פיסוק בעת הקלדת מילה חדשה</string>
-    <string name="ime_settings">הגדרות HeliBoard</string>
+    <string name="ime_settings">הגדרות UP Keyboard</string>
     <string name="settings_category_input">קֶלֶט</string>
     <string name="settings_category_experimental">נסיוני</string>
     <string name="settings_category_miscellaneous">שונות</string>
@@ -158,7 +158,7 @@
     <string name="customize_currencies">התאמת סוגי מטבע</string>
     <string name="user_dict_word_already_present">מילה זו כבר קיימת במילון המשתמש %s. אנא הקלידו מילה אחרת.</string>
     <string name="user_dict_add_word_button">הוספת מילה</string>
-    <string name="theme_colors">צבעים</string>
+    <string name="theme_colors">צבעים (ערכת נושא בהירה)</string>
     <string name="settings_screen_about">אודות</string>
     <string name="about_github_link">צפייה ב-GitHub</string>
     <string name="toast_msg_clipboard_copy">התוכן הועתק ללוח</string>
@@ -314,7 +314,7 @@
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">חול</string>
     <string name="theme_name_user" tools:keep="@string/theme_name_user">מוגדר ע\"י המשתמש</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">יער</string>
-    <string name="theme_colors_night">צבעים (לילה)</string>
+    <string name="theme_colors_night">צבעים (ערכת נושא כהה)</string>
     <string name="theme_navbar">צבע סרגל הניווט</string>
     <string name="theme_name_light" tools:keep="@string/theme_name_light">בהיר</string>
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">צבעים חיים</string>
@@ -444,7 +444,7 @@
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">שורה תחתונה בלוח עם פקד פעולה</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">שורת אמוג\'י תחתונה עם פקד פעולה</string>
     <string name="subtype_mhr">מארי (מזרח אורל)</string>
-    <string name="emoji_dictionary_required">דרוש מילון אמוג\'י כדי שתכולה זו תפעל. מילונים בפורמט .dict ניתן להוריד ב %s.</string>
+    <string name="emoji_dictionary_required">דרוש מילון אמוג\'י כדי שתכולה זו תפעל בשפות המקלדת שהפעלת.\n\nניתן להוריד מילונים בפורמט .dict %s.\n\nלאחר ההורדה, התקן את המילון על ידי מעבר אל UP Keyboard Settings → Dictionaries, הקש על השפה שעבורה הורדת את המילון, לאחר מכן הקש על כפתור + ובחר את קובץ ה-.dict שהורדת.</string>
     <string name="inline_emoji_search_summary">הצעת אמוג\'י בלבד כאשר לפני המילה מופיעות נקודתיים</string>
     <string name="inline_emoji_search">חיפוש אמוג\'י מוטמע</string>
     <string name="custom_emoji_font">הגדרת גופן אמוג\'י מותאם מקובץ</string>
@@ -467,7 +467,7 @@
     <string name="gesture_data_much_data">יש לכם הרבה נתונים שלא נמסרו. אנא מיסרו אותם ומחקו את הנתונים הישנים.</string>
     <string name="gesture_data_how_to_use">איך להשתמש</string>
     <string name="gesture_data_description_modes">כעת קיים רק מצב האיסוף הפעיל, בו מוצגת לך מילה מוגדרת שנדרש להקליד בהקלדה ע\"י מחוות.\n בהמשך יתווסף מצב של איסוף סביל, בו יהיה באפשרותך לספק דוגמיות מהשימוש הרגיל שלך בהקלדה ע\"י מחוות מיישומים אחרים. בשל רגישותה של גישה זו, האפשרות תהיה מבחירה, ניתנת להגדרה, ותכלול תצוגה לסקירה של הנתונים שיוגשו מטעמך.</string>
-    <string name="gesture_data_description_privacy">פרטיות\n\nהנתונים שיוגשו מטעמך כוללים מילת יעד, פריסת המקלדת ומידותיה, המחווה (זמנים וקואורדינטות), הצעות מהספרייה הנוכחית, Hash של המילונים שבשימוש, גרסת היישום, מצב איסוף הנתונים, האם הספרייה המשמשת להקלדה ע\"י מחוות היא ספריית ברירת-המחדל של Google, ומזהה לכל מחווה.\n הנתונים שיוגשו יוסרו לאחר הורדתם מתיבת הדואר של ProtonMail שבה הם נשמרים בהקדם האפשרי. לאחר ששלב האיסוף של נתוני הקלדה במחוות הסתיים, המאגר המצטבר של הנתונים שהוגשו ע\"י כל המשתמשים יפורסם תחת רישיון Creative Commons BY-SA 4.0.\n\n במסגרת החתירה לשמירה על פרטיותך, לא יצויין שמך במפורש כמחבר. הקרדיט שלך יוצג כ\"תורמי פרויקט נתוני המחוות של HeliBoard\". לא יתאפשר לקשור את הנתונים שיוגשו על-ידך במסך זה לזהות שלך. עם זאת, עשוי להיות אפשרי לקבוע אילו מחוות בוצעו ע\"י אותו משתמש. הדבר מתאפשר לדוגמה עפ\"י פריסת מקלדת מותאמת, מימדי המקלדת, השפה, או סגנון הקלדה אישי.</string>
+    <string name="gesture_data_description_privacy">פרטיות\n\nהנתונים שיוגשו מטעמך כוללים מילת יעד, פריסת המקלדת ומידותיה, המחווה (זמנים וקואורדינטות), הצעות מהספרייה הנוכחית, Hash של המילונים שבשימוש, גרסת היישום, מצב איסוף הנתונים, האם הספרייה המשמשת להקלדה ע\"י מחוות היא ספריית ברירת-המחדל של Google, ומזהה לכל מחווה.\n הנתונים שיוגשו יוסרו לאחר הורדתם מתיבת הדואר של ProtonMail שבה הם נשמרים בהקדם האפשרי. לאחר ששלב האיסוף של נתוני הקלדה במחוות הסתיים, המאגר המצטבר של הנתונים שהוגשו ע\"י כל המשתמשים יפורסם תחת רישיון Creative Commons BY-SA 4.0.\n\n במסגרת החתירה לשמירה על פרטיותך, לא יצויין שמך במפורש כמחבר. הקרדיט שלך יוצג כ\"תורמי פרויקט נתוני המחוות של UP Keyboard\". לא יתאפשר לקשור את הנתונים שיוגשו על-ידך במסך זה לזהות שלך. עם זאת, עשוי להיות אפשרי לקבוע אילו מחוות בוצעו ע\"י אותו משתמש. הדבר מתאפשר לדוגמה עפ\"י פריסת מקלדת מותאמת, מימדי המקלדת, השפה, או סגנון הקלדה אישי.</string>
     <string name="gesture_data_privacy">פרטיות</string>
     <string name="gesture_data_get_data">שיתוף קובץ נתוני ההקלדה במחוות</string>
     <string name="gesture_data_delete_data">הסרת נתוני ההקלדה במחוות</string>
@@ -488,7 +488,7 @@
     <string name="gesture_data_ended">שלב איסוף נתוני המחוות הסתיים ב-%s. באפשרותך לשתף את הנתונים הקיימים, אך לא להוסיף חדשים.</string>
     <string name="gesture_data_share_all">שיתוף כל %s המילים</string>
     <string name="gesture_data_email_body">חשוב:\n\n היי לך!\nלתזכורת, הנתונים הללו ישותפו ציבורית תחת רישיון CC BY-SA 4.0, ושמך לא יצויין ברשימת יוצרי הנתונים כדי לשמור על פרטיותך.\n\nתודה על שיתוף הזכויות לנתונים שלך איתנו. נעשה בהם שימוש טוב!\n\nיודגש ששינויים בניסוח הודעה זו לא משנים את השימוש שנעשה בעזרת הנתונים שלך. זה איננו חוזה שעובר שינוי, זו רק תזכורת ידידותית!\n אם ברצונך לשלוח לנו מסר ביחד עם הנתונים שלך, נא לכתוב אותו מתחת לקו כאן.\n ---------------------------------------------</string>
-    <string name="gesture_data_promotion_message">היי לך!\n מאחר והתקנת את ספריית ההקלדה במחוות, עשוי לעניין אותך גם המיזם של HeliBoard ליצירת ספריית הקלדה במחוות פתוחה במלואה. באפשרותך לסייע ע\"י נידוב נתוני הקלדה במחוות. למידע נוסף ניתן לבקר במסך איסוף נתוני ההקלדה במחוות.</string>
+    <string name="gesture_data_promotion_message">היי לך!\n מאחר והתקנת את ספריית ההקלדה במחוות, עשוי לעניין אותך גם המיזם של UP Keyboard ליצירת ספריית הקלדה במחוות פתוחה במלואה. באפשרותך לסייע ע\"י נידוב נתוני הקלדה במחוות. למידע נוסף ניתן לבקר במסך איסוף נתוני ההקלדה במחוות.</string>
     <string name="gesture_data_reminder_message">היי לך!\n בעבר השתמשת באיסוף נתוני המחוות, אך לא הוספת נתונים מזה זמן מה. האם ברצונך לנדב נתונים שוב?</string>
     <string name="gesture_data_take_me_there">מעבר למסך כעת</string>
     <string name="gesture_data_links">מידע על איסוף נתוני שימוש במחוות:</string>
@@ -496,4 +496,13 @@
     <string name="toolbar_swipe_down_to_hide">הסתרת המקלדת ע\"י החלקה</string>
     <string name="toolbar_swipe_down_to_hide_summary">החלקה למטה על סרגל הכלים לסגירת המקלדת</string>
     <string name="gesture_data_please_switch_keyboard">נא לעבור אל %s</string>
+    <string name="emoji_management">ניהול אמוג\'ים</string>
+    <string name="emoji_management_summary">הסתר אמוג\'ים בודדים מהמקלדת</string>
+    <string name="emoji_management_hidden_count">%d אמוג\'ים מוסתרים</string>
+    <string name="emoji_management_view_hidden">הצג מוסתרים</string>
+    <string name="emoji_management_edit_hint">הקש על אמוג\'י כדי להסתיר אותו</string>
+    <string name="emoji_management_restore_hint">הקש על אמוג\'י כדי לשחזר אותו</string>
+    <string name="emoji_management_restore_all">שחזר הכל</string>
+    <string name="emoji_management_no_hidden">אין אמוג\'ים מוסתרים</string>
+    <string name="emoji_management_hidden_title">אמוג\'ים מוסתרים</string>
 </resources>

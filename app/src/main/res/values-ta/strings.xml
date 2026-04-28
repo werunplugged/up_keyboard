@@ -111,7 +111,7 @@
     <string name="suggest_emojis_summary">சாதாரண பரிந்துரைகளில் ஈமோசி அகராதியைப் பயன்படுத்தவும்</string>
     <string name="inline_emoji_search">இன்லைன் ஈமோசி தேடல்</string>
     <string name="inline_emoji_search_summary">ஒரு வார்த்தைக்கு முன் பெருங்குடல் இருக்கும் போது ஈமோசிகளை மட்டும் பரிந்துரைக்கவும்</string>
-    <string name="emoji_dictionary_required">இந்த நற்பொருத்தம் செயல்பட ஈமோசி அகராதி தேவை. .dict வடிவத்தில் உள்ள அகராதிகளை %s பதிவிறக்கம் செய்யலாம்.</string>
+    <string name="emoji_dictionary_required">நீங்கள் இயக்கிய விசைப்பலகை மொழிகளுக்கு இந்த நற்பொருத்தம் செயல்பட ஈமோசி அகராதி தேவை.\n\n.dict வடிவத்தில் உள்ள அகராதிகளை %s பதிவிறக்கம் செய்யலாம்.\n\nபதிவிறக்கம் செய்த பிறகு, UP Keyboard Settings → Dictionaries-க்குச் சென்று, அகராதியைப் பதிவிறக்கிய மொழியைத் தட்டி, பின்னர் + பொத்தானைத் தட்டி, பதிவிறக்கிய .dict கோப்பைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="show_emoji_descriptions">நீண்ட நேரம் அழுத்தும்போது ஈமோசி விளக்கத்தைக் காட்டு</string>
     <string name="settings_category_input">உள்ளீடு</string>
     <string name="settings_category_additional_keys">கூடுதல் விசைகள்</string>
@@ -343,8 +343,8 @@
     <string name="theme_style">சூல் தண்டு</string>
     <string name="icon_style">படவுரு பாணி</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">வட்டமானது</string>
-    <string name="theme_colors">நிறங்கள்</string>
-    <string name="theme_colors_night">நிறங்கள் (இரவு)</string>
+    <string name="theme_colors">நிறங்கள் (வெளிச்ச தீம்)</string>
+    <string name="theme_colors_night">நிறங்கள் (இருண்ட தீம்)</string>
     <string name="key_borders">முக்கிய எல்லைகள்</string>
     <string name="day_night_mode">தானியங்கு பகல்/இரவு பயன்முறை</string>
     <string name="day_night_mode_summary">தோற்றம் கணினி அமைப்புகளைப் பின்பற்றும்</string>

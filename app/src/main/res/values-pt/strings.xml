@@ -91,8 +91,8 @@
     <string name="user_dict_settings_edit_dialog_title">"Editar palavra"</string>
     <string name="user_dict_settings_all_languages">"Para todos os idiomas"</string>
     <string name="user_dict_settings_more_languages">"Mais idiomas…"</string>
-    <string name="spell_checker_service_name">Verificação ortográfica HeliBoard</string>
-    <string name="android_spell_checker_settings">Definições de verificação ortográfica HeliBoard</string>
+    <string name="spell_checker_service_name">Verificação ortográfica UP Keyboard</string>
+    <string name="android_spell_checker_settings">Definições de verificação ortográfica UP Keyboard</string>
     <string name="number_row">Número de linha</string>
     <string name="number_row_summary">Mostrar sempre n.º de linha</string>
     <string name="prefs_force_incognito_mode_summary">Desativar aprendizagem de palavras</string>
@@ -102,7 +102,7 @@
     <string name="settings_category_experimental">Experimental</string>
     <string name="settings_category_input">Introdução</string>
     <string name="settings_category_miscellaneous">Outras</string>
-    <string name="ime_settings">Definições HeliBoard</string>
+    <string name="ime_settings">Definições UP Keyboard</string>
     <string name="settings_category_suggestions">Sugestões</string>
     <string name="delete_swipe">Deslize para eliminar</string>
     <string name="more_keys_strip_description">Mais teclas</string>
@@ -345,8 +345,8 @@
     <string name="user_dict_add_word_button">Adicionar uma palavra</string>
     <string name="theme_style">Estilo</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Arredondado</string>
-    <string name="theme_colors">Cores</string>
-    <string name="theme_colors_night">Cores (noite)</string>
+    <string name="theme_colors">Cores (tema claro)</string>
+    <string name="theme_colors_night">Cores (tema escuro)</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Escuro</string>
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">Mais escuro</string>
     <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">Azul Acinzentado</string>
@@ -432,7 +432,7 @@
     <string name="hidden_features_message">► Pressionar teclas da barra de ferramentas resulta em funcionalidade adicional: &lt;br&gt; \n\t• área de transferência &amp;#65515; colar &lt;br&gt; \n\t• mover esquerda/direita &amp;#65515; palavra à esquerda/direita &lt;br&gt; \n\t• mover cima/baixo &amp;#65515; página para cima/baixo &lt;br&gt; \n\t• palavra à esquerda/direita &amp;#65515; início/fim da linha &lt;br&gt; \n\t• página para cima/baixo &amp;#65515; início/fim da página &lt;br&gt; \n\t• copiar &amp;#65515; cortar &lt;br&gt; \n\t• selecionar palavra &amp;#8596; selecionar tudo &lt;br&gt; \n\t• desfazer &amp;#8596; refazer &lt;br&gt; &lt;br&gt; \n► Pressionar as teclas na faixa de sugestões afixa-as na faixa de sugestões. &lt;br&gt; &lt;br&gt; \n► Pressiona a tecla de vírgula para aceder ao modo de Área de Transferência, modo de Emoji, modo de Uma Mão, Definições, ou mudar Idioma: &lt;br&gt; \n\t• Modo de Emoji e Mudar Idioma irá desaparecer se a tecla correspondente estiver ativa; &lt;br&gt; \n\t• Em alguns layouts não é a tecla de vírgula, mas a que está na mesma posição (e.g. é \\\'q\\\' para o layout Dvorak). &lt;br&gt; &lt;br&gt; \n► Quando o modo incógnito estiver ativo, nenhuma palavra nova será aprendida, e nenhum emoji será adicionado aos recentes. &lt;br&gt; &lt;br&gt; \n► Pressiona o ícone de Incógnito para aceder à barra de ferramentas. &lt;br&gt; &lt;br&gt; \n► Input por gestos: Desliza do shift para outra tecla para escrever uma única tecla maiúscula: &lt;br&gt; \n\t• Também funciona para as teclas \\\'?123\\\' para escrever um único símbolo do teclado, e para teclas relacionadas. &lt;br&gt; &lt;br&gt; \n► Pressiona shift ou a tecla de símbolos, pressiona uma ou mais teclas, e depois liberta para voltar ao teclado anterior. &lt;br&gt; &lt;br&gt; \n► Pressiona uma sugestão na faixa de sugestões para mostrar mais sugestões, e o botão de apagar para a apagar. &lt;br&gt; &lt;br&gt; \n► Desliza para cima para mostrar mais sugestões, e liberta na sugestão para selecionar. &lt;br&gt; &lt;br&gt; \n► Pressiona um artigo na área de transferência para o afixar (permanece lá até ser desafiado). &lt;br&gt; &lt;br&gt; \n► Deslize para a esquerda no Modo da Área de Transferência para remover um artigo (exceto quando está afixado) &lt;br&gt; &lt;br&gt; \n► Seleciona texto e pressiona shift para alternar entre maiúsculas, minúsculas e palavras capitalizadas. &lt;br&gt; &lt;br&gt; \n► Pode adicionar dicionários ao abri-los no gestor de ficheiros: &lt;br&gt; \n\t• Apenas funciona com &lt;i&gt;content-uris&lt;/i&gt; e não com &lt;i&gt;file-uris&lt;/i&gt;, ou seja, pode não funcionar com alguns gestores de ficheiros. &lt;br&gt; &lt;br&gt; \n► Para utilizadores a fazer backup manual com root: &lt;br&gt; \n\t• Começando no Android 7, o ficheiro de preferências partilhado não está no local padrão, pois a app está a usar %s. Isto é necessário para que as definições sejam acessíveis depois do dispositivo ser desbloqueado, e.g. no boot; &lt;br&gt; \n\t• O ficheiro está normalmente localizado em /data/user_de/0/package_id/shared_prefs/ mas pode variar dependendo da versão de Android. &lt;br&gt; &lt;br&gt; \n&lt;i&gt;&lt;b&gt;Modo de debug / APK de debug&lt;/b&gt;&lt;/i&gt; &lt;br&gt; &lt;br&gt; \n► Pressiona uma sugestão para ver o dicionário de origem. &lt;br&gt; &lt;br&gt; \n► Ao usar o APK de debug, pode encontrar as Definições de Debug nas Definições Avançadas, mas a utilidade é limitada exceto para exportar o dicionário nos logs. &lt;br&gt; \n\t• Para um APK de release, clique a versão no &lt;i&gt;Sobre&lt;/i&gt; várias vezes, e depois pode encontrar as definições de debug nas &lt;i&gt;Definições Avançadas&lt;/i&gt;. &lt;br&gt; \n\t• Ao ativar &lt;i&gt;Show suggestion infos&lt;/i&gt;, sugestões terão pequenos números no topo mostrando a pontuação interna e o dicionário proveniente. &lt;br&gt; &lt;br&gt; \n► No evento de um crash da aplicação, ser-lhe-á perguntado se quer os logs do crash quando abre as Definições. &lt;br&gt; &lt;br&gt; \n► Em escrita multi-idioma, a barra de espaço irá mostrar um valor de confiança usado para determinar o idioma atual. &lt;br&gt; &lt;br&gt; \n► Sugestões terão um pequeno número no topo mostrando a pontuação interna e o dicionário proveniente (pode ser desativado).</string>
     <string name="inline_emoji_search">Pesquisa por emojis embutida</string>
     <string name="inline_emoji_search_summary">Sugerir somente emojis para quando uma palavra é precedida por dois pontos</string>
-    <string name="emoji_dictionary_required">Um dicionário de emojis é necessário para esta funcionalidade. Dicionários no formato .dict podem ser descarregados %s.</string>
+    <string name="emoji_dictionary_required">Um dicionário de emojis é necessário para esta funcionalidade nos idiomas do teclado que ativou.\n\nDicionários no formato .dict podem ser descarregados %s.\n\nApós a transferência, instale o dicionário acedendo a UP Keyboard Settings → Dictionaries, toque no idioma para o qual transferiu o dicionário, depois toque no botão + e selecione o ficheiro .dict transferido.</string>
     <string name="clipboard_history_pinned_first">Mostrar items afixados no topo</string>
     <string name="save_subtype_per_app">Lembrar idioma por app</string>
     <string name="subtype_mhr">Mari (Oriental)</string>
@@ -442,4 +442,13 @@
     <string name="number_row_in_symbols">Mostrar fila de números no modo de símbolos</string>
     <string name="custom_emoji_font">Definir fonte de emojis personalizada de ficheiro</string>
     <string name="layout_functional_keys_khipro" tools:keep="@string/layout_functional_keys">Teclas funcionais (Khipro)</string>
+    <string name="emoji_management">Gestão de emojis</string>
+    <string name="emoji_management_summary">Ocultar emojis individuais do teclado</string>
+    <string name="emoji_management_hidden_count">%d emojis ocultos</string>
+    <string name="emoji_management_view_hidden">Ver ocultos</string>
+    <string name="emoji_management_edit_hint">Toque num emoji para o ocultar</string>
+    <string name="emoji_management_restore_hint">Toque num emoji para o restaurar</string>
+    <string name="emoji_management_restore_all">Restaurar tudo</string>
+    <string name="emoji_management_no_hidden">Ainda não há emojis ocultos</string>
+    <string name="emoji_management_hidden_title">Emojis ocultos</string>
 </resources>

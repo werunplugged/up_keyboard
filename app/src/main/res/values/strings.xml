@@ -29,7 +29,7 @@
     <!-- Description for option to perform inline emoji search -->
     <string name="inline_emoji_search_summary">Suggest only emojis when a word is preceded by a colon</string>
     <!-- Warning text for when enabling inline emoji search with no emoji dictionary. The %s will be replaced by dictionary_link_text. -->
-    <string name="emoji_dictionary_required">An emoji dictionary is required for this feature to work. Dictionaries in .dict format can be downloaded %s.</string>
+    <string name="emoji_dictionary_required">An emoji dictionary is required for this feature to work for the keyboard languages you have enabled.\n\nYou can download dictionaries in .dict format %s.\n\nAfter downloading, install the dictionary by going to UP Keyboard Settings → Dictionaries, tap the language you downloaded the dictionary for, then tap the + button and select the downloaded .dict file.</string>
     <!-- Option to show emoji descriptions on long press -->
     <string name="show_emoji_descriptions">Show emoji description on long press</string>
     <!-- Option to control whether or not to show a popup with a larger font on each key press. -->
@@ -407,6 +407,44 @@
     <string name="custom_font">Set custom font from file</string>
     <!-- Title of the setting for adding / removing custom font file used only for emojis -->
     <string name="custom_emoji_font">Set custom emoji font from file</string>
+    <!-- Title of the Emoji management settings screen — lets users hide individual emojis -->
+    <string name="emoji_management">Emoji management</string>
+    <!-- Description for the Emoji management settings entry -->
+    <string name="emoji_management_summary">Hide individual emojis from the keyboard</string>
+    <!-- Header showing how many emojis the user has hidden (%d is replaced with the count) -->
+    <string name="emoji_management_hidden_count">%d emojis hidden</string>
+    <!-- Button to open the Hidden emojis sub-screen -->
+    <string name="emoji_management_view_hidden">View hidden</string>
+    <!-- Hint shown at the top of the screen while editing -->
+    <string name="emoji_management_edit_hint">Tap any emoji to hide it</string>
+    <!-- Hint shown at the top of the Hidden emojis screen -->
+    <string name="emoji_management_restore_hint">Tap an emoji to restore it</string>
+    <!-- Action that restores all hidden emojis at once -->
+    <string name="emoji_management_restore_all">Restore all</string>
+    <!-- Empty-state message when the user has not hidden any emojis -->
+    <string name="emoji_management_no_hidden">No emojis hidden yet</string>
+    <!-- Title of the Hidden emojis sub-screen -->
+    <string name="emoji_management_hidden_title">Hidden emojis</string>
+    <!-- Emoji category section header — Smileys & Emotion -->
+    <string name="category_smileys_emotion">Smileys &amp; Emotion</string>
+    <!-- Emoji category section header — People & Body -->
+    <string name="category_people_body">People &amp; Body</string>
+    <!-- Emoji category section header — Animals & Nature -->
+    <string name="category_animals_nature">Animals &amp; Nature</string>
+    <!-- Emoji category section header — Food & Drink -->
+    <string name="category_food_drink">Food &amp; Drink</string>
+    <!-- Emoji category section header — Travel & Places -->
+    <string name="category_travel_places">Travel &amp; Places</string>
+    <!-- Emoji category section header — Activities -->
+    <string name="category_activities">Activities</string>
+    <!-- Emoji category section header — Objects -->
+    <string name="category_objects">Objects</string>
+    <!-- Emoji category section header — Symbols -->
+    <string name="category_symbols">Symbols</string>
+    <!-- Emoji category section header — Flags -->
+    <string name="category_flags">Flags</string>
+    <!-- Emoji category section header — Emoticons (text-based smiley faces) -->
+    <string name="category_emoticons">Emoticons</string>
     <!-- Description for English (UK) keyboard subtype
          (UK) should be an abbreviation of United Kingdom. -->
     <string name="subtype_en_GB">English (UK)</string>
@@ -687,9 +725,9 @@ New dictionary:
     <!-- Style name for Rounded style -->
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Rounded</string>
     <!-- Option for choosing colors -->
-    <string name="theme_colors">Colors</string>
+    <string name="theme_colors">Colors (light theme)</string>
     <!-- Option for choosing colors for night mode -->
-    <string name="theme_colors_night">Colors (night)</string>
+    <string name="theme_colors_night">Colors (dark theme)</string>
     <!-- Option for choosing whether we use a theme that provides borders to keys -->
     <string name="key_borders">Key borders</string>
     <!-- Option for choosing auto day/night theme switch -->
@@ -1028,7 +1066,7 @@ New dictionary:
         Submitted data will be downloaded and deleted from the ProtonMail mailbox where it is stored at our earliest convenience.
         After the gesture data gathering phase has ended, the accumulated data set from all users will be published under the Creative Commons BY-SA 4.0 license.\n\n
 
-        As part of trying to protect your privacy, you won\'t be listed explicitly as an author. Your credit will be as \"The HeliBoard Gesture Data Project Contributors.\" It should not be possible to connect the data you generate in this screen to your identity. However, it might be possible to determine which gestures were made by the same person.
+        As part of trying to protect your privacy, you won\'t be listed explicitly as an author. Your credit will be as \"The UP Keyboard Gesture Data Project Contributors.\" It should not be possible to connect the data you generate in this screen to your identity. However, it might be possible to determine which gestures were made by the same person.
         This can be done e.g. from a custom keyboard layout, keyboard dimensions, language, or individual gesturing style.\n\n
     </string>
     <!-- Button text for showing gesture_data_description_privacy
@@ -1135,7 +1173,7 @@ New dictionary:
      string will probably be removed once data gathering is finished (end of 2026 latest) -->
     <string name="gesture_data_promotion_message">
         Hey there!\n
-        Since you installed the gesture typing library, you might be interested in HeliBoard\'s project for creating a fully open gesture typing library.
+        Since you installed the gesture typing library, you might be interested in UP Keyboard\'s project for creating a fully open gesture typing library.
         You can help by contributing gesture data. For more information visit the gesture data gathering screen.
     </string>
     <!-- Message asking the user to contribute to gesture data gathering again (dialog in main settings)

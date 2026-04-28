@@ -264,6 +264,10 @@ final class DynamicGridKeyboard extends Keyboard {
                 Log.w(TAG, "Invalid object: " + o);
                 continue;
             }
+            // Skip emojis the user has hidden — they should not appear in the recents row.
+            if (key != null && key.getOutputText() != null && HiddenEmojis.INSTANCE.isHidden(key.getOutputText())) {
+                continue;
+            }
             addKeyLast(key);
         }
     }

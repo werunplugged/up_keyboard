@@ -18,6 +18,7 @@ object KeyboardTypeface {
     private var customTypefaceLoaded = false
 
     private var cachedEmojiTypeface: Typeface? = null
+    private var cachedEmojiFontFamily: FontFamily? = null
     @Volatile
     private var emojiTypefaceLoaded = false
 
@@ -30,6 +31,20 @@ object KeyboardTypeface {
     private fun loadCustomEmojiTypeface(context: Context): Typeface? {
         return runCatching {
             Typeface.createFromFile(Settings.getCustomEmojiFontFile(context))
+        }.getOrNull()
+    }
+
+    /** Path of the bundled fallback emoji font inside [android.content.res.AssetManager]. */
+    private const val BUNDLED_EMOJI_FONT_ASSET = "fonts/NotoColorEmoji.ttf"
+
+    /**
+     * Loads the bundled Noto Color Emoji asset shipped with the app. Used as the default
+     * emoji typeface so newer ZWJ sequences (e.g. 🍄‍🟫, ⛓️‍💥, 🧑‍🧑‍🧒) render correctly even
+     * on devices whose system emoji font is older than the asset files we ship.
+     */
+    private fun loadBundledEmojiTypeface(context: Context): Typeface? {
+        return runCatching {
+            Typeface.createFromAsset(context.assets, BUNDLED_EMOJI_FONT_ASSET)
         }.getOrNull()
     }
 
@@ -53,11 +68,24 @@ object KeyboardTypeface {
         val context = Settings.getCurrentContext() ?: return null
         synchronized(lock) {
             if (!emojiTypefaceLoaded) {
-                cachedEmojiTypeface = loadCustomEmojiTypeface(context)
+                // Prefer a user-supplied custom emoji font; otherwise fall back to the
+                // bundled Noto Color Emoji asset so all emojis (including newer ZWJ
+                // sequences) render correctly out of the box.
+                val typeface = loadCustomEmojiTypeface(context)
+                    ?: loadBundledEmojiTypeface(context)
+                cachedEmojiTypeface = typeface
+                cachedEmojiFontFamily = typeface?.let(::FontFamily)
                 emojiTypefaceLoaded = true
             }
             return cachedEmojiTypeface
         }
+    }
+
+    /** Compose-side accessor; returns [FontFamily] wrapping [emojiTypeface]. */
+    @JvmStatic
+    fun emojiFontFamily(): FontFamily? {
+        if (!emojiTypefaceLoaded) emojiTypeface()
+        return cachedEmojiFontFamily
     }
 
     @JvmStatic
@@ -96,6 +124,7 @@ object KeyboardTypeface {
             cachedCustomFontFamily = null
             customTypefaceLoaded = false
             cachedEmojiTypeface = null
+            cachedEmojiFontFamily = null
             emojiTypefaceLoaded = false
         }
     }

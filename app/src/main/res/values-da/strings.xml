@@ -103,7 +103,7 @@
     <string name="day_night_mode">Automatisk dag-/nattilstand</string>
     <string name="day_night_mode_summary">Udseende følger systemindstillinger</string>
     <string name="abbreviation_unit_minutes">%s min.</string>
-    <string name="spell_checker_service_name">HeliBoard-stavekontrol</string>
+    <string name="spell_checker_service_name">UP Keyboard-stavekontrol</string>
     <string name="show_hints">Vis tastehints</string>
     <string name="number_row">Talrække</string>
     <string name="number_row_summary">Vis altid talrækken</string>
@@ -111,11 +111,11 @@
     <string name="show_emoji_key">Emoji-tast</string>
     <string name="prefs_long_press_keyboard_to_change_lang">Skift inputmetode med mellemrumstasten</string>
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Langt tryk på mellemrumstasten åbner menuen til valg af inputmetode</string>
-    <string name="android_spell_checker_settings">Indstillinger for HeliBoard-stavekontrol</string>
+    <string name="android_spell_checker_settings">Indstillinger for UP Keyboard-stavekontrol</string>
     <string name="autospace_after_punctuation_summary">Indsæt automatisk mellemrum efter skilletegn, når du skriver et nyt ord</string>
     <string name="autospace_after_punctuation">Auto-mellemrum efter skilletegn</string>
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
-    <string name="ime_settings">HeliBoard-indstillinger</string>
+    <string name="ime_settings">UP Keyboard-indstillinger</string>
     <string name="settings_category_input">Input</string>
     <string name="settings_category_additional_keys">Yderligere taster</string>
     <string name="settings_category_miscellaneous">Diverse</string>
@@ -210,7 +210,7 @@
     <string name="setup_step3_action">Konfigurer tastaturet</string>
     <string name="user_dict_add_word_button">Tilføj et ord</string>
     <string name="theme_style">Stil</string>
-    <string name="theme_colors_night">Farver (nat)</string>
+    <string name="theme_colors_night">Farver (mørkt tema)</string>
     <string name="layout_error">Layoutfejl: %s</string>
     <string name="auto_correct_shortcuts">Auto-korrektur genveje</string>
     <string name="auto_correct_shortcuts_summary">Når aktiveret, kan genveje udvides af autokorrektur</string>
@@ -247,7 +247,7 @@
     <string name="select_word" tools:keep="@string/select_word">Vælg ord</string>
     <string name="layout_number_row" tools:keep="@string/layout_number_row">Talrække</string>
     <string name="prefs_key_emoji_max_sdk">Tilsidesæt Emoji-version</string>
-    <string name="theme_colors">Farver</string>
+    <string name="theme_colors">Farver (lyst tema)</string>
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">Mørkere</string>
     <string name="theme_name_black" tools:keep="@string/theme_name_black">Sort</string>
     <string name="prefs_font_scale">Tastaturets skriftstørrelse</string>

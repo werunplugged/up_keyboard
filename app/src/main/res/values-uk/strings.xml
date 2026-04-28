@@ -92,18 +92,18 @@
     <string name="user_dict_settings_edit_dialog_title">Редагувати слово</string>
     <string name="user_dict_settings_all_languages">Для всіх мов</string>
     <string name="user_dict_settings_more_languages">"Інші мови…"</string>
-    <string name="ime_settings">Налаштування HeliBoard</string>
+    <string name="ime_settings">Налаштування UP Keyboard</string>
     <string name="day_night_mode_summary">Вигляд наслідує системні налаштування</string>
     <string name="autospace_after_punctuation_summary">Автоматично вставляти пробіл після знаків пунктуації під час введення нового слова</string>
     <string name="theme_style">Стиль теми</string>
     <string name="style_name_Rounded">Закруглений</string>
-    <string name="theme_colors">Кольори теми</string>
-    <string name="theme_colors_night">Кольори теми (темна тема)</string>
+    <string name="theme_colors">Кольори (світла тема)</string>
+    <string name="theme_colors_night">Кольори (темна тема)</string>
     <string name="day_night_mode">Використати тему системи</string>
     <string name="settings_category_input">Введення</string>
     <string name="subtype_akkhor_bn_BD">%s (Аккгор)</string>
     <string name="autospace_after_punctuation">Автопробіл після знаків пунктуації</string>
-    <string name="android_spell_checker_settings">Налаштування перевірки правопису HeliBoard</string>
+    <string name="android_spell_checker_settings">Налаштування перевірки правопису UP Keyboard</string>
     <string name="settings_category_correction">Виправлення</string>
     <string name="settings_category_suggestions">Пропозиції</string>
     <string name="settings_category_experimental">Експериментальне</string>
@@ -146,7 +146,7 @@
     <string name="show_hints">Показувати підказки клавіш</string>
     <string name="prefs_long_press_keyboard_to_change_lang">Змінювати метод введення клавішею пробіл</string>
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Довге натискання клавіші пробіл виводить меню вибору способу введення</string>
-    <string name="spell_checker_service_name">Перевірка правопису HeliBoard</string>
+    <string name="spell_checker_service_name">Перевірка правопису UP Keyboard</string>
     <string name="prefs_narrow_key_gaps">Збільшені клавіші</string>
     <string name="delete_swipe">Видаляти ковзанням</string>
     <string name="delete_swipe_summary">Проведіть пальцем по клавіші видалення, щоб виділити і вилучити більші фрагменти тексту за раз</string>
@@ -437,7 +437,7 @@
     <string name="clipboard_history_pinned_first">Показувати прикріплені об\'єкти вгорі</string>
     <string name="inline_emoji_search">Вбудований пошук емодзі</string>
     <string name="inline_emoji_search_summary">Запропонуйте лише емодзі, коли слову передує двокрапка</string>
-    <string name="emoji_dictionary_required">Для роботи цієї функції потрібен словник емодзі. Словники у форматі .dict можна завантажити %s.</string>
+    <string name="emoji_dictionary_required">Для роботи цієї функції для увімкнених мов клавіатури потрібен словник емодзі.\n\nСловники у форматі .dict можна завантажити %s.\n\nПісля завантаження встановіть словник, перейшовши до UP Keyboard Settings → Dictionaries, торкніться мови, для якої завантажили словник, потім торкніться кнопки + і виберіть завантажений файл .dict.</string>
     <string name="toolbar_swipe_down_to_hide">Сховати клавіатуру свайпом</string>
     <string name="toolbar_swipe_down_to_hide_summary">Проведіть вниз від панелі інструментів щоб закрити клавіатуру</string>
     <string name="timestamp_description">Ви можете додати ключ мітки часу за допомогою користувацького макета з ключем \'timestamp\', або кодом ключа -10043</string>
@@ -453,7 +453,7 @@
     <string name="gesture_data_description">Ласкаво просимо на екран збору даних жестів!&lt;br/&gt;&lt;br/&gt; Це частина &lt;a href=https://nlnet.nl/project/GestureTyping&gt;NLnet-funded project&lt;/a&gt;, що прагне створити бібліотеку для введення жестів з повністю відкритим вихідним кодом, здатну замінити бібліотеку Google із закритим кодом.&lt;br/&gt; Результатом планується проста заміна клавіатур на основі AOSP, але також придатна для використання з іншими клавіатурами, напр. FlorisBoard.&lt;br/&gt;&lt;br/&gt; Для розробки бібліотеки надзвичайно корисно мати детальні дані жестів різними мовами та різними користувачами.&lt;br/&gt; Збираючи та надсилаючи дані введення жестів, ви можете зробити внесок у відкритий набір даних жестів, які використовуватимуться для розвитку бібліотеки. Набір даних буде опубліковано за ліцензією CC BY-SA 4.0 через деякий час після завершення етапу збору даних на %s. Зібравши дані, ви можете надіслати їх за допомогою піктограми спільного доступу внизу цього екрана.</string>
     <string name="gesture_data_info">Що це?</string>
     <string name="gesture_data_description_modes">В даний час існує тільки активний режим збору, де вам показують певне слово, і ви вводите це слово за допомогою введення жестів.\n Пізніше буде додано режим пасивного збору, де ви зможете надати зразки зі звичайного введення жестів з інших програм. Завдяки чутливості цього підходу він буде доступним, його можна налаштувати та матиме екран перегляду даних, які ви збираєтеся надіслати.</string>
-    <string name="gesture_data_description_privacy">Конфіденційність\n\n Дані, які ви надсилаєте, складаються з цільового слова, розкладки та розмірів клавіатури, жестів (часу та координат), пропозицій поточної бібліотеки, хешу використаних словників, версії програми, режиму збору даних, чи є бібліотека введення жестів бібліотекою Google за замовчуванням, а також ідентифікатор для кожного жесту.\n Надіслані дані будуть завантажені та видалені з поштової скриньки ProtonMail, де вони зберігаються якнайшвидше. Після завершення етапу збору даних жестів накопичений набір даних від усіх користувачів буде опубліковано за ліцензією Creative Commons BY-SA 4.0.\n\n У рамках спроби захистити вашу конфіденційність ви не будете прямо вказані як автор. Ваша заслуга буде як \"Вкладники проекту жестових даних HeliBoard\" Не повинно бути можливості підключити дані, які ви генеруєте на цьому екрані, до вашої особи. Однак можна було б визначити, які жести робила одна й та сама особа. Це можна зробити, наприклад, за допомогою спеціальної розкладки клавіатури, розмірів клавіатури, мови або індивідуального стилю жестикуляції.</string>
+    <string name="gesture_data_description_privacy">Конфіденційність\n\n Дані, які ви надсилаєте, складаються з цільового слова, розкладки та розмірів клавіатури, жестів (часу та координат), пропозицій поточної бібліотеки, хешу використаних словників, версії програми, режиму збору даних, чи є бібліотека введення жестів бібліотекою Google за замовчуванням, а також ідентифікатор для кожного жесту.\n Надіслані дані будуть завантажені та видалені з поштової скриньки ProtonMail, де вони зберігаються якнайшвидше. Після завершення етапу збору даних жестів накопичений набір даних від усіх користувачів буде опубліковано за ліцензією Creative Commons BY-SA 4.0.\n\n У рамках спроби захистити вашу конфіденційність ви не будете прямо вказані як автор. Ваша заслуга буде як \"Вкладники проекту жестових даних UP Keyboard\" Не повинно бути можливості підключити дані, які ви генеруєте на цьому екрані, до вашої особи. Однак можна було б визначити, які жести робила одна й та сама особа. Це можна зробити, наприклад, за допомогою спеціальної розкладки клавіатури, розмірів клавіатури, мови або індивідуального стилю жестикуляції.</string>
     <string name="gesture_data_privacy">Конфіденційність</string>
     <string name="gesture_data_get_data">Поділитися файлом даних жестів</string>
     <string name="gesture_data_delete_data">Очистити дані жестів</string>
@@ -484,8 +484,17 @@
     <string name="gesture_data_delete_dialog_submitted">Видалити %s надісланих слів</string>
     <string name="gesture_data_many_not_shared_words">У вас є більше %s слів, які очікують на надсилання</string>
     <string name="gesture_data_email_body">ВАЖЛИВО:\n\n Привіт!\n Нагадаємо, ці дані будуть публічно поширюватися за ліцензією CC BY-SA 4.0, і ви не будете вказані як автор для захисту вашої конфіденційності.\n\n Дякуємо, що поділилися з нами правами на ваші дані. Ми їх з користю використаємо!\n\n Зверніть увагу, що зміна формулювання цього повідомлення не змінює того, що ми будемо робити з вашими даними. Це не контракт, який потрібно змінювати, це просто дружнє нагадування!\n Якщо ви хочете надіслати нам повідомлення разом зі своїми даними, напишіть його під рядком тут.\n ---------------------------------</string>
-    <string name="gesture_data_promotion_message">Привіт!\n Оскільки ви встановили бібліотеку введення жестів, можливо, вас зацікавить проект HeliBoard для створення повністю відкритої бібліотеки введення жестів. Ви можете допомогти, надаючи дані жестів. Для отримання додаткової інформації відвідайте екран збору даних жестів.</string>
+    <string name="gesture_data_promotion_message">Привіт!\n Оскільки ви встановили бібліотеку введення жестів, можливо, вас зацікавить проект UP Keyboard для створення повністю відкритої бібліотеки введення жестів. Ви можете допомогти, надаючи дані жестів. Для отримання додаткової інформації відвідайте екран збору даних жестів.</string>
     <string name="gesture_data_reminder_message">Привіт!\n Раніше ви використовували збір даних жестів, але не додавали дані протягом тривалого часу. Хочете знову зробити свій внесок?</string>
     <string name="gesture_data_take_me_there">Перейти</string>
     <string name="gesture_data_links">Інформація про збір даних про жести на:</string>
+    <string name="emoji_management">Керування емодзі</string>
+    <string name="emoji_management_summary">Сховати окремі емодзі з клавіатури</string>
+    <string name="emoji_management_hidden_count">%d прихованих емодзі</string>
+    <string name="emoji_management_view_hidden">Показати приховані</string>
+    <string name="emoji_management_edit_hint">Торкніться емодзі, щоб приховати</string>
+    <string name="emoji_management_restore_hint">Торкніться емодзі, щоб відновити</string>
+    <string name="emoji_management_restore_all">Відновити все</string>
+    <string name="emoji_management_no_hidden">Поки немає прихованих емодзі</string>
+    <string name="emoji_management_hidden_title">Приховані емодзі</string>
 </resources>

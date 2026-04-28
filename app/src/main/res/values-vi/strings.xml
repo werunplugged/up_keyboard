@@ -142,7 +142,7 @@
     <string name="day_or_night_night">Đêm</string>
     <string name="button_select_language">Chọn ngôn ngữ</string>
     <string name="user_dict_settings_add_weight_value">Độ nặng:</string>
-    <string name="theme_colors_night">Màu (chế độ đêm)</string>
+    <string name="theme_colors_night">Màu sắc (giao diện tối)</string>
     <string name="theme_name_light" tools:keep="@string/theme_name_light">Màu sáng</string>
     <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">Xanh xám</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Nâu</string>
@@ -167,7 +167,7 @@
     <string name="suggest_clipboard_content_summary">Hiển thị nội dung đã sao chép trong phần gợi ý</string>
     <string name="day_or_night_day">Ngày</string>
     <string name="button_backup">Lưu trữ</string>
-    <string name="theme_colors">Màu sắc</string>
+    <string name="theme_colors">Màu sắc (giao diện sáng)</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Hồng</string>
     <string name="main_colors">Chỉ hiển thị màu chính</string>
     <string name="get_colors_message">Bạn có thể tìm và chia sẻ màu sắc tại %s.</string>

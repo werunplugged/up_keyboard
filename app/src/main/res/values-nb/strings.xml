@@ -95,9 +95,9 @@
     <string name="number_row_summary">Alltid vis tallraden</string>
     <string name="day_night_mode">Automatisk dag/nattmodus</string>
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Langtrykke på mellomromstasten for inndatametode-valgmeny</string>
-    <string name="ime_settings">HeliBoard-innstillinger</string>
-    <string name="spell_checker_service_name">HeliBoard-stavekontroll</string>
-    <string name="android_spell_checker_settings">Innstillinger for HeliBoard-stavekontroll</string>
+    <string name="ime_settings">UP Keyboard-innstillinger</string>
+    <string name="spell_checker_service_name">UP Keyboard-stavekontroll</string>
+    <string name="android_spell_checker_settings">Innstillinger for UP Keyboard-stavekontroll</string>
     <string name="delete_swipe">Slettingsdragning</string>
     <string name="show_emoji_key">Emoji-tast</string>
     <string name="delete_swipe_summary">Utfør en dragning fra Delete-tasten for å velge og fjerne større deler av tekst samtidig</string>
@@ -248,8 +248,8 @@
     <string name="user_dict_add_word_button">Legg til ord</string>
     <string name="theme_style">Stil</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Avrundet</string>
-    <string name="theme_colors">Farger</string>
-    <string name="theme_colors_night">Farger (natt)</string>
+    <string name="theme_colors">Farger (lyst tema)</string>
+    <string name="theme_colors_night">Farger (mørkt tema)</string>
     <string name="theme_navbar">Farge navigasjonslinje</string>
     <string name="theme_name_light" tools:keep="@string/theme_name_light">Lys</string>
     <string name="theme_name_holo_white" tools:keep="@string/theme_name_holo_white">Holo hvit</string>

@@ -195,6 +195,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     // Emoji
     public static final String PREF_EMOJI_MAX_SDK = "emoji_max_sdk";
     public static final String PREF_EMOJI_RECENT_KEYS = "emoji_recent_keys";
+    public static final String PREF_HIDDEN_EMOJIS = "hidden_emojis";
     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_ID = "last_shown_emoji_category_id";
     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID = "last_shown_emoji_category_page_id";
 
@@ -232,6 +233,26 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public static Context getCurrentContext() {
         return sInstance.mContext;
+    }
+
+    /**
+     * Listener for when SettingsValues are reloaded due to a preference change.
+     * Used e.g. by LatinIME to refresh its cached state (AudioAndHapticFeedbackManager etc.)
+     * so settings changes apply immediately instead of only after reopening the keyboard.
+     */
+    public interface OnSettingsReloadedListener {
+        void onSettingsReloaded();
+    }
+
+    private final java.util.List<OnSettingsReloadedListener> mSettingsReloadedListeners =
+            new java.util.concurrent.CopyOnWriteArrayList<>();
+
+    public void addOnSettingsReloadedListener(final OnSettingsReloadedListener listener) {
+        mSettingsReloadedListeners.add(listener);
+    }
+
+    public void removeOnSettingsReloadedListener(final OnSettingsReloadedListener listener) {
+        mSettingsReloadedListeners.remove(listener);
     }
 
     public static void init(final Context context) {
@@ -272,6 +293,11 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         }
         if (PREF_ADDITIONAL_SUBTYPES.equals(key)) {
             SubtypeSettings.INSTANCE.reloadEnabledSubtypes(mContext);
+        }
+        // Notify listeners (e.g. LatinIME) so cached settings propagate immediately,
+        // allowing settings changes to apply without needing to reopen the keyboard.
+        for (OnSettingsReloadedListener listener : mSettingsReloadedListeners) {
+            listener.onSettingsReloaded();
         }
     }
 

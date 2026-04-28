@@ -28,6 +28,8 @@ import helium314.keyboard.settings.preferences.ListPreference
 import helium314.keyboard.settings.SettingsWithoutKey
 import helium314.keyboard.settings.Setting
 import helium314.keyboard.settings.preferences.Preference
+import helium314.keyboard.settings.SettingsDestination
+import helium314.keyboard.latin.utils.NextScreenIcon
 import helium314.keyboard.settings.SearchSettingsScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.preferences.SliderPreference
@@ -92,6 +94,7 @@ fun AppearanceScreen(
             Settings.PREF_EMOJI_KEY_FIT else null,
         if (prefs.getInt(Settings.PREF_EMOJI_MAX_SDK, 0) >= 24)
             Settings.PREF_EMOJI_SKIN_TONE else null,
+        SettingsWithoutKey.EMOJI_MANAGEMENT,
     )
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -142,7 +145,10 @@ fun createAppearanceSettings(context: Context) = listOf(
         )
         if (showDialog) {
             KeyboardIconsSet.instance.loadIcons(LocalContext.current)
-            CustomizeIconsDialog(setting.key) { showDialog = false }
+            CustomizeIconsDialog(setting.key) {
+                showDialog = false
+                KeyboardSwitcher.getInstance().setThemeNeedsReload()
+            }
         }
     },
     Setting(context, Settings.PREF_THEME_COLORS, R.string.theme_colors) { setting ->
@@ -328,6 +334,15 @@ fun createAppearanceSettings(context: Context) = listOf(
             "\uD83C\uDFFF" to "\uD83C\uDFFF"
         )
         ListPreference(setting, items, Defaults.PREF_EMOJI_SKIN_TONE) { KeyboardSwitcher.getInstance().setThemeNeedsReload() }
+    },
+    Setting(context, SettingsWithoutKey.EMOJI_MANAGEMENT,
+        R.string.emoji_management, R.string.emoji_management_summary
+    ) { setting ->
+        Preference(
+            name = setting.title,
+            description = setting.description,
+            onClick = { SettingsDestination.navigateTo(SettingsDestination.EmojiManagement) },
+        ) { NextScreenIcon() }
     },
 )
 

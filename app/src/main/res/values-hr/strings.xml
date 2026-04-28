@@ -91,8 +91,8 @@
     <string name="user_dict_settings_edit_dialog_title">"Uređivanje riječi"</string>
     <string name="user_dict_settings_all_languages">"Za sve jezike"</string>
     <string name="user_dict_settings_more_languages">"Više jezika…"</string>
-    <string name="spell_checker_service_name">HeliBoard provjera pravopisa</string>
-    <string name="android_spell_checker_settings">Postavke HeliBoard provjere pravopisa</string>
+    <string name="spell_checker_service_name">UP Keyboard provjera pravopisa</string>
+    <string name="android_spell_checker_settings">Postavke UP Keyboard provjere pravopisa</string>
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
     <string name="settings_category_suggestions">Prijedlozi</string>
     <string name="settings_category_clipboard_history">Povijest međuspremnika</string>
@@ -102,7 +102,7 @@
     <string name="show_emoji_key">Tipka za emojije</string>
     <string name="abbreviation_unit_minutes">%s min</string>
     <string name="settings_no_limit">Bez ograničenja</string>
-    <string name="ime_settings">HeliBoard postavke</string>
+    <string name="ime_settings">UP Keyboard postavke</string>
     <string name="settings_category_input">Unos</string>
     <string name="settings_category_additional_keys">Dodatne tipke</string>
     <string name="enable_clipboard_history">Omogući povijest međuspremnika</string>
@@ -143,7 +143,7 @@
     <string name="suggest_emojis_summary">Koristi rječnik emojija u običnim prijedlozima</string>
     <string name="inline_emoji_search_summary">Predlaže emojije samo kada se ispred riječi nalazi dvotočka</string>
     <string name="inline_emoji_search">Pretraživanje emojija unutar teksta</string>
-    <string name="emoji_dictionary_required">Za ovu značajku je potreban rječnik emojija. Rječnici u formatu .dict mogu se preuzeti %s.</string>
+    <string name="emoji_dictionary_required">Za ovu značajku je potreban rječnik emojija za jezike tipkovnice koje ste omogućili.\n\nRječnici u formatu .dict mogu se preuzeti %s.\n\nNakon preuzimanja instalirajte rječnik tako da odete na UP Keyboard Settings → Dictionaries, dodirnite jezik za koji ste preuzeli rječnik, zatim dodirnite gumb + i odaberite preuzetu .dict datoteku.</string>
     <string name="show_emoji_descriptions">Prikaži opis emojija dugim pritiskom</string>
     <string name="settings_category_space">Razmak</string>
     <string name="split_spacer_scale">Razmak razdvajanja</string>
@@ -349,8 +349,8 @@
     <string name="theme_style">Stil</string>
     <string name="icon_style">Stil ikona</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Okruglo</string>
-    <string name="theme_colors">Boje</string>
-    <string name="theme_colors_night">Boje (noćno)</string>
+    <string name="theme_colors">Boje (svijetla tema)</string>
+    <string name="theme_colors_night">Boje (tamna tema)</string>
     <string name="theme_navbar">Oboji navigacijsku traku</string>
     <string name="theme_name_light" tools:keep="@string/theme_name_light">Svijetlo</string>
     <string name="theme_name_holo_white" tools:keep="@string/theme_name_holo_white">Holo bijelo</string>

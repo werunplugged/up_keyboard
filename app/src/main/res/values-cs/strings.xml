@@ -101,8 +101,8 @@
     <string name="settings_no_limit">Bez limitu</string>
     <string name="enable_clipboard_history">Povolit historii schránky</string>
     <string name="clipboard_history_retention_time">Doba zachování historie</string>
-    <string name="spell_checker_service_name">Kontrola pravopisu HeliBoard</string>
-    <string name="android_spell_checker_settings">Nastavení kontroly pravopisu HeliBoard</string>
+    <string name="spell_checker_service_name">Kontrola pravopisu UP Keyboard</string>
+    <string name="android_spell_checker_settings">Nastavení kontroly pravopisu UP Keyboard</string>
     <string name="autospace_after_punctuation_summary">Automaticky vloží mezeru po ukončení slova znaménkem</string>
     <string name="incognito">Vynutit režim inkognito</string>
     <string name="prefs_force_incognito_mode_summary">Vypnout učení nových slov</string>
@@ -117,7 +117,7 @@
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Dlouhý stisk mezerníku zobrazí výzvu změny vstupní metody</string>
     <string name="prefs_keyboard_height_scale">Měřítko výšky klávesnice</string>
     <string name="day_night_mode_summary">Vzhled podle systémového nastavení</string>
-    <string name="ime_settings">Nastavení HeliBoard</string>
+    <string name="ime_settings">Nastavení UP Keyboard</string>
     <string name="settings_category_suggestions">Návrhy</string>
     <string name="show_emoji_key">Klávesa pro emodži</string>
     <string name="enable_clipboard_history_summary">Pokud vypnuto, tlačítko schránky vloží obsah schránky, pokud nějaký existuje</string>
@@ -177,8 +177,8 @@
     <string name="button_title_add_custom_layout">Přidat vlastní rozložení</string>
     <string name="setup_step3_action">Konfigurace klávesnice</string>
     <string name="button_select_language">Výběr jazyka</string>
-    <string name="theme_colors_night">Barvy (noční)</string>
-    <string name="theme_colors">Barvy</string>
+    <string name="theme_colors_night">Barvy (tmavý motiv)</string>
+    <string name="theme_colors">Barvy (světlý motiv)</string>
     <string name="theme_name_black" tools:keep="@string/theme_name_black">Černý</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Hnědý</string>
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">Čokoládový</string>
@@ -437,7 +437,7 @@
     <string name="clipboard_history_pinned_first">Zobrazit připnuté položky nahoře</string>
     <string name="inline_emoji_search">Vyhledávání emodži na řádku</string>
     <string name="inline_emoji_search_summary">Navrhovat emodži pouze, pokud je na začátku slova dvojtečka</string>
-    <string name="emoji_dictionary_required">Aby tato funkce fungovala, je nutný slovník emodži. Slovníky ve formátu .dict lze stáhnout %s.</string>
+    <string name="emoji_dictionary_required">Aby tato funkce fungovala pro povolené jazyky klávesnice, je nutný slovník emodži.\n\nSlovníky ve formátu .dict lze stáhnout %s.\n\nPo stažení slovník nainstalujete tak, že přejdete do UP Keyboard Settings → Dictionaries, klepnete na jazyk, pro který jste slovník stáhli, poté klepnete na tlačítko + a vyberete stažený soubor .dict.</string>
     <string name="subtype_mhr">Mari (východní)</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Spodní řádek emodži s akční klávesou</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Spodní řádek schránky s akční klávesou</string>
@@ -476,10 +476,10 @@
     <string name="gesture_data_many_not_shared_words">Máte více než %s slov čekajících na odeslání</string>
     <string name="gesture_data_description">Vítejte na obrazovce sbírání dat o gestech!&lt;br/&gt;&lt;br/&gt; Toto je část &lt;a href=https://nlnet.nl/project/GestureTyping&gt;projektu financovaného NLnet&lt;/a&gt; snažící se o vytvoření plně otevřené knihovny psaní pomocí gest schopné nahradit uzavřenou knihovnu společnosti Google.&lt;br/&gt;Výsledkem bude jednoduchá náhrada pro klávesnice založené na AOSP, ale použitelná také s jinými klávesnicemi, např. FlorisBoard&lt;br/&gt;&lt;br/&gt; Při vyvíjení knihovny je nesmírně nápomocné mít dostupná podrobná data o gestech v různých jazycích a od různých uživatelů.&lt;br/&gt; Sbíráním a odesláním dat o psaní gesty můžete přispět do otevřené sady dat o gestech, která bude použita pro vývoj knihovny. Sada dat bude zveřejněna pod licencí CC BY-SA 4.0 chvíli po dokončení fáze sběru dat %s. Jakmile nasbíráte data, můžete je odeslat pomocí ikony sdílení ve spodní části této obrazovky.</string>
     <string name="gesture_data_description_modes">V současné době existuje pouze metoda aktivního sbírání, kdy vám je zobrazeno určité slovo a vy jej napíšete pomocí gest.\n Později bude přidán režim pasivního sbírání, kdy budete moci poskytovat vzorky z vašeho klasického psaní gesty v jiných aplikacích. Z důvodu citlivosti tohoto přístupu bude tato funkce opt-in, nastavitelná a bude obsahovat obrazovku kontroly dat, která se chystáte odeslat.</string>
-    <string name="gesture_data_description_privacy">Ochrana osobních údajů\n\n Údaje, které zadáváte, zahrnují cílové slovo, rozložení klávesnice a rozměry, gesta (časy a souřadnice), návrhy aktuální knihovny, hash použitých slovníků, verzi aplikace, režim shromažďování údajů, zda je knihovna pro psaní gesty výchozí knihovnou Google, a ID pro každé gesto.\n Odeslaná data budou stažena a smazána z e-mailové schránky Proton Mail, kde jsou uložena, jakmile to bude možné. Po skončení fáze sběru dat o gestech bude souhrnný datový soubor od všech uživatelů zveřejněn pod licencí Creative Commons BY-SA 4.0.\n\n V rámci snahy o ochranu vašeho soukromí nebudete výslovně uvedeni jako autoři. Vaše zásluhy budou uvedeny jako „Přispěvatelé projektu HeliBoard Gesture Data Project“. Nemělo by být možné spojit data, která na této obrazovce generujete, s vaší identitou. Může však být možné určit, která gesta byla provedena stejnou osobou. To lze provést například na základě vlastního rozložení klávesnice, rozměrů klávesnice, jazyka nebo individuálního stylu gestikulace.</string>
+    <string name="gesture_data_description_privacy">Ochrana osobních údajů\n\n Údaje, které zadáváte, zahrnují cílové slovo, rozložení klávesnice a rozměry, gesta (časy a souřadnice), návrhy aktuální knihovny, hash použitých slovníků, verzi aplikace, režim shromažďování údajů, zda je knihovna pro psaní gesty výchozí knihovnou Google, a ID pro každé gesto.\n Odeslaná data budou stažena a smazána z e-mailové schránky Proton Mail, kde jsou uložena, jakmile to bude možné. Po skončení fáze sběru dat o gestech bude souhrnný datový soubor od všech uživatelů zveřejněn pod licencí Creative Commons BY-SA 4.0.\n\n V rámci snahy o ochranu vašeho soukromí nebudete výslovně uvedeni jako autoři. Vaše zásluhy budou uvedeny jako „Přispěvatelé projektu UP Keyboard Gesture Data Project“. Nemělo by být možné spojit data, která na této obrazovce generujete, s vaší identitou. Může však být možné určit, která gesta byla provedena stejnou osobou. To lze provést například na základě vlastního rozložení klávesnice, rozměrů klávesnice, jazyka nebo individuálního stylu gestikulace.</string>
     <string name="gesture_data_active_description">Klepněte na „Spustit aktivní sbírání“, volitelně přepněte slovník a začněte psát zobrazené slovo pomocí gest.&lt;br/&gt; Pokud vaše gesto odpovídá slovu, budou data uložena a bude zobrazeno další slovo. V opačném případě můžete pokus opakovat, přeskočit slovo nebo potvrdit, že jste jej zadali správně&lt;br/&gt; Můžete používat pouze vestavěné slovníky nebo slovníky dostupné v &lt;a href=%s&gt;repozitáři slovníků&lt;/a&gt;, žádná jiná slova nebudou použita.</string>
     <string name="gesture_data_email_body">DŮLEŽITÉ:\n\n Dobrý den!\n Připomínáme, že tyto údaje budou veřejně sdíleny pod licencí CC BY-SA 4.0 a vy nebudete uvedeni jako autor, aby bylo chráněno vaše soukromí.\n\n Děkujeme, že s námi sdílíte práva k vašim údajům. Využijeme je k dobrému účelu!\n\n Upozorňujeme, že změna znění tohoto oznámení nemění to, co s vašimi údaji uděláme. Nejedná se o smlouvu, kterou lze měnit, pouze o přátelské upozornění!\n Pokud nám chcete spolu s daty poslat zprávu, napište ji pod tuto čáru.\n ---------------------------------------------</string>
-    <string name="gesture_data_promotion_message">Dobrý den!\n Jelikož jste nainstalovali knihovnu pro psaní gesty, možná vás bude zajímat projekt vývojářů HeliBoard zaměřený na vytvoření plně otevřené knihovny pro psaní gesty. Můžete pomoci tím, že přispějete daty o gestech. Více informací najdete na obrazovce pro shromažďování dat o gestech.</string>
+    <string name="gesture_data_promotion_message">Dobrý den!\n Jelikož jste nainstalovali knihovnu pro psaní gesty, možná vás bude zajímat projekt vývojářů UP Keyboard zaměřený na vytvoření plně otevřené knihovny pro psaní gesty. Můžete pomoci tím, že přispějete daty o gestech. Více informací najdete na obrazovce pro shromažďování dat o gestech.</string>
     <string name="gesture_data_reminder_message">Dobrý den!\n Dříve jste používali shromažďování gest, ale už delší dobu jsi nepřidali žádná data. Chcete znovu přispívat?</string>
     <string name="ask_later">Zeptat se později</string>
     <string name="gesture_data_take_me_there">Vezměte mě tam</string>
@@ -490,4 +490,13 @@
     <string name="toolbar_swipe_down_to_hide_summary">Zavřít klávesnici posunutím prstu dolů na panelu nástrojů</string>
     <string name="gesture_data_please_switch_keyboard">Přepněte prosím na %s</string>
     <string name="gesture_data_share_limit">Pro zabránění překročení limitů velikosti bude exportováno pouze prvních %s slov</string>
+    <string name="emoji_management">Správa emoji</string>
+    <string name="emoji_management_summary">Skrýt jednotlivá emoji z klávesnice</string>
+    <string name="emoji_management_hidden_count">%d emoji skryto</string>
+    <string name="emoji_management_view_hidden">Zobrazit skrytá</string>
+    <string name="emoji_management_edit_hint">Klepněte na emoji pro skrytí</string>
+    <string name="emoji_management_restore_hint">Klepněte na emoji pro obnovení</string>
+    <string name="emoji_management_restore_all">Obnovit vše</string>
+    <string name="emoji_management_no_hidden">Zatím žádná skrytá emoji</string>
+    <string name="emoji_management_hidden_title">Skrytá emoji</string>
 </resources>

@@ -100,8 +100,8 @@
     <string name="more_keys_strip_description">Więcej klawiszy</string>
     <string name="number_row">Rząd numeryczny</string>
     <string name="show_emoji_key">Klawisz emotikonów</string>
-    <string name="spell_checker_service_name">Sprawdzanie pisowni HeliBoard</string>
-    <string name="android_spell_checker_settings">Ustawienia sprawdzania pisowni HeliBoard</string>
+    <string name="spell_checker_service_name">Sprawdzanie pisowni UP Keyboard</string>
+    <string name="android_spell_checker_settings">Ustawienia sprawdzania pisowni UP Keyboard</string>
     <string name="settings_category_clipboard_history">Historia schowka</string>
     <string name="enable_clipboard_history">Włącz historię schowka</string>
     <string name="incognito">Wymuś tryb incognito</string>
@@ -116,7 +116,7 @@
     <string name="show_hints">Pokazuj wskazówki klawiszy</string>
     <string name="prefs_keyboard_height_scale">Skala wysokości klawiatury</string>
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
-    <string name="ime_settings">Ustawienia HeliBoard</string>
+    <string name="ime_settings">Ustawienia UP Keyboard</string>
     <string name="settings_category_additional_keys">Dodatkowe klawisze</string>
     <string name="settings_category_input">Wprowadzanie</string>
     <string name="settings_category_suggestions">Sugestie</string>
@@ -150,7 +150,7 @@
     <string name="message_add_custom_layout">Wybierz plik w kompatybilnym formacie. Informacje o formatach dostępne są %s.</string>
     <string name="select_color_key_background">Tło klawiszy</string>
     <string name="restore_error">Błąd podczas przywracania kopii zapasowej: %s</string>
-    <string name="theme_colors">Kolory</string>
+    <string name="theme_colors">Kolory (jasny motyw)</string>
     <string name="select_color_functional_key_background">Tło klawiszy funkcyjnych</string>
     <string name="subtype_generic_sebeolsik_390">%s (Sebeolsik 390)</string>
     <string name="add_to_personal_dictionary_summary">Używaj słownika osobistego do przechowywania nauczonych słów</string>
@@ -265,7 +265,7 @@
     <string name="theme_style">Styl</string>
     <string name="select_word" tools:keep="@string/select_word">Zaznacz słowo</string>
     <string name="hidden_features_summary">Pokaż funkcje, które mogą zostać niezauważone</string>
-    <string name="theme_colors_night">Kolory (tryb nocny)</string>
+    <string name="theme_colors_night">Kolory (ciemny motyw)</string>
     <string name="left" tools:keep="@string/left">W lewo</string>
     <string name="all_colors">Pokaż wszystkie kolory</string>
     <string name="delete_layout">Na pewno chcesz usunąć układ %s?</string>
@@ -480,7 +480,7 @@
     <string name="subtype_khipro_bn">%s (Khipro)</string>
     <string name="inline_emoji_search">Wbudowane wyszukiwanie emotikonów</string>
     <string name="inline_emoji_search_summary">Sugeruj emotikony tylko wtedy, gdy przed słowem znajduje się dwukropek</string>
-    <string name="emoji_dictionary_required">Do działania tej funkcji potrzebny jest słownik emotikonów. Słowniki w formacie .dict można pobrać %s.</string>
+    <string name="emoji_dictionary_required">Do działania tej funkcji potrzebny jest słownik emotikonów dla włączonych języków klawiatury.\n\nSłowniki w formacie .dict można pobrać %s.\n\nPo pobraniu zainstaluj słownik przechodząc do UP Keyboard Settings → Dictionaries, dotknij języka, dla którego pobrano słownik, następnie dotknij przycisku + i wybierz pobrany plik .dict.</string>
     <string name="number_row_in_symbols">Pokaż rząd numeryczny w widoku symboli</string>
     <string name="custom_emoji_font">Dodaj niestandardową czcionkę emotikonów z pliku</string>
     <string name="layout_functional_keys_khipro" tools:keep="@string/layout_functional_keys">Klawisze funkcyjne (Khipro)</string>
@@ -492,7 +492,7 @@
     <string name="gesture_data_description">Witaj na ekranie gromadzenia danych o gestach!&lt;br/&gt;&lt;br/&gt; Jest to część &lt;a href=https://nlnet.nl/project/GestureTyping&gt;projektu finansowanego przez NLnet&lt;/a&gt;, którego celem jest stworzenie w pełni otwartoźródłowej biblioteki pisania gestami, która mogłaby zastąpić zamkniętą bibliotekę Google.&lt;br/&gt; Planuje się, że rezultatem będzie prosty zamiennik dla klawiatur opartych na AOSP, ale możliwy do użycia również z innymi klawiaturami, np. FlorisBoard.&lt;br/&gt;&lt;br/&gt; Przy rozwijaniu biblioteki niezwykle pomocne jest posiadanie szczegółowych danych o gestach w różnych językach i przez różnych użytkowników.&lt;br/&gt; Gromadząc i przesyłając dane o pisaniu gestami, możesz przyczynić się do tworzenia otwartego zbioru danych o gestach, które zostaną wykorzystane do rozwoju biblioteki. Zbiór danych zostanie opublikowany na licencji CC BY-SA 4.0 po zakończeniu fazy gromadzenia danych %s. Po zebraniu danych możesz je przesłać, korzystając z ikony udostępniania na dole tego ekranu.</string>
     <string name="gesture_data_info">Co to jest?</string>
     <string name="gesture_data_description_modes">Obecnie dostępny jest tylko tryb aktywnego gromadzenia, w którym wyświetlane jest konkretne słowo, które należy wpisać, używając gestów.\nPóźniej zostanie dodany pasywny tryb gromadzenia danych, w którym będziesz mógł udostępniać próbki swojego codziennego pisania gestami z innych aplikacji. Ze względu na wrażliwość tego podejścia, będzie to możliwe po wyrażeniu zgody, konfigurowalne i z ekranem podglądu danych, które zamierzasz przesłać.</string>
-    <string name="gesture_data_description_privacy">Prywatność\n\n Przesyłane dane składają się z konkretnego słowa, układu klawiatury i wymiarów, gestów (czas i współrzędne), sugestii z bieżącej biblioteki, skrótu użytych słowników, wersji aplikacji, trybu gromadzenia danych, informacji o tym, czy biblioteka pisania gestami jest domyślną biblioteką Google, a także identyfikatora przypisanego do każdego gestu.\n Przesłane dane zostaną pobrane i usunięte ze skrzynki pocztowej ProtonMail, gdzie są przechowywane, tak szybko jak to możliwe. Po zakończeniu fazy gromadzenia danych gestów, zebrany zestaw danych od wszystkich użytkowników zostanie opublikowany na licencji Creative Commons BY-SA 4.0.\n\n Aby chronić twoją prywatność, nie zostaniesz wymieniony jako autor. Twój wkład zostanie oznaczony jako \"Współtwórcy projektu HeliBoard Gesture Data\". Powiązanie z tobą danych generowanych na tym ekranie nie powinno być możliwe. Jednak możliwe może być ustalenie, które gesty wykonała ta sama osoba. Można to zrobić na przykład za pomocą niestandardowego układu klawiatury, wymiarów klawiatury, języka lub indywidualnego stylu gestów.</string>
+    <string name="gesture_data_description_privacy">Prywatność\n\n Przesyłane dane składają się z konkretnego słowa, układu klawiatury i wymiarów, gestów (czas i współrzędne), sugestii z bieżącej biblioteki, skrótu użytych słowników, wersji aplikacji, trybu gromadzenia danych, informacji o tym, czy biblioteka pisania gestami jest domyślną biblioteką Google, a także identyfikatora przypisanego do każdego gestu.\n Przesłane dane zostaną pobrane i usunięte ze skrzynki pocztowej ProtonMail, gdzie są przechowywane, tak szybko jak to możliwe. Po zakończeniu fazy gromadzenia danych gestów, zebrany zestaw danych od wszystkich użytkowników zostanie opublikowany na licencji Creative Commons BY-SA 4.0.\n\n Aby chronić twoją prywatność, nie zostaniesz wymieniony jako autor. Twój wkład zostanie oznaczony jako \"Współtwórcy projektu UP Keyboard Gesture Data\". Powiązanie z tobą danych generowanych na tym ekranie nie powinno być możliwe. Jednak możliwe może być ustalenie, które gesty wykonała ta sama osoba. Można to zrobić na przykład za pomocą niestandardowego układu klawiatury, wymiarów klawiatury, języka lub indywidualnego stylu gestów.</string>
     <string name="gesture_data_privacy">Prywatność</string>
     <string name="gesture_data_get_data">Udostępnij plik z danymi o gestach</string>
     <string name="gesture_data_delete_data">Usuń dane gestów</string>
@@ -521,10 +521,19 @@
     <string name="gesture_data_email_body">WAŻNE:\n\n Cześć!\n Przypominamy, że te dane będą udostępniane publicznie na podstawie licencji CC BY-SA 4.0, a ty nie zostaniesz wymieniony jako autor, aby chronić twoją prywatność.\n\n Dziękujemy za udostępnienie nam praw do swoich danych. Zrobimy z nich dobry użytek!\n\n Pamiętaj, że zmiana treści niniejszego powiadomienia nie zmienia sposobu, w jaki będziemy używać twoich danych. To nie jest umowa, którą można modyfikować, a jedynie przypomnienie!\n Jeśli chcesz wysłać nam wiadomość zawierającą swoje dane, wpisz ją pod tą linią.\n ---------------------------------------------</string>
     <string name="gesture_data_mail_use">Pamiętaj, że ten adres e-mail jest przeznaczony do przesyłania danych, więc odpowiedzi mogą nie być szybkie lub spójne.</string>
     <string name="gesture_data_delete_dialog_confirm">Jesteś pewien? Spowoduje to usunięcie %s słów. Upewnij się, że udostępnione dane zostały przesłane!</string>
-    <string name="gesture_data_promotion_message">Cześć!\n Skoro zainstalowałeś bibliotekę pisania gestami, możesz być zainteresowany projektem HeliBoard, którego celem jest stworzenie w pełni otwartej biblioteki do pisania gestami. Możesz pomóc, udostępniając dane o gestach. Aby uzyskać więcej informacji, odwiedź ekran gromadzenia danych o gestach.</string>
+    <string name="gesture_data_promotion_message">Cześć!\n Skoro zainstalowałeś bibliotekę pisania gestami, możesz być zainteresowany projektem UP Keyboard, którego celem jest stworzenie w pełni otwartej biblioteki do pisania gestami. Możesz pomóc, udostępniając dane o gestach. Aby uzyskać więcej informacji, odwiedź ekran gromadzenia danych o gestach.</string>
     <string name="gesture_data_reminder_message">Cześć!\n Wcześniej korzystałeś z funkcji gromadzenia danych o gestach, ale od dłuższego czasu nie dodawałeś żadnych danych. Czy chcesz ponownie wziąć udział w projekcie?</string>
     <string name="ask_later">Zapytaj mnie później</string>
     <string name="gesture_data_take_me_there">Zabierz mnie tam</string>
     <string name="timestamp_description">Możesz dodać klawisz znacznika czasu, używając niestandardowego układu z klawiszem \"znacznik czasu\" lub kodem klawisza -10043</string>
     <string name="prefs_bottom_row_scale">Rozmiar dolnego rzędu</string>
+    <string name="emoji_management">Zarządzanie emoji</string>
+    <string name="emoji_management_summary">Ukryj poszczególne emoji z klawiatury</string>
+    <string name="emoji_management_hidden_count">%d ukrytych emoji</string>
+    <string name="emoji_management_view_hidden">Pokaż ukryte</string>
+    <string name="emoji_management_edit_hint">Dotknij emoji, aby je ukryć</string>
+    <string name="emoji_management_restore_hint">Dotknij emoji, aby je przywrócić</string>
+    <string name="emoji_management_restore_all">Przywróć wszystkie</string>
+    <string name="emoji_management_no_hidden">Brak ukrytych emoji</string>
+    <string name="emoji_management_hidden_title">Ukryte emoji</string>
 </resources>

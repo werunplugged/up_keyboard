@@ -109,9 +109,9 @@
     <string name="settings_category_additional_keys">Lisaklahvid</string>
     <string name="prefs_long_press_keyboard_to_change_lang">Vaheta sisestusmeetodit tühikuklahviga</string>
     <string name="setup_step3_action">Seadista klahvistikku</string>
-    <string name="spell_checker_service_name">HeliBoardi õigekirjakontroll</string>
-    <string name="ime_settings">HeliBoardi seadistused</string>
-    <string name="android_spell_checker_settings">HeliBoardi õigekirjakontrolli seadistused</string>
+    <string name="spell_checker_service_name">UP Keyboardi õigekirjakontroll</string>
+    <string name="ime_settings">UP Keyboardi seadistused</string>
+    <string name="android_spell_checker_settings">UP Keyboardi õigekirjakontrolli seadistused</string>
     <string name="select_color_background">Klahvistiku taust</string>
     <string name="var_toolbar_direction_summary">Vastupidine suund, kui klahvistiku paremalt-vasakule alamtüüp on valitud</string>
     <string name="prefs_keyboard_height_scale">Klahvistiku kõrguse proportsioonid</string>
@@ -247,9 +247,9 @@
     <string name="day_or_night_image">Säti pilt päeva või öörežiimi jaoks?</string>
     <string name="day_or_night_day">Päeval</string>
     <string name="day_or_night_night">Öösel</string>
-    <string name="theme_colors_night">Värvid (öösel)</string>
+    <string name="theme_colors_night">Värvid (tume teema)</string>
     <string name="key_borders">Klahvide äärejooned</string>
-    <string name="theme_colors">Värvid</string>
+    <string name="theme_colors">Värvid (hele teema)</string>
     <string name="day_night_mode">Automaatne päeva- ja öörežiim</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Ümardatud</string>
     <string name="add_dictionary">Vali lisatav sõnastik. Sõnastikke .dict vormingust saad alla laadida %s.</string>
@@ -473,7 +473,7 @@
     <string name="subtype_mhr">idamari</string>
     <string name="inline_emoji_search">Emojide lõimitud otsing</string>
     <string name="inline_emoji_search_summary">Soovita emojisid vaid siis, kui sõna ees on koolon</string>
-    <string name="emoji_dictionary_required">Et see funktsionaalsus toimiks, vajada emojide sõnastikku. Nõutavas .dict vormingus sõnastikke saad alla laadida siit: %s.</string>
+    <string name="emoji_dictionary_required">Et see funktsionaalsus toimiks lubatud klaviatuurikeelte jaoks, on vaja emojide sõnastikku.\n\nNõutavas .dict vormingus sõnastikke saad alla laadida siit: %s.\n\nPärast allalaadimist paigalda sõnastik, minnes UP Keyboard Settings → Dictionaries, koputa keelele, mille jaoks sõnastiku alla laadisid, seejärel koputa nuppu + ja vali allalaaditud .dict-fail.</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Alumine emojide rida tegevusnupu vajutamisel</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Lõikelaua kirjete alumine rida tegevusnupu vajutamisel</string>
     <string name="number_row_in_symbols">Näita sümbolite vaates numbririda</string>

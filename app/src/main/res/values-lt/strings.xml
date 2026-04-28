@@ -105,15 +105,15 @@
     <string name="label_search_key">"Paieška"</string>
     <string name="label_pause_key">Pristabdyti</string>
     <string name="label_wait_key">"Lauk."</string>
-    <string name="spell_checker_service_name">HeliBoard rašybos tikrinimas</string>
-    <string name="ime_settings">HeliBoard nustatymai</string>
-    <string name="android_spell_checker_settings">HeliBoard rašybos tikrinimo nustatymai</string>
+    <string name="spell_checker_service_name">UP Keyboard rašybos tikrinimas</string>
+    <string name="ime_settings">UP Keyboard nustatymai</string>
+    <string name="android_spell_checker_settings">UP Keyboard rašybos tikrinimo nustatymai</string>
     <string name="vibrate_in_dnd_mode">Vibruoti netrukdymo režime</string>
     <string name="suggest_emojis">Siūlyti jaustukus</string>
     <string name="suggest_emojis_summary">Naudoti jaustukų žodyną įprastuose pasiūlymuose</string>
     <string name="inline_emoji_search">Jaustukų paieška</string>
     <string name="inline_emoji_search_summary">Siūlyti jaustuką tik tada kai žodis prasideda kabliataškiu</string>
-    <string name="emoji_dictionary_required">Šiai galimybei reikia jaustukų žodyno. Žodyną .dict formate galite parsisiųsti iš %s.</string>
+    <string name="emoji_dictionary_required">Šiai galimybei reikia jaustukų žodyno klaviatūros kalboms, kurias įjungėte.\n\nŽodyną .dict formate galite parsisiųsti iš %s.\n\nParsisiuntę įdiekite žodyną eidami į UP Keyboard Settings → Dictionaries, palieskite kalbą, kuriai parsisiuntėte žodyną, tada palieskite mygtuką + ir pasirinkite parsisiųstą .dict failą.</string>
     <string name="show_emoji_descriptions">Ilgai paspaudus rodyti jaustuko aprašymą</string>
     <string name="settings_category_input">Įvestis</string>
     <string name="settings_category_additional_keys">Papildomi klavišai</string>
@@ -343,8 +343,8 @@
     <string name="theme_style">Stilius</string>
     <string name="icon_style">Piktogramų stilius</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Apvalinta</string>
-    <string name="theme_colors">Spalvos</string>
-    <string name="theme_colors_night">Spalvos (nakties)</string>
+    <string name="theme_colors">Spalvos (šviesi tema)</string>
+    <string name="theme_colors_night">Spalvos (tamsi tema)</string>
     <string name="key_borders">Klavišų ribos</string>
     <string name="day_night_mode">Auto dienos/nakties režimas</string>
     <string name="day_night_mode_summary">Bus pritaikoma sistemos nustatymai</string>

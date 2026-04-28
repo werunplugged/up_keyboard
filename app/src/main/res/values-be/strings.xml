@@ -99,12 +99,12 @@
     <string name="settings_category_miscellaneous">Рознае</string>
     <string name="settings_no_limit">Без абмежаванняў</string>
     <string name="abbreviation_unit_minutes">%s хв.</string>
-    <string name="android_spell_checker_settings">Налады праверкі правапісу HeliBoard</string>
+    <string name="android_spell_checker_settings">Налады праверкі правапісу UP Keyboard</string>
     <string name="show_emoji_key">Клавіша эмодзі</string>
-    <string name="ime_settings">Налады HeliBoard</string>
+    <string name="ime_settings">Налады UP Keyboard</string>
     <string name="settings_category_input">Ўвод</string>
     <string name="settings_category_additional_keys">Дадатковыя клавішы</string>
-    <string name="spell_checker_service_name">Праверка правапісу HeliBoard</string>
+    <string name="spell_checker_service_name">Праверка правапісу UP Keyboard</string>
     <string name="enable_clipboard_history">Ўключыць гісторыю буфера абмену</string>
     <string name="enable_clipboard_history_summary">Калі выключана, клавіша буфера абмену будзе ўстаўляць змесціва буфера абмену, калі яно ёсць</string>
     <string name="clipboard_history_retention_time">Час захоўвання гісторыі буфера абмену</string>
@@ -160,8 +160,8 @@
     <string name="day_night_mode">Выкарыстоўваць тэму сістэмы</string>
     <string name="theme_style">Стыль тэмы</string>
     <string name="style_name_Rounded">Закруглены</string>
-    <string name="theme_colors">Колеры тэмы</string>
-    <string name="theme_colors_night">Колеры тэмы (цёмная тэма)</string>
+    <string name="theme_colors">Колеры (светлая тэма)</string>
+    <string name="theme_colors_night">Колеры (цёмная тэма)</string>
     <string name="key_borders">Контуры клавіш</string>
     <string name="delete_swipe_summary">Правядзіце пальцам ад клавішы выдалення, каб выбраць і выдаліць адразу большыя часткі тэксту</string>
     <string name="autospace_after_punctuation_summary">Аўтаматычна ўстаўляць прабел пасля знакаў прыпынку пры ўводзе новага слова</string>

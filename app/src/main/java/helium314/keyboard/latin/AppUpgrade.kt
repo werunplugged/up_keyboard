@@ -667,6 +667,11 @@ private object AppUpgrade {
         }
         upgradeToolbarPrefs(prefs)
         LayoutUtilsCustom.onLayoutFileChanged() // just to be sure
+        // Invalidate the cached emoji max-SDK so SupportedEmojis recomputes against the
+        // newly bundled Noto Color Emoji asset (which supports all current emojis).
+        // Without this, existing users would keep the lower value detected against the
+        // system font and would still see ZWJ sequences filtered as "unsupported".
+        prefs.edit { remove(Settings.PREF_EMOJI_MAX_SDK) }
         prefs.edit { putInt(Settings.PREF_VERSION_CODE, BuildConfig.VERSION_CODE) }
     }
 

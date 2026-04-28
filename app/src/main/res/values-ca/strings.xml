@@ -98,14 +98,14 @@
     <string name="delete_swipe_summary">Llisqueu damunt de la tecla d\'esborrar per seleccionar i treure grans parts de text d\'un sol cop</string>
     <string name="incognito">Força el mode d\'incògnit</string>
     <string name="abbreviation_unit_minutes">%s min</string>
-    <string name="spell_checker_service_name">Corrector ortogràfic de l\'HeliBoard</string>
-    <string name="android_spell_checker_settings">Configuració del corrector ortogràfic de l\'HeliBoard</string>
+    <string name="spell_checker_service_name">Corrector ortogràfic de l\'UP Keyboard</string>
+    <string name="android_spell_checker_settings">Configuració del corrector ortogràfic de l\'UP Keyboard</string>
     <string name="delete_swipe">Esborra amb lliscament</string>
     <string name="show_emoji_key">Tecla d\'accés a emojis</string>
     <string name="prefs_force_incognito_mode_summary">Desactiva l\'aprenentatge de paraules noves</string>
     <string name="number_row">Fila de nombres</string>
     <string name="number_row_summary">Mostra sempre la fila de nombres</string>
-    <string name="ime_settings">Configuració de l\'HeliBoard</string>
+    <string name="ime_settings">Configuració de l\'UP Keyboard</string>
     <string name="settings_category_input">Entrada</string>
     <string name="settings_category_miscellaneous">Miscel·lània</string>
     <string name="key_borders">Vores del teclat</string>
@@ -330,7 +330,7 @@
     <string name="available_dictionary_experimental">%s (experimental)</string>
     <string name="user_dict_word_already_present">Aquesta paraula ja està present al diccionari de l\'usuari %s. Escriu-ne una altra.</string>
     <string name="user_dict_add_word_button">Afegeix una paraula</string>
-    <string name="theme_colors">Colors</string>
+    <string name="theme_colors">Colors (tema clar)</string>
     <string name="theme_navbar">Barra de navegació en color</string>
     <string name="theme_name_holo_white" tools:keep="@string/theme_name_holo_white">Holo Blanc</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Fosc</string>
@@ -367,7 +367,7 @@
     <string name="label_shift_key_shifted" tools:keep="@string/label_shift_key_shifted">MAJS.</string>
     <string name="label_enter_key" tools:keep="@string/label_enter_key">Intro</string>
     <string name="icon_style">Estil d\'icona</string>
-    <string name="theme_colors_night">Colors (nit)</string>
+    <string name="theme_colors_night">Colors (tema fosc)</string>
     <string name="theme_name_light" tools:keep="@string/theme_name_light">Clar</string>
     <string name="license">Llicència de codi obert</string>
     <string name="select_color_functional_key_background">Fons de la tecla funcional</string>
@@ -435,7 +435,7 @@
     <string name="clipboard_history_pinned_first">Mostrar els elements fixats a dalt</string>
     <string name="inline_emoji_search">Cerca d\'emojis en línia</string>
     <string name="inline_emoji_search_summary">Suggerir emojis només quan una paraula va precedida de dos punts</string>
-    <string name="emoji_dictionary_required">Cal un diccionari d\'emojis per a aquesta funció. Els diccionaris en format .dict es poden descarregar %s.</string>
+    <string name="emoji_dictionary_required">Cal un diccionari d\'emojis per a aquesta funció en els idiomes del teclat que tens activats.\n\nEls diccionaris en format .dict es poden descarregar %s.\n\nUn cop descarregat, instal·la el diccionari anant a UP Keyboard Settings → Dictionaries, toca l\'idioma per al qual has descarregat el diccionari, després toca el botó + i selecciona el fitxer .dict descarregat.</string>
     <string name="subtype_mhr">Mari (Oriental)</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Fila inferior d\'emojis amb tecla d\'acció</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Fila inferior del porta-retalls amb tecla d\'acció</string>
@@ -447,4 +447,13 @@
     <string name="search_field_placeholder">Cerca</string>
     <string name="gesture_data_screen">Recopilació de dades gestuals</string>
     <string name="gesture_data_description">Benvinguts a la pantalla de recopilació de dades de gestos!&lt;br/&gt;&lt;br/&gt; Això forma part d\'un &lt;a href=https://nlnet.nl/project/GestureTyping&gt;projecte finançat per NLnet&lt;/a&gt; que s\'esforça per produir una biblioteca de mecanografia gestual de codi obert completament capaç de substituir la biblioteca de codi tancat de Google.&lt;br/&gt; Es preveu que el resultat sigui un substitut senzill per als teclats basats en AOSP, però també utilitzable amb altres teclats, p. ex. FlorisBoard.&lt;br/&gt;&lt;br/&gt; Per desenvolupar la biblioteca, és tremendament útil tenir disponibles dades gestuals detallades en diferents idiomes i per diferents usuaris.&lt;br/&gt; En recopilar i enviar dades de mecanografia gestual, podeu contribuir a un conjunt obert de dades gestuals que s\'utilitzaran per al desenvolupament de la biblioteca. El conjunt de dades es publicarà sota una llicència CC BY-SA 4.0 un temps després que la fase de recopilació de dades s\'hagi finalitzat el %s. Un cop hàgiu recopilat les dades, les podeu enviar mitjançant la icona de compartir a la part inferior d\'aquesta pantalla.</string>
+    <string name="emoji_management">Gestió d\'emojis</string>
+    <string name="emoji_management_summary">Amaga emojis individuals del teclat</string>
+    <string name="emoji_management_hidden_count">%d emojis amagats</string>
+    <string name="emoji_management_view_hidden">Mostra els amagats</string>
+    <string name="emoji_management_edit_hint">Toca un emoji per amagar-lo</string>
+    <string name="emoji_management_restore_hint">Toca un emoji per restaurar-lo</string>
+    <string name="emoji_management_restore_all">Restaura\'ls tots</string>
+    <string name="emoji_management_no_hidden">Encara no hi ha emojis amagats</string>
+    <string name="emoji_management_hidden_title">Emojis amagats</string>
 </resources>

@@ -101,13 +101,13 @@
     <string name="show_hints">Tampilkan petunjuk tombol</string>
     <string name="number_row_summary">Selalu tampilkan baris angka</string>
     <string name="abbreviation_unit_minutes">%s mnt</string>
-    <string name="spell_checker_service_name">Pemeriksa Ejaan HeliBoard</string>
-    <string name="android_spell_checker_settings">Pengaturan Pemeriksa Ejaan HeliBoard</string>
+    <string name="spell_checker_service_name">Pemeriksa Ejaan UP Keyboard</string>
+    <string name="android_spell_checker_settings">Pengaturan Pemeriksa Ejaan UP Keyboard</string>
     <string name="number_row">Baris angka</string>
     <string name="prefs_long_press_keyboard_to_change_lang">Ubah metode masukan dengan tombol spasi</string>
     <string name="incognito">Paksa mode privat</string>
     <string name="show_emoji_key">Tombol emoji</string>
-    <string name="ime_settings">Pengaturan HeliBoard</string>
+    <string name="ime_settings">Pengaturan UP Keyboard</string>
     <string name="settings_category_input">Masukan</string>
     <string name="settings_category_additional_keys">Tombol tambahan</string>
     <string name="settings_category_suggestions">Saran</string>
@@ -230,7 +230,7 @@
     <string name="user_dict_add_word_button">Tambahkan kata</string>
     <string name="theme_style">Gaya</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Bulat</string>
-    <string name="theme_colors_night">Warna (mode malam)</string>
+    <string name="theme_colors_night">Warna (tema gelap)</string>
     <string name="theme_navbar">Bilah navigasi warna</string>
     <string name="theme_name_darker" tools:keep="@string/theme_name_darker">Gelap gulita</string>
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">Warna dinamis</string>
@@ -256,7 +256,7 @@
     <string name="theme_name_light" tools:keep="@string/theme_name_light">Cerah</string>
     <string name="user_dict_settings_add_weight_value">Berat:</string>
     <string name="user_dict_word_already_present">Kata ini sudah ada dalam kamus pengguna %s. Silakan ketik kata yang lain.</string>
-    <string name="theme_colors">Warna</string>
+    <string name="theme_colors">Warna (tema terang)</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Gelap</string>
     <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Berawan</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Hutan</string>

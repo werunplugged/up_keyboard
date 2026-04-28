@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="spell_checker_service_name">Checkyer Lytherennans HeliBoard</string>
-    <string name="ime_settings">Settyansow HeliBoard</string>
-    <string name="android_spell_checker_settings">Settyansow Checkyer Lytherennans HeliBoard</string>
+    <string name="spell_checker_service_name">Checkyer Lytherennans UP Keyboard</string>
+    <string name="ime_settings">Settyansow UP Keyboard</string>
+    <string name="android_spell_checker_settings">Settyansow Checkyer Lytherennans UP Keyboard</string>
     <string name="vibrate_on_keypress">Krena war tava</string>
     <string name="vibrate_in_dnd_mode">Krena yn fordh na ankombra</string>
     <string name="sound_on_keypress">Sowndya war tava</string>
@@ -10,7 +10,7 @@
     <string name="suggest_emojis_summary">Devnydhya gerlyver emoji yn profyansow normal</string>
     <string name="inline_emoji_search">Hwithrans emoji yn-linen</string>
     <string name="inline_emoji_search_summary">Profya emojis hepken pan ger yw bleynys gans unn kolon</string>
-    <string name="emoji_dictionary_required">Gerlyver emoji a res rag an nas ma rag oberi. Gerlyvrow yn furvas .dict a yll bos iskargys %s.</string>
+    <string name="emoji_dictionary_required">Gerlyver emoji a res rag an nas ma rag oberi rag yethow an alfweuv esos jy gallosegys.\n\nGerlyvrow yn furvas .dict a yll bos iskargys %s.\n\nWosa iskerges, ystallya an gerlyver dre vos dhe UP Keyboard Settings → Dictionaries, knoukyans an yeth a iskargsys an gerlyver ragdho, ena knoukyans an boton + ha dewis an restren .dict iskargys.</string>
     <string name="show_emoji_descriptions">Diskwedhes deskrifans emoji war tava hir</string>
     <string name="popup_on_keypress">Tardhik war tava</string>
     <string name="settings_screen_preferences">Settyansow</string>

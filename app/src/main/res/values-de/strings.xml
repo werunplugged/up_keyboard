@@ -95,12 +95,12 @@
     <string name="settings_category_clipboard_history">Zwischenablage-Verlauf</string>
     <string name="settings_category_correction">Korrekturen</string>
     <string name="settings_category_suggestions">Vorschläge</string>
-    <string name="android_spell_checker_settings">HeliBoard-Rechtschreibprüfungs-Einstellungen</string>
-    <string name="ime_settings">HeliBoard-Einstellungen</string>
+    <string name="android_spell_checker_settings">UP Keyboard-Rechtschreibprüfungs-Einstellungen</string>
+    <string name="ime_settings">UP Keyboard-Einstellungen</string>
     <string name="settings_category_experimental">Experimentell</string>
     <string name="settings_no_limit">Keine Begrenzung</string>
     <string name="abbreviation_unit_minutes">%s Min.</string>
-    <string name="spell_checker_service_name">HeliBoard-Rechtschreibprüfung</string>
+    <string name="spell_checker_service_name">UP Keyboard-Rechtschreibprüfung</string>
     <string name="show_emoji_key">Emoji-Taste</string>
     <string name="settings_category_input">Eingabe</string>
     <string name="settings_category_additional_keys">Zusätzliche Tasten</string>
@@ -150,7 +150,7 @@
     <string name="message_add_custom_layout">Datei in einem kompatiblen Format auswählen. Information zu den Formaten ist %s verfügbar.</string>
     <string name="select_color_key_background">Tastenhintergrund</string>
     <string name="restore_error">Fehler beim Wiederherstellen der Sicherung: %s</string>
-    <string name="theme_colors">Farben</string>
+    <string name="theme_colors">Farben (helles Design)</string>
     <string name="select_color_functional_key_background">Funktionstastenhintergrund</string>
     <string name="subtype_generic_sebeolsik_390">%s (Sebeolsik 390)</string>
     <string name="add_to_personal_dictionary_summary">Persönliches Wörterbuch des Gerätes verwenden, um gelernte Wörter zu speichern</string>
@@ -227,7 +227,7 @@
     <string name="theme_style">Stil</string>
     <string name="select_word" tools:keep="@string/select_word">Wort auswählen</string>
     <string name="hidden_features_summary">Funktionen anzeigen, die möglicherweise unbemerkt bleiben</string>
-    <string name="theme_colors_night">Farben (Nacht)</string>
+    <string name="theme_colors_night">Farben (dunkles Design)</string>
     <string name="left" tools:keep="@string/left">Links</string>
     <string name="all_colors">Alle Farben zeigen</string>
     <string name="delete_layout">Benutzerdefiniertes Layout %s wirklich löschen?</string>
@@ -432,7 +432,7 @@
     <string name="about_wiki_link">Zum Wiki gehen</string>
     <string name="inline_emoji_search">Inline Emoji-Suche</string>
     <string name="inline_emoji_search_summary">Emojis werden nur vorgeschlagen, wenn ein Wort direkt auf einen Doppelpunkt folgt</string>
-    <string name="emoji_dictionary_required">Ein Emoji-Wörterbuch wird für diese Funktion benötigt. Wörterbücher im .dict-Format können %s heruntergeladen werden.</string>
+    <string name="emoji_dictionary_required">Ein Emoji-Wörterbuch wird für diese Funktion in den von dir aktivierten Tastatursprachen benötigt.\n\nWörterbücher im .dict-Format können %s heruntergeladen werden.\n\nNach dem Herunterladen installiere das Wörterbuch, indem du in UP Keyboard Settings → Dictionaries gehst, auf die Sprache tippst, für die du das Wörterbuch heruntergeladen hast, dann auf die Schaltfläche + tippst und die heruntergeladene .dict-Datei auswählst.</string>
     <string name="save_subtype_per_app">Sprache pro App merken</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Emoji untere Zeile mit Aktions-Taste</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Zwischenablage untere Zeile mit Aktions-Taste</string>
@@ -446,4 +446,13 @@
     <string name="toolbar_swipe_down_to_hide_summary">Auf Symbolleiste nach unten wischen um Tastatur zu schließen</string>
     <string name="ask_later">Frag mich später</string>
     <string name="search_field_placeholder">Suche</string>
+    <string name="emoji_management">Emoji-Verwaltung</string>
+    <string name="emoji_management_summary">Einzelne Emojis von der Tastatur ausblenden</string>
+    <string name="emoji_management_hidden_count">%d Emojis ausgeblendet</string>
+    <string name="emoji_management_view_hidden">Ausgeblendete anzeigen</string>
+    <string name="emoji_management_edit_hint">Tippe auf ein Emoji, um es auszublenden</string>
+    <string name="emoji_management_restore_hint">Tippe auf ein Emoji, um es wiederherzustellen</string>
+    <string name="emoji_management_restore_all">Alle wiederherstellen</string>
+    <string name="emoji_management_no_hidden">Noch keine Emojis ausgeblendet</string>
+    <string name="emoji_management_hidden_title">Ausgeblendete Emojis</string>
 </resources>

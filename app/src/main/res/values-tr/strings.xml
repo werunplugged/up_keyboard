@@ -100,12 +100,12 @@
     <string name="prefs_force_incognito_mode_summary">Yeni sözcüklerin öğrenilmesini devre dışı bırak</string>
     <string name="number_row">Sayı satırı</string>
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Boşluk tuşuna uzun süre basmak, giriş yöntemi seçim menüsünü gösterecektir</string>
-    <string name="android_spell_checker_settings">HeliBoard yazım denetleyicisi ayarları</string>
+    <string name="android_spell_checker_settings">UP Keyboard yazım denetleyicisi ayarları</string>
     <string name="prefs_keyboard_height_scale">Klavye yükseklik ölçeği</string>
     <string name="delete_swipe">Kadırarak silme</string>
     <string name="key_borders">Tuş kenarlıkları</string>
     <string name="day_night_mode">Otomatik gündüz/gece modu</string>
-    <string name="spell_checker_service_name">HeliBoard yazım denetleyicisi</string>
+    <string name="spell_checker_service_name">UP Keyboard yazım denetleyicisi</string>
     <string name="abbreviation_unit_minutes">%sdak.</string>
     <string name="settings_category_suggestions">Öneriler</string>
     <string name="show_emoji_key">Emoji tuşu</string>
@@ -120,7 +120,7 @@
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
     <string name="delete_swipe_summary">Bir kerede metnin daha büyük bölümlerini seçmek ve silmek için silme tuşundan hızlıca kaydırın</string>
     <string name="day_night_mode_summary">Görünüm sistem ayarlarını takip edecektir</string>
-    <string name="ime_settings">HeliBoard ayarları</string>
+    <string name="ime_settings">UP Keyboard ayarları</string>
     <string name="settings_category_input">Giriş</string>
     <string name="settings_category_additional_keys">Ek tuşlar</string>
     <string name="autospace_after_punctuation">Noktalama işaretlerinden sonra otomatik boşluk</string>
@@ -246,7 +246,7 @@
     <string name="setup_step3_action">Klavyeyi yapılandır</string>
     <string name="add_new_dictionary_title">Dosyadan sözlük ekle</string>
     <string name="user_dict_settings_add_weight_value">Sıklık:</string>
-    <string name="theme_colors">Renkler</string>
+    <string name="theme_colors">Renkler (açık tema)</string>
     <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">Çikolata</string>
     <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Orman</string>
     <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Açık Mavi</string>
@@ -269,7 +269,7 @@
     <string name="internal_dictionary_summary">Dahili ana sözlük</string>
     <string name="dictionary_load_error">Sözlük dosyası yüklenirken hata oluştu</string>
     <string name="user_dict_add_word_button">Bir kelime ekle</string>
-    <string name="theme_colors_night">Renkler (gece)</string>
+    <string name="theme_colors_night">Renkler (koyu tema)</string>
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Pembe</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Kum</string>
     <string name="auto_user_color">Rengi otomatik olarak seç</string>
@@ -439,7 +439,7 @@
     <string name="label_zwj_key" tools:keep="@string/label_zwj_key">Sıfır genişlikli bağlantı elemanı</string>
     <string name="inline_emoji_search">Satır içi emoji araması</string>
     <string name="inline_emoji_search_summary">Yalnızca sözcüğün önünde iki nokta üst üste varsa emoji öner</string>
-    <string name="emoji_dictionary_required">Bu özelliğin çalışması için bir emoji sözlüğü gereklidir. %s\'den .dict biçimindeki sözlükler indirilebilir.</string>
+    <string name="emoji_dictionary_required">Bu özelliğin etkinleştirdiğiniz klavye dilleri için çalışması için bir emoji sözlüğü gereklidir.\n\n%s\'den .dict biçimindeki sözlükler indirilebilir.\n\nİndirdikten sonra, UP Keyboard Settings → Dictionaries\'e giderek sözlüğü yükleyin, sözlüğü indirdiğiniz dile dokunun, ardından + düğmesine dokunun ve indirilen .dict dosyasını seçin.</string>
     <string name="clipboard_history_pinned_first">İğnelenmiş öğeleri üstte göster</string>
     <string name="save_subtype_per_app">Her uygulama için dili hatırla</string>
     <string name="subtype_mhr">Mari (Doğu)</string>
@@ -448,4 +448,13 @@
     <string name="toolbar_swipe_down_to_hide_summary">Klavyeyi kapatmak için araç çubuğunu aşağı kaydır</string>
     <string name="custom_emoji_font">Dosyadan özel emoji fontu ayarla</string>
     <string name="prefs_bottom_row_scale">Alt satır ölçeği</string>
+    <string name="emoji_management">Emoji yönetimi</string>
+    <string name="emoji_management_summary">Klavyeden tek tek emojileri gizle</string>
+    <string name="emoji_management_hidden_count">%d emoji gizli</string>
+    <string name="emoji_management_view_hidden">Gizlileri görüntüle</string>
+    <string name="emoji_management_edit_hint">Gizlemek için bir emojiye dokun</string>
+    <string name="emoji_management_restore_hint">Geri yüklemek için bir emojiye dokun</string>
+    <string name="emoji_management_restore_all">Tümünü geri yükle</string>
+    <string name="emoji_management_no_hidden">Henüz gizli emoji yok</string>
+    <string name="emoji_management_hidden_title">Gizli emojiler</string>
 </resources>

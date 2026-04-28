@@ -10,6 +10,7 @@ import android.text.TextUtils
 import com.android.inputmethod.latin.utils.BinaryDictionaryUtils
 import helium314.keyboard.latin.dictionary.Dictionary
 import helium314.keyboard.latin.common.FileUtils
+import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.common.LocaleUtils.constructLocale
 import helium314.keyboard.latin.common.loopOverCodePoints
 import helium314.keyboard.latin.define.DecoderSpecificConstants
@@ -106,7 +107,26 @@ object DictionaryInfoUtils {
     @JvmStatic
     fun getLocalesWithEmojiDicts(context: Context): List<Locale> =
         SubtypeSettings.getEnabledSubtypes(true)
-            .map { it.locale() }.filter { getCachedDictForLocaleAndType(it, Dictionary.TYPE_EMOJI, context) != null }
+            .map { it.locale() }
+            .filter { hasEmojiDictForLocale(it, context) }
+
+    /**
+     * Returns true if an emoji dictionary is available for the given [locale] either as
+     * an already-extracted cached dict, or as a preloaded asset bundled with the app.
+     * Asset emoji dicts (e.g. `emoji_en.dict`, `emoji_he.dict`) are extracted on first use,
+     * but we want to count them as available from the start so the "no emoji dict" warning
+     * does not appear when one is bundled.
+     */
+    @JvmStatic
+    fun hasEmojiDictForLocale(locale: Locale, context: Context): Boolean {
+        if (getCachedDictForLocaleAndType(locale, Dictionary.TYPE_EMOJI, context) != null)
+            return true
+        val emojiAssets = getAssetsDictionaryList(context)?.filter { it.startsWith("${Dictionary.TYPE_EMOJI}_") }
+            ?: return false
+        return LocaleUtils.getBestMatch(locale, emojiAssets) {
+            extractLocaleFromAssetsDictionaryFile(it)
+        } != null
+    }
 
     @JvmStatic
     fun getCachedDictForLocaleAndType(locale: Locale, type: String, context: Context): File? =
