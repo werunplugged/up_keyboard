@@ -64,6 +64,18 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
         </service>
 
         <!-- Voice Recognition Activity (with UI) -->
+        <!-- Transparent permissions-bridge activity. The IME service can't request
+             runtime permissions on its own, so this activity is launched briefly to do
+             it (e.g. RECORD_AUDIO when the user taps the dictation button).
+             We use a Translucent theme rather than Theme.NoDisplay because NoDisplay
+             requires finish() before onResume() returns; requestPermissions() is async,
+             so the activity has to remain alive across that callback. -->
+        <activity android:name="helium314.keyboard.latin.permissions.PermissionsActivity"
+                  android:exported="false"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                  android:noHistory="true"
+                  android:excludeFromRecents="true" />
+
         <activity android:name="helium314.keyboard.voice.VoiceRecognizeActivity"
                   android:label="@string/english_ime_name"
                   android:exported="true"

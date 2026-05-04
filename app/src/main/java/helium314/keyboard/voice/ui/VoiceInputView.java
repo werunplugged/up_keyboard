@@ -115,6 +115,18 @@ public class VoiceInputView extends FrameLayout {
         // Set up stop button
         stopButton.setOnClickListener(v -> stopRecording());
 
+        // Allow the user to tap the "Tap to speak" status text (or the surrounding empty
+        // area) to begin recording manually. This is a backup for the auto-start path so
+        // the visible affordance ("Tap to speak") actually behaves as advertised, and lets
+        // the user retry after an error without re-opening the panel.
+        View.OnClickListener startOnTap = v -> {
+            if (!isRecording && !isProcessing) {
+                startRecording();
+            }
+        };
+        statusText.setOnClickListener(startOnTap);
+        setOnClickListener(startOnTap);
+
         // Initialize components
         initializeRecorder();
         initializeRecognitionEngine();
@@ -217,7 +229,16 @@ public class VoiceInputView extends FrameLayout {
     // IME-specific methods
     public void setInputMethodService(InputMethodService ims) {
         this.inputMethodService = ims;
-        this.autoCommitAndSwitch = (ims != null);
+        // Intentionally NOT enabling autoCommitAndSwitch here. autoCommitAndSwitch was
+        // designed for the legacy mode where dictation lived in its own dedicated IME and
+        // would call switchToPreviousInputMethod() to return to the user's normal keyboard
+        // after committing text. In UP Keyboard, dictation is just a toolbar key inside
+        // the same IME — switching away from ourselves makes the text field stop
+        // responding to taps until the user manually re-focuses, and committing text
+        // here would also collide with the parallel commit in LatinIME's voice listener
+        // (double-insertion). Result text reaches LatinIME via listener.onResult, which
+        // is the single canonical place that commits + hides the voice panel.
+        this.autoCommitAndSwitch = false;
     }
 
     public void setAutoStartRecording(boolean autoStart) {
@@ -344,7 +365,7 @@ public class VoiceInputView extends FrameLayout {
         partialTranscriptionText.setVisibility(View.GONE);
 
         if (!checkRecordPermission()) {
-            showPermissionError();
+            requestRecordPermission();
             return;
         }
 
@@ -575,6 +596,39 @@ public class VoiceInputView extends FrameLayout {
         int permission = ContextCompat.checkSelfPermission(getContext(),
             android.Manifest.permission.RECORD_AUDIO);
         return (permission == PackageManager.PERMISSION_GRANTED);
+    }
+
+    /** Request code used for the RECORD_AUDIO permission flow. Arbitrary, just unique here. */
+    private static final int REQ_RECORD_AUDIO = 7321;
+    /** Throttle so we don't relaunch the request every time the user taps the view while a
+     *  request is already in flight. */
+    private boolean permissionRequestInFlight = false;
+
+    /**
+     * Launches the bridge {@link helium314.keyboard.latin.permissions.PermissionsActivity}
+     * to ask the user for {@code RECORD_AUDIO}. If granted, recording starts automatically;
+     * if denied, the standard "permission required" UI is shown so the user can retry.
+     */
+    private void requestRecordPermission() {
+        if (permissionRequestInFlight) return;
+        permissionRequestInFlight = true;
+        // Update UI to reflect that we're prompting the user (so they don't see a frozen
+        // "Tap to speak" while the system permission dialog appears).
+        statusText.setText(getContext().getString(R.string.voice_permission_required));
+        helium314.keyboard.latin.permissions.PermissionsActivity.run(
+            getContext(),
+            REQ_RECORD_AUDIO,
+            (granted, perms, grantResults) -> handler.post(() -> {
+                permissionRequestInFlight = false;
+                if (granted) {
+                    // Permission just granted — kick off recording now.
+                    startRecording();
+                } else {
+                    showPermissionError();
+                }
+            }),
+            android.Manifest.permission.RECORD_AUDIO
+        );
     }
 
     public void cleanup() {

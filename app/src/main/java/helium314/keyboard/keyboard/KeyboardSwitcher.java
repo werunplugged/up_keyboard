@@ -410,6 +410,17 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         if (mVoiceInputView != null) {
             mVoiceInputView.setVisibility(View.GONE);
         }
+        // setVoiceKeyboard() hid the regular keyboard / suggestion strip / emoji tab strip
+        // when the voice panel was shown; restore them now or the IME window stays up but
+        // empty (back-arrow indicator stuck on, taps on the field re-show the empty IME).
+        // This mirrors what setAlphabetKeyboard does on screen-state transitions.
+        mKeyboardView.setVisibility(View.VISIBLE);
+        mSuggestionStripView.setVisibility(View.VISIBLE);
+        mStripContainer.setVisibility(getSecondaryStripVisibility());
+        mEmojiTabStripView.setVisibility(View.GONE);          // alphabet mode default
+        mClipboardStripScrollView.setVisibility(View.GONE);   // alphabet mode default
+        mEmojiPalettesView.setVisibility(View.GONE);
+        mClipboardHistoryView.setVisibility(View.GONE);
     }
 
     public helium314.keyboard.voice.ui.VoiceInputView getVoiceInputView() {

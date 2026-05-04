@@ -132,10 +132,14 @@ public class VoiceInputManager {
             recognitionEngine.initialize();
         }
 
-        // Set language hint
+        // Set language hint and auto-start recording. Without setAutoStartRecording(true)
+        // the view is shown but never begins capturing — the user is left looking at the
+        // initial "Tap to speak" placeholder forever.
         if (voiceInputView != null) {
             Log.d(TAG, "[VOICE] Setting language hint on voice input view");
             voiceInputView.setLanguageHint(languageHint);
+            Log.d(TAG, "[VOICE] Auto-starting recording");
+            voiceInputView.setAutoStartRecording(true);
         }
 
         if (listener != null) {
