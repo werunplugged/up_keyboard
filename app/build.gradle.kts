@@ -14,8 +14,8 @@ android {
         applicationId = "com.unplugged.keyboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3603
-        versionName = "3.6.3"
+        versionCode = 3604
+        versionName = "3.6.4"
         ndk {
             abiFilters.clear()
             abiFilters.add("arm64-v8a")
