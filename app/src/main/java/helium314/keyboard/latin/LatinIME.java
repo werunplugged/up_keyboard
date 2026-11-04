@@ -626,6 +626,12 @@ public class LatinIME extends InputMethodService implements
                     mKeyboardSwitcher.hideVoiceKeyboard();
                 }
                 mVoiceInputManager.hideVoiceInput();
+                // The voice view is hidden immediately, so its own error text is never seen.
+                // Tell the user why voice input stopped (e.g. "English only" without the
+                // multilingual model).
+                if (mKeyboardSwitcher != null && error != null && !error.isEmpty()) {
+                    mKeyboardSwitcher.showToast(error, false);
+                }
             }
         });
 
