@@ -94,23 +94,35 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
                 Log.d(TAG, "[VOICE] Model type: " + (languageCode.equals("en") ? "English-only" : "Multilingual"));
             } else {
                 Log.e(TAG, "[VOICE] Failed to load model buffer for language: " + languageCode);
+                clearCurrentModel();
                 if (listener != null) {
                     listener.onRecognitionError("Failed to load voice model");
                 }
             }
         } catch (WhisperGGML.InvalidModelException e) {
             Log.e(TAG, "[VOICE] Invalid model exception", e);
+            clearCurrentModel();
             if (listener != null) {
                 listener.onRecognitionError("Invalid voice model");
             }
         } catch (IOException e) {
             Log.e(TAG, "[VOICE] IO exception loading model", e);
+            clearCurrentModel();
             if (listener != null) {
                 listener.onRecognitionError("Error loading voice model");
             }
         }
     }
     
+    /**
+     * Drop the active model after a failed load so a previously loaded model (e.g. English)
+     * is not silently used for a different language. Cached models stay in modelCache.
+     */
+    private void clearCurrentModel() {
+        whisperInstance = null;
+        currentLanguage = null;
+    }
+
     private boolean needsModelSwitch(String oldLang, String newLang) {
         // Both English -> no switch needed
         if ("en".equals(oldLang) && "en".equals(newLang)) {
@@ -164,6 +176,23 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
         for (int i = 0; i < languageArray.length; i++) {
             Log.d(TAG, "[VOICE] Language[" + i + "]: " + languageArray[i] +
                   (i == 0 ? " (PRIMARY)" : ""));
+        }
+
+        // Without the multilingual model only English is possible: auto-detection falls back to
+        // English (locked, since language detection needs the multilingual model), and other
+        // languages report an error instead of producing garbage with the English-only model.
+        if (!"en".equals(primaryLanguage) && !modelLoader.hasMultilingualModel()) {
+            if ("auto".equals(primaryLanguage)) {
+                Log.d(TAG, "[VOICE] Multilingual model not packaged, falling back to English for auto-detection");
+                languageArray = new String[]{"en"};
+                primaryLanguage = "en";
+            } else {
+                Log.w(TAG, "[VOICE] Multilingual model not packaged, cannot recognize language: " + primaryLanguage);
+                if (listener != null) {
+                    listener.onRecognitionError("Voice input is currently available in English only");
+                }
+                return;
+            }
         }
 
         // Initialize for the primary language if needed
@@ -241,7 +270,7 @@ public class WhisperRecognitionEngine implements VoiceRecognitionEngine {
                 Log.d(TAG, "[VOICE] Bail languages: " + (bailLanguages.length == 0 ? "none" : String.join(", ", bailLanguages)));
 
                 Log.d(TAG, "[VOICE] Starting Whisper inference...");
-                Log.d(TAG, "[VOICE] Model: " + (primaryLanguage.equals("en") ? "English" : "Multilingual"));
+                Log.d(TAG, "[VOICE] Model: " + (finalPrimaryLanguage.equals("en") ? "English" : "Multilingual"));
 
                 // Run inference with language enforcement
                 String result = whisperInstance.infer(

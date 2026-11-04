@@ -38,6 +38,36 @@ public class WhisperModelLoader {
         }
     }
 
+    private Boolean multilingualModelAvailable;
+
+    /**
+     * The multilingual model can be excluded from the APK at build time (see app/build.gradle.kts),
+     * in which case only English recognition is possible.
+     * @return true if the multilingual model is packaged in assets
+     */
+    public boolean hasMultilingualModel() {
+        if (multilingualModelAvailable == null) {
+            boolean found = false;
+            try {
+                String[] models = context.getAssets().list("voice");
+                String fileName = MULTILINGUAL_MODEL_PATH.substring(MULTILINGUAL_MODEL_PATH.lastIndexOf('/') + 1);
+                if (models != null) {
+                    for (String model : models) {
+                        if (fileName.equals(model)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Error checking for multilingual model", e);
+            }
+            multilingualModelAvailable = found;
+            Log.d(TAG, "Multilingual model available: " + found);
+        }
+        return multilingualModelAvailable;
+    }
+
     /**
      * Get the appropriate model for the given language
      * @param languageCode ISO language code (e.g., "en", "es", "fr")
