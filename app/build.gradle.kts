@@ -7,6 +7,11 @@ plugins {
     kotlin("plugin.compose") version "2.2.21"
 }
 
+// The multilingual voice model (~264 MB) is excluded from the APK by default to keep the APK small.
+// Without it, voice input works for English only (see WhisperModelLoader.hasMultilingualModel).
+// Build with -PincludeMultilingualVoice=true to include it.
+val includeMultilingualVoice = (project.findProperty("includeMultilingualVoice") as String?)?.toBoolean() ?: false
+
 android {
     compileSdk = 35
 
@@ -63,6 +68,9 @@ android {
                 //noinspection ProguardAndroidTxtUsage we intentionally use the "normal" file here
                 variant.proguardFiles.add(project.layout.buildDirectory.file(getDefaultProguardFile("proguard-android.txt").absolutePath))
                 variant.proguardFiles.add(project.layout.buildDirectory.file(project.buildFile.parent + "/proguard-rules.pro"))
+            }
+            if (!includeMultilingualVoice) {
+                variant.androidResources.ignoreAssetsPatterns.add("voice-input-multilingual-244.bin.tflite")
             }
         }
     }
