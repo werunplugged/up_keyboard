@@ -116,6 +116,17 @@ public class CircularProgressView extends View {
         invalidate();
     }
     
+    // The countdown runs for the full max recording time (60s). When recording ends early the view
+    // is hidden but stopCountdown() is not called, so stop the animator once it can't be seen.
+    @Override
+    public void onVisibilityAggregated(boolean isVisible) {
+        super.onVisibilityAggregated(isVisible);
+        if (!isVisible && progressAnimator != null) {
+            progressAnimator.cancel();
+            progressAnimator = null;
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
