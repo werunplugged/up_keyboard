@@ -91,15 +91,17 @@ public class WaveformView extends View {
             amplitudes[i] = MIN_BAR_HEIGHT + random.nextFloat() * 0.1f;
             displayAmplitudes[i] = amplitudes[i];
         }
-        
-        startAnimation();
+        // The amplitude animator is started in onVisibilityAggregated, i.e. only while the view
+        // is attached and visible. Starting it here kept an infinite 30fps animator running on
+        // the main thread for the whole keyboard process lifetime, even with voice input closed.
     }
-    
+
     private void startAnimation() {
         if (amplitudeAnimator != null) {
+            if (amplitudeAnimator.isRunning()) return;
             amplitudeAnimator.cancel();
         }
-        
+
         amplitudeAnimator = ValueAnimator.ofFloat(0f, 1f);
         amplitudeAnimator.setDuration(33); // 30fps
         amplitudeAnimator.setRepeatCount(ValueAnimator.INFINITE);
@@ -358,9 +360,7 @@ public class WaveformView extends View {
         isProcessing = false;
     }
     
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    private void stopAnimation() {
         if (amplitudeAnimator != null) {
             amplitudeAnimator.cancel();
             amplitudeAnimator = null;
@@ -369,5 +369,26 @@ public class WaveformView extends View {
             pulseAnimator.cancel();
             pulseAnimator = null;
         }
+    }
+
+    // Called when the visibility of this view, its ancestors or its window changes, including
+    // attach/detach. Run the animators only while the waveform can actually be seen.
+    @Override
+    public void onVisibilityAggregated(boolean isVisible) {
+        super.onVisibilityAggregated(isVisible);
+        if (isVisible) {
+            startAnimation();
+            if (currentState == State.LISTENING && !isReceivingAudio) {
+                animateListeningPulse();
+            }
+        } else {
+            stopAnimation();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopAnimation();
     }
 }
