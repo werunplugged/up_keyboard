@@ -37,6 +37,7 @@ public class WaveformView extends View {
     private float[] displayAmplitudes;
     private ValueAnimator amplitudeAnimator;
     private ValueAnimator pulseAnimator;
+    private ValueAnimator processingAnimator;
     private int primaryColor;
     private int glowColor;
     private boolean isProcessing = false;
@@ -258,7 +259,12 @@ public class WaveformView extends View {
     
     public void setState(State state) {
         this.currentState = state;
-        
+        if (state != State.PROCESSING) {
+            // Nothing else ever ends processing: without this the infinite processing wave
+            // animator kept running after every transcription.
+            stopProcessing();
+        }
+
         switch (state) {
             case IDLE:
                 for (int i = 0; i < BAR_COUNT; i++) {
@@ -313,7 +319,11 @@ public class WaveformView extends View {
     }
     
     private void animateProcessingWave() {
+        if (processingAnimator != null) {
+            processingAnimator.cancel();
+        }
         ValueAnimator waveAnimator = ValueAnimator.ofFloat(0f, (float) (Math.PI * 2));
+        processingAnimator = waveAnimator;
         waveAnimator.setDuration(1500);
         waveAnimator.setRepeatCount(ValueAnimator.INFINITE);
         waveAnimator.addUpdateListener(animation -> {
@@ -358,6 +368,10 @@ public class WaveformView extends View {
     
     public void stopProcessing() {
         isProcessing = false;
+        if (processingAnimator != null) {
+            processingAnimator.cancel();
+            processingAnimator = null;
+        }
     }
     
     private void stopAnimation() {
@@ -368,6 +382,10 @@ public class WaveformView extends View {
         if (pulseAnimator != null) {
             pulseAnimator.cancel();
             pulseAnimator = null;
+        }
+        if (processingAnimator != null) {
+            processingAnimator.cancel();
+            processingAnimator = null;
         }
     }
 
@@ -380,6 +398,8 @@ public class WaveformView extends View {
             startAnimation();
             if (currentState == State.LISTENING && !isReceivingAudio) {
                 animateListeningPulse();
+            } else if (currentState == State.PROCESSING && isProcessing && processingAnimator == null) {
+                animateProcessingWave();
             }
         } else {
             stopAnimation();
